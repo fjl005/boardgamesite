@@ -17,8 +17,8 @@ function App() {
       <Header />
       <Explore />
       <MiscellaneousGamesRow />
-      <FeaturedGamesList />
       <GameOfTheWeek />
+      <FeaturedGamesList />
       <TopTens />
       <Footer />
 
