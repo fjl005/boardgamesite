@@ -80,10 +80,10 @@ const FeaturedGamesList = () => {
                 >
 
                     {data && data.map((game, idx) => (
-                        <div key={idx}>
-                            <img src={game.image_url} alt={`image of ${game.name}`} />
-                            <h2>{game.name}</h2>
-                            <p>{game.description_preview}</p>
+                        <div key={idx} style={{padding: '20px'}}>
+                            <img src={game.image_url} alt={`image of ${game.name}`} style={{width: '300px', height: '300px', objectFit: 'cover', objectPosition: 'center'}}/>
+                            <h4 className='text-center' style={{paddingTop: '10px'}}>{game.name}</h4>
+                            {/* <p>{game.description_preview}</p> */}
                         </div>
                     ))}
                 </InfiniteScroll>
