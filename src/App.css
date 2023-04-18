@@ -1,39 +1,62 @@
-.App {
-  text-align: center;
+/* Navbar Stuff */
+.header-navbar {
+  background-color: rgb(97, 38, 144);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header-navbar .nav-link {
+  color: white;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
+.search-bar {
+  width: 400px;
 }
 
-.App-header {
-  min-height: 100vh;
+/* Body, namely setting the background */
+body {
+  background-color:rgb(240, 240, 240) !important;
+}
+
+/* For sections in the home page */
+.homepage-section {
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  margin: 20px;
+  background-color:white;
+  max-width: 80% !important;
+}
+
+.homepage-card {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  background-color: white;
+  padding: 10px;
+}
+
+.homepage-card img {
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
+
+.homepage-explore-list-items {
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+
+}
+
+.homepage-explore-list-items img {
+  margin: 20px;
+}
+
+/* For Infinite Scroll */
+.infinite-scroll-featured-games {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
-}
-
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
+ /* Saving this code for when I do want to use the carousel */
+/* .featured-games-carousel {
+  overflow-x: scroll;
+  white-space: nowrap;
+} */
