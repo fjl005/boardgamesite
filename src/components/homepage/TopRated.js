@@ -2,6 +2,8 @@ import { Container, Row, Col } from "reactstrap";
 import { useState, useEffect } from "react";
 
 const TopRated = () => {
+    const clientId = 'f24B6m6kXF';
+
 
     // GAMES
 
@@ -16,7 +18,6 @@ const TopRated = () => {
     // Now, define fetchgameData with an async function
     const fetchGameData = async () => {
         // This api requires the client id in order to fetch the gameData.
-        const clientId = 'f24B6m6kXF';
         const topGameUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=true&limit=5&client_id=${clientId}`;
 
         // With the URL set, let's fetch the gameData from the URL which will return a promise.
@@ -43,7 +44,6 @@ const TopRated = () => {
     // Now, define fetchgameData with an async function
     const fetchForumData = async () => {
         // This api requires the client id in order to fetch the gameData.
-        const clientId = 'f24B6m6kXF';
         const topForumUrl = `https://api.boardgameatlas.com/api/forum?limit=5&order_by=popularity&client_id=${clientId}`;
         // forum_posts: we're searching for forum posts instead of games
         // limit=10: specifies the maximum number of results to return, which is 10
@@ -61,12 +61,25 @@ const TopRated = () => {
     }
 
 
+    // Do this for Catan
+    const [catanTopFour, setCatanTopFour] = useState([]);
+    useEffect(() => {
+        fetchCatanData();
+    }, []);
+
+    const fetchCatanData = async () => {
+        const catanTopFourUrl = `https://api.boardgameatlas.com/api/search?name=Catan&order_by=popularity&ascending=false&limit=4&client_id=${clientId}`;
+        const response = await fetch(catanTopFourUrl);
+        const jsonCatanData = await response.json();
+        setCatanTopFour(jsonCatanData.games);
+    }
+
 
     return (
-        <Container className='homepage-section'>
-            <Row>
-                <Col sm='6'>
-                    <h1>Top Rated Games (maybe create two separate sections, one for games and one for forums)</h1>
+        <Container style={{ maxWidth: '80%' }}>
+            <Row className='d-flex justify-content-between'>
+                <Col sm='3' className='homepage-card'>
+                    <h1 >Top Rated Games</h1>
 
                     {gameData && gameData.map((game, idx) => (
                         <div key={idx} className='d-flex'>
@@ -79,8 +92,26 @@ const TopRated = () => {
                     ))}
 
                 </Col>
+                <Col sm='4' className='homepage-card'>
+                    <h1>Catan Varieties</h1>
+                    <Container>
+                        <Row className='d-flex justify-content-center'>
+                            {catanTopFour && catanTopFour.map((game, idx) => (
+                                <Col key={idx} sm='5'>
+                                    <div className='d-flex flex-column align-items-center'>
+                                        <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: 'auto', height: '225px', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
+                                        <h4 className='text-center'>{game.name}</h4>
+                                    </div>
 
-                <Col sm='6'>
+                                </Col>
+
+                            ))}
+                        </Row>
+                    </Container>
+
+                </Col>
+
+                <Col sm='4' className='homepage-card'>
                     <h1>Top Rated Forums</h1>
 
                     {forumData && forumData.map((forum, idx) => (
