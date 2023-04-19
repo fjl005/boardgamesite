@@ -81,7 +81,7 @@ const TopRated = () => {
                 <Col sm='3' className='homepage-card'>
                     <h1 >Top Rated Games</h1>
 
-                    {gameData && gameData.map((game, idx) => (
+                    {/* {gameData && gameData.map((game, idx) => (
                         <div key={idx} className='d-flex'>
                             <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
                             <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
@@ -89,7 +89,21 @@ const TopRated = () => {
                                 <span>{game.year_published}, ${game.price}</span>
                             </div>
                         </div>
-                    ))}
+                    ))} */}
+
+                    <ul>
+                        {gameData && gameData.map((game, idx) => (
+                            <li className='homepage-explore-list-items' key={idx}>
+                                <div className='d-flex'>
+                                    <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '100px', height: '100px', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
+                                    <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
+                                        <h5>{game.name}</h5>
+                                        <span>{game.year_published}, ${game.price}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
 
                 </Col>
                 <Col sm='4' className='homepage-card'>
@@ -114,7 +128,7 @@ const TopRated = () => {
                 <Col sm='4' className='homepage-card'>
                     <h1>Top Rated Forums</h1>
 
-                    {forumData && forumData.map((forum, idx) => (
+                    {/* {forumData && forumData.map((forum, idx) => (
                         <div key={idx} className='d-flex'>
                             <img src={forum.image_url} alt={`image of ${forum.title}`} style={{ width: '100px', height: '100px', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
                             <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
@@ -122,7 +136,21 @@ const TopRated = () => {
                                 <span>By {forum.user.username}</span>
                             </div>
                         </div>
-                    ))}
+                    ))} */}
+
+                    <ul>
+                        {forumData && forumData.map((forum, idx) => (
+                            <li className='homepage-explore-list-items' key={idx}>
+                                <div className='d-flex'>
+                                    <img src={forum.image_url} alt={`image of ${forum.title}`} style={{ width: '100px', height: '100px', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
+                                    <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
+                                        <h5>{forum.title}</h5>
+                                        <span>By {forum.user.username}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
                 </Col>
             </Row>
         </Container>

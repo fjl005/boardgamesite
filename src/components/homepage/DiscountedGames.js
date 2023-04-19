@@ -40,7 +40,15 @@ const DiscountedGames = () => {
                         <div key={idx} style={{padding: '20px'}}>
                             <img src={game.image_url} alt={`image of ${game.name}`} style={{width: '300px', height: '300px', objectFit: 'cover', objectPosition: 'center'}}/>
                             <h4 className='text-center' style={{paddingTop: '10px'}}>{game.name}</h4>
-                            {/* <p>{game.description_preview}</p> */}
+                            <h5 className='text-center'> 
+                                ${game.price} 
+                                <p style={{ textDecoration: 'line-through'}}>
+                                        <i>${game.msrp}</i>
+                                </p> 
+                                <h6>~{game.discount*100}% off!</h6>
+                                
+                                
+                            </h5>
                         </div>
                     ))}
                 </InfiniteScroll>
