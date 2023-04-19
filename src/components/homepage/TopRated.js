@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "reactstrap";
 import { useState, useEffect } from "react";
 
-const TopTens = () => {
+const TopRated = () => {
 
     // GAMES
 
@@ -17,10 +17,10 @@ const TopTens = () => {
     const fetchGameData = async () => {
         // This api requires the client id in order to fetch the gameData.
         const clientId = 'f24B6m6kXF';
-        const topTenGameUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=true&limit=10&client_id=${clientId}`;
+        const topGameUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=true&limit=5&client_id=${clientId}`;
 
         // With the URL set, let's fetch the gameData from the URL which will return a promise.
-        const response = await fetch(topTenGameUrl);
+        const response = await fetch(topGameUrl);
 
         // Once promise is received, we will convert to JSON
         const jsonGameData = await response.json();
@@ -44,14 +44,14 @@ const TopTens = () => {
     const fetchForumData = async () => {
         // This api requires the client id in order to fetch the gameData.
         const clientId = 'f24B6m6kXF';
-        const topTenForumUrl = `https://api.boardgameatlas.com/api/forum?limit=10&order_by=popularity&client_id=${clientId}`;
+        const topForumUrl = `https://api.boardgameatlas.com/api/forum?limit=5&order_by=popularity&client_id=${clientId}`;
         // forum_posts: we're searching for forum posts instead of games
         // limit=10: specifies the maximum number of results to return, which is 10
         // order_by=popularity: order by popularity, most popular first
         // type=thread: we're looking for forum posts
 
         // With the URL set, let's fetch the gameData from the URL which will return a promise.
-        const response = await fetch(topTenForumUrl);
+        const response = await fetch(topForumUrl);
 
         // Once promise is received, we will convert to JSON
         const jsonForumData = await response.json();
@@ -66,7 +66,7 @@ const TopTens = () => {
         <Container className='homepage-section'>
             <Row>
                 <Col sm='6'>
-                    <h1>Top Ten Games</h1>
+                    <h1>Top Rated Games (maybe create two separate sections, one for games and one for forums)</h1>
 
                     {gameData && gameData.map((game, idx) => (
                         <div key={idx} className='d-flex'>
@@ -81,7 +81,7 @@ const TopTens = () => {
                 </Col>
 
                 <Col sm='6'>
-                    <h1>Top Ten Forums</h1>
+                    <h1>Top Rated Forums</h1>
 
                     {forumData && forumData.map((forum, idx) => (
                         <div key={idx} className='d-flex'>
@@ -98,4 +98,4 @@ const TopTens = () => {
     )
 }
 
-export default TopTens
+export default TopRated;

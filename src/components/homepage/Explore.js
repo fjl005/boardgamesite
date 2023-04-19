@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "reactstrap";
-import boardGames from '../img/boardGames.jpg';
+import boardGames from '../../img/boardGames.jpg';
 
 const Explore = () => {
     return (

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "reactstrap";
 
-
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -17,7 +16,9 @@ const SearchBar = () => {
                 onChange={handleSearchChange}
                 className='search-bar'
             />
-            <Button type='submit' className='bg-secondary'>Search</Button>
+            <Button type='submit' style={{backgroundColor: 'teal'}}>
+                Search
+            </Button>
         </div>
     );
 };

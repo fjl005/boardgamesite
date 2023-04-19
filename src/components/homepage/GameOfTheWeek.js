@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "reactstrap";
-import concordia from '../img/concordia.jpg';
+import concordia from '../../img/concordia.jpg';
 
 const GameOfTheWeek = () => {
     return (

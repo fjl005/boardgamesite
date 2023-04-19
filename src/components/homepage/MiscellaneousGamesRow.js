@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "reactstrap";
-import penguins from '../img/penguins.jpg';
-import genericMeeples from '../img/genericMeeples.jpg';
-import alone from '../img/alone.jpg';
+import penguins from '../../img/penguins.jpg';
+import genericMeeples from '../../img/genericMeeples.jpg';
+import alone from '../../img/alone.jpg';
 
 const MiscellaneousGamesRow = () => {
     return (

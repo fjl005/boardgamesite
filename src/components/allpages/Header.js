@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import SearchBar from './SearchBar';
-import boredGamesGaloreDice from '../img/boredGamesGaloreDice.png';
+import boredGamesGaloreDice from '../../img/boredGamesGaloreDice.png';
 
 const Header = () => {
     return (
