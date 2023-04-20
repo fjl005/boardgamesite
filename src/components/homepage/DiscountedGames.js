@@ -7,7 +7,7 @@ const DiscountedGames = () => {
     const clientId = 'f24B6m6kXF';
 
     const [data, setData] = useState([]);
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] = useState(1);
 
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const DiscountedGames = () => {
         <Container className='homepage-section'>
             <Row>
                 <Col>
-                    <h2>Games on a Discount</h2>
+                    <h2>Our Most Discounted Games</h2>
                     <InfiniteScroll
                     dataLength={data.length}
                     next={fetchData}

@@ -7,12 +7,15 @@ const Header = () => {
     return (
         <>
             <Navbar className='header-navbar' light expand="md">
-                <div className='d-flex align-items-center'>
-                    <NavbarBrand href="/" className="mr-auto" style={{color: 'white'}}>
-                        <img src={boredGamesGaloreDice} alt='Board Games Galore' width='50px' height='50px'/>
+                <div className='d-flex align-items-center justify-content-between w-100'>
+                    <NavbarBrand href="/" className="mr-auto" style={{ color: 'white' }} >
+                        <img src={boredGamesGaloreDice} alt='Board Games Galore' width='50px' height='50px' />
                         Bored Games Galore
                     </NavbarBrand>
                     <Nav navbar>
+                        <NavItem>
+                            <NavLink href="/" className="nav-link">Home</NavLink>
+                        </NavItem>
                         <NavItem>
                             <NavLink href="/browse" className="nav-link">Browse</NavLink>
                         </NavItem>
@@ -29,8 +32,9 @@ const Header = () => {
                             <NavLink href="/help" className="nav-link">Help</NavLink>
                         </NavItem>
                     </Nav>
+
+                    <SearchBar />
                 </div>
-                <SearchBar />
             </Navbar>
         </>
     )

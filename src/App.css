@@ -23,19 +23,35 @@ body {
   background-color:rgb(240, 240, 240) !important;
 }
 
+.App {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.homepage-section h1,
+.homepage-section h2,
+.homepage-section h3,
+.homepage-section h4,
+.homepage-card h1,
+.homepage-card h2,
+.homepage-card h3,
+.homepage-card h4 {
+  color: teal;
+}
+
+
 /* For sections in the home page */
 .homepage-section {
   padding: 10px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin: 20px;
   background-color:white;
   max-width: 80% !important;
 }
 
 .homepage-card {
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: white;
   padding: 10px;
 }
