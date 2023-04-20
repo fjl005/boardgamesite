@@ -2,13 +2,15 @@ import Header from "../components/allpages/Header";
 import { Container, Row, Col, Label, Input, Button, Table } from "reactstrap";
 import { useState, useEffect } from "react";
 import PagesTracker from "../components/browsepage/PagesTracker";
+import { useParams } from "react-router-dom";
 
 const Browse = () => {
   const clientId = 'f24B6m6kXF';
   const pageSize = 50;
+  const {currentPage} = useParams();
 
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(currentPage);
 
   useEffect(() => {
     fetchData();
@@ -30,6 +32,7 @@ const Browse = () => {
   return (
     <>
       <Header />
+      {console.log('at the moment, the current page is: ' + currentPage)}
       <Container className='homepage-section'>
         <Row>
           <Col>
