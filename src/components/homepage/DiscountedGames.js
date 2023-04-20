@@ -28,7 +28,7 @@ const DiscountedGames = () => {
         <Container className='homepage-section'>
             <Row>
                 <Col>
-                    <h2>Our Most Discounted Games</h2>
+                    <h2>Discounted Games</h2>
                     <InfiniteScroll
                     dataLength={data.length}
                     next={fetchData}
