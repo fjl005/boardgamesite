@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue }) => {
+const GameSearch = ({ setInputValue, setPage }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -12,6 +12,7 @@ const GameSearch = ({ inputValue, setInputValue }) => {
         setInputValue(entry);
         const searchUrl = `/browse/search/${entry}`;
         window.history.pushState({ path: searchUrl }, '', searchUrl);
+        setPage(1);
 
         // To clarify what's happening above...
         // Window: global object in JS representing the current browser. Importantly, it gives us access to the history object.
@@ -28,9 +29,7 @@ const GameSearch = ({ inputValue, setInputValue }) => {
                         <Form onSubmit={handleSubmit} className='d-flex'>
                             <Label htmlFor='searchGames' style={{fontSize: '20px', textAlign: 'center'}}>Search for Games</Label>
                             <Input id='searchGames'></Input>
-                            {/* <Link to={`/browse/search/${searchUrl}`}> */}
                             <Button type='submit'>Search</Button>
-                            {/* </Link> */}
                         </Form>
                     </Col>
                 </Row>

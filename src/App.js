@@ -25,6 +25,7 @@ function App() {
         <Route path='browse/page/:currentPage' element={<Browse />} />
         <Route path='browse' element={<Browse />} />
         <Route path='browse/search/:boardGameName' element={<Browse />} />
+        <Route path='browse/search/:boardGameName/page/:currentPage' element={<Browse />} />
         <Route path='forums' element={<Forums />} />
         <Route path='tophits' element={<TopHits />} />
         <Route path='new' element={<New />} />

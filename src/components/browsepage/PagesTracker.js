@@ -3,16 +3,17 @@ import { Link, Routes, Route } from "react-router-dom";
 import { Button } from "reactstrap";
 import Browse from "../../pages/Browse";
 
-const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
+const PagesTracker = ({ currentPage, setPage, inputValue }) => {
 
     const pageNum = Number(currentPage);
 
-    // Need to work on the linkable pages. Make the current page not linkable.
-    const [firstPageLinkable, setFirstPageLinkable] = useState(false);
-    const [secondPageLinkable, setSecondPageLinkable] = useState(true);
-    const [thirdPageLinkable, setThirdPageLinkable] = useState(true);
-    const [fourthPageLinkable, setFourthPageLinkable] = useState(true);
-    const [fifthPageLinkable, setFifthPageLinkable] = useState(true);
+    // If there is already an input value (aka, you searched 'Catan'), then this will include a search/inputValue in the Url.
+    let browseSearchUrl;
+    if (inputValue) {
+        browseSearchUrl = `browse/search/${inputValue}`;
+    } else {
+        browseSearchUrl = `browse`;
+    }
 
     let needPageOne = null;
     let firstPage;
@@ -53,7 +54,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
             <div style={{ fontSize: '25px' }}>
                 {needPageOne && (
                     <>
-                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${needPageOne}`} onClick={() => setPage(needPageOne)}>First Page</Link>
+                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${needPageOne}`} onClick={() => setPage(needPageOne)}>First Page</Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </>
                 )}
@@ -63,7 +64,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
                     
                 ) : (
                     <Link
-                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${firstPage}`}
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${firstPage}`}
                         onClick={() => setPage(firstPage)}
                     >
                         {firstPage}
@@ -76,7 +77,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
                     
                 ) : (
                     <Link
-                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${secondPage}`}
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${secondPage}`}
                         onClick={() => setPage(secondPage)}
                     >
                         {secondPage}
@@ -89,7 +90,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
                     
                 ) : (
                     <Link
-                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${thirdPage}`}
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${thirdPage}`}
                         onClick={() => setPage(thirdPage)}
                     >
                         {thirdPage}
@@ -102,7 +103,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
                     
                 ) : (
                     <Link
-                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${fourthPage}`}
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${fourthPage}`}
                         onClick={() => setPage(fourthPage)}
                     >
                         {fourthPage}
@@ -115,7 +116,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
                     
                 ) : (
                     <Link
-                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${fifthPage}`}
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${fifthPage}`}
                         onClick={() => setPage(fifthPage)}
                     >
                         {fifthPage}
