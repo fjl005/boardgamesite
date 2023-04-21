@@ -7,6 +7,13 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
 
     const pageNum = Number(currentPage);
 
+    // Need to work on the linkable pages. Make the current page not linkable.
+    const [firstPageLinkable, setFirstPageLinkable] = useState(false);
+    const [secondPageLinkable, setSecondPageLinkable] = useState(true);
+    const [thirdPageLinkable, setThirdPageLinkable] = useState(true);
+    const [fourthPageLinkable, setFourthPageLinkable] = useState(true);
+    const [fifthPageLinkable, setFifthPageLinkable] = useState(true);
+
     let needPageOne = null;
     let firstPage;
     let secondPage;
@@ -24,6 +31,7 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
             thirdPage = 3;
             fourthPage = 4;
             fifthPage = 5;
+
             break;
         }
 
@@ -39,15 +47,9 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
     }
 
 
-
-    // First, subtract the current page by 2 and see if it's 2 or greater. If it is, then that number is the lowest Page.
-
-    // Then, add the current page by 2 and see if it's greater than
-
-
     return (
-        <>
-            <h1>Page Tracker</h1>
+        <div>
+            <h2>Page Tracker</h2>
             <div style={{ fontSize: '25px' }}>
                 {needPageOne && (
                     <>
@@ -56,14 +58,72 @@ const PagesTracker = ({ currentPage, setPage, pageSize, setData }) => {
                     </>
                 )}
 
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${firstPage}`} onClick={() => setPage(firstPage)}>{firstPage}</Link>{', '}
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${secondPage}`} onClick={() => setPage((secondPage))}>{secondPage}</Link>{', '}
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${thirdPage}`} onClick={() => setPage(thirdPage)}>{thirdPage}</Link>{', '}
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${fourthPage}`} onClick={() => setPage(fourthPage)}>{fourthPage}</Link>{', '}
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${fifthPage}`} onClick={() => setPage(fifthPage)}>{fifthPage}</Link>
+                {(pageNum === firstPage ? (
+                    <span>{firstPage}</span>
+                    
+                ) : (
+                    <Link
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${firstPage}`}
+                        onClick={() => setPage(firstPage)}
+                    >
+                        {firstPage}
+                    </Link>
+                ))}
+                {', '}
+
+                {(pageNum === secondPage ? (
+                    <span>{secondPage}</span>
+                    
+                ) : (
+                    <Link
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${secondPage}`}
+                        onClick={() => setPage(secondPage)}
+                    >
+                        {secondPage}
+                    </Link>
+                ))}
+                {', '}
+
+                {(pageNum === thirdPage ? (
+                    <span>{thirdPage}</span>
+                    
+                ) : (
+                    <Link
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${thirdPage}`}
+                        onClick={() => setPage(thirdPage)}
+                    >
+                        {thirdPage}
+                    </Link>
+                ))}
+                {', '}
+
+                {(pageNum === fourthPage ? (
+                    <span>{fourthPage}</span>
+                    
+                ) : (
+                    <Link
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${fourthPage}`}
+                        onClick={() => setPage(fourthPage)}
+                    >
+                        {fourthPage}
+                    </Link>
+                ))}
+                {', '}
+
+                {(pageNum === fifthPage ? (
+                    <span>{fifthPage}</span>
+                    
+                ) : (
+                    <Link
+                        to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/${fifthPage}`}
+                        onClick={() => setPage(fifthPage)}
+                    >
+                        {fifthPage}
+                    </Link>
+                ))}
             </div>
 
-        </>
+        </div>
     )
 }
 

@@ -3,20 +3,23 @@ import { Container, Row, Col, Label, Input, Button, Table } from "reactstrap";
 import { useState, useEffect } from "react";
 import PagesTracker from "../components/browsepage/PagesTracker";
 import { useParams } from "react-router-dom";
+import GameSearch from "../components/browsepage/GameSearch";
 
 const Browse = () => {
   const clientId = 'f24B6m6kXF';
   const pageSize = 50;
-  const {currentPage} = useParams();
+  const {boardGameName} = useParams();
 
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(currentPage);
+  const [page, setPage] = useState(1);
+  const [inputValue, setInputValue] = useState(boardGameName);
 
-  useEffect(() => {
-    fetchData();
-  }, [page]);
+  // Set up side effect for changing the page
+  // useEffect(() => {
+  //   fetchPageChangeData();
+  // }, [page]);
 
-  const fetchData = async () => {
+  const fetchPageChangeData = async () => {
     const topGamesUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page-1)*pageSize}&client_id=${clientId}`;
     // For the Url, we add skip in case we move on to the next page.
     // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
@@ -24,36 +27,59 @@ const Browse = () => {
     const response = await fetch(topGamesUrl);
     const jsonData = await response.json();
 
-
     setData(jsonData.games);
   };
+
+  // Set up side effect for changing the inputValue
+  // useEffect(() => {
+  //   fetchInputData();
+  // }, [inputValue]);
+
+  const fetchInputData = async() => {
+    const inputSearchUrl = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page-1)*pageSize}&fuzzy_match=true&client_id=${clientId}`;
+    const response = await fetch(inputSearchUrl);
+    const jsonData = await response.json();
+    // So again, the pattern is: (1) set up a use effect since all api calls are side effects. Then we will fetch the data by creating an async function. In the async function, we fetch the url and await the promise (which would be the response). Once we receive the response, we need to convert it to JSON. 
+    console.log('the input value is: ', inputValue);
+    setData(jsonData.games);
+  };
+
+
+  useEffect(()=> {
+    if(inputValue) {
+      fetchInputData();
+    } else {
+      fetchPageChangeData();
+    }
+  }, [page, inputValue]);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   return (
     <>
       <Header />
-      {console.log('at the moment, the current page is: ' + currentPage)}
-      <Container className='homepage-section'>
-        <Row>
-          <Col>
-            <div className='d-flex'>
-              <Label htmlFor='searchGames'>Search for Games</Label>
-              <Input id='searchGames'></Input>
-              <Button>Search</Button>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      <GameSearch inputValue={inputValue} setInputValue={setInputValue}/>
 
       <Container className='homepage-section'>
         <Row>
           <Col>
-            <PagesTracker 
+          <PagesTracker 
             currentPage={page} 
             setPage = {setPage} 
             pageSize={pageSize}
-              setData = {setData}
             />
+            
           </Col>
         </Row>
         <Row>
@@ -67,8 +93,8 @@ const Browse = () => {
                   <th style={{width: '30%'}}>Title</th>
                   <th style={{width: '10%'}}>Player Count</th>
                   <th style={{width: '10%'}}>Learning Complexity</th>
-                  <th style={{width: '10%'}}>Average User Rating</th>
-                  <th style={{width: '10%'}}>Number of Ratings</th>
+                  <th style={{width: '10%'}}>Average Rating</th>
+                  <th style={{width: '10%'}}>Num of Ratings</th>
                   <th style={{width: '5%'}}>Price</th>
                 </tr>
               </thead>

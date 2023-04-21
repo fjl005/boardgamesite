@@ -76,7 +76,7 @@ const TopRated = () => {
 
 
     return (
-        <Container style={{ maxWidth: '80%' }}>
+        <Container style={{ maxWidth: '70%' }}>
             <Row className='d-flex justify-content-between'>
                 <Col sm='3' className='homepage-card'>
                     <h1 >Top Rated Games</h1>
