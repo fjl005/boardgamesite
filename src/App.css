@@ -49,6 +49,32 @@ body {
   max-width: 70% !important;
 }
 
+.homepage-section-no-border {
+  padding: 10px;
+  max-width: 70% !important;
+}
+
+.image-container {
+  position: relative;
+  max-width: 100%;
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.image-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+}
+
 .homepage-card {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

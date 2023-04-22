@@ -20,13 +20,10 @@ const Header = () => {
                             <NavLink href="/browse/page/1" className="nav-link">Browse</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/forums" className="nav-link">Forums</NavLink>
+                            <NavLink href="/forums" className="nav-link">Atlas Forums</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink href="/tophits" className="nav-link">Top Hits</NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink href="/new" className="nav-link">New</NavLink>
+                            <NavLink href="/galoreposts" className="nav-link">Galore Posts</NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink href="/help" className="nav-link">Help</NavLink>

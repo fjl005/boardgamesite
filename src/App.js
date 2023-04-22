@@ -11,8 +11,7 @@ import HomePage from './pages/HomePage';
 import Browse from './pages/Browse';
 import Forums from './pages/Forums';
 import Help from './pages/Help';
-import New from './pages/New';
-import TopHits from './pages/TopHits';
+import GalorePosts from './pages/GalorePosts';
 
 function App() {
 
@@ -27,8 +26,10 @@ function App() {
         <Route path='browse/search/:boardGameName' element={<Browse />} />
         <Route path='browse/search/:boardGameName/page/:currentPage' element={<Browse />} />
         <Route path='forums' element={<Forums />} />
-        <Route path='tophits' element={<TopHits />} />
-        <Route path='new' element={<New />} />
+        <Route path='forums/search/:forum' element={<Forums />} />
+        <Route path='forums/page/:currentPage' element={<Forums />} />
+        <Route path='forums/search/:forum/page/:currentPage' element={<Forums />} />
+        <Route path='galoreposts' element={<GalorePosts />} />
         <Route path='help' element={<Help />} />
       </Routes>
 

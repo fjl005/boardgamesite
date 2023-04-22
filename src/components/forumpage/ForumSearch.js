@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, setPage }) => {
+const ForumSearch = ({ inputValue, setInputValue, setPage }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -26,9 +26,9 @@ const GameSearch = ({ inputValue, setInputValue, setPage }) => {
             <Container className='homepage-section'>
                 <Row>
                     <Col>
-                        <h1>Browse</h1>
+                        <h1>Board Game Atlas Forums</h1>
                         <Form onSubmit={handleSubmit} className='d-flex'>
-                            <Label htmlFor='searchGames' style={{ fontSize: '20px', textAlign: 'center' }}>Search Games</Label>
+                            <Label htmlFor='searchGames' style={{ fontSize: '20px', textAlign: 'center' }}>Search Forums</Label>
                             <Input id='searchGames'></Input>
                             <Button type='submit'>Search</Button>
                         </Form>
@@ -55,11 +55,8 @@ const GameSearch = ({ inputValue, setInputValue, setPage }) => {
                     </Col>
                 </Row>
             </Container>
-
-
-
         </>
     )
 }
 
-export default GameSearch
+export default ForumSearch

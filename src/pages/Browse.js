@@ -16,31 +16,10 @@ const Browse = () => {
   const [page, setPage] = useState(currentPage);
   const [inputValue, setInputValue] = useState(boardGameName);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingPageNums, setIsLoadingPageNums] = useState(true);
 
-  const fetchPageChangeData = async () => {
-    setIsLoading(true);
-    const topGamesUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&client_id=${clientId}`;
-    // For the Url, we add skip in case we move on to the next page.
-    // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
 
-    const response = await fetch(topGamesUrl);
-    const jsonData = await response.json();
-
-    setData(jsonData.games);
-    setIsLoading(false);
-  };
-
-  const fetchInputData = async () => {
-    setIsLoading(true);
-    const inputSearchUrl = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
-    const response = await fetch(inputSearchUrl);
-    const jsonData = await response.json();
-    // So again, the pattern is: (1) set up a use effect since all api calls are side effects. Then we will fetch the data by creating an async function. In the async function, we fetch the url and await the promise (which would be the response). Once we receive the response, we need to convert it to JSON. 
-    console.log('the input value is: ', inputValue);
-    setData(jsonData.games);
-    setIsLoading(false);
-  };
-
+  // Side Effect, when search is done or when page is changed. Basically, whenever we need to access the api.
   useEffect(() => {
     if (inputValue) {
       fetchInputData();
@@ -49,11 +28,50 @@ const Browse = () => {
     }
   }, [page, inputValue]);
 
+  const fetchInputData = async () => {
+    try {
+      setIsLoading(true);
+
+      const inputSearchUrl = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+      const response = await fetch(inputSearchUrl); 
+      const jsonData = await response.json();
+      setData(jsonData.games);
+    } catch (error) {
+      console.log('error', error);
+    } finally {
+      setIsLoading(false);
+      setIsLoadingPageNums(false);
+    }
+    
+    // So again, the pattern is: (1) set up a use effect since all api calls are side effects. Then we will fetch the data by creating an async function. In the async function, we fetch the url and await the promise (which would be the response). Once we receive the response, we need to convert it to JSON. 
+    if (!page) {
+      setPage(1);
+    }
+  };
+
+  const fetchPageChangeData = async () => {
+
+    setIsLoading(true);
+
+    const topGamesUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&client_id=${clientId}`;
+    // For the Url, we add skip in case we move on to the next page.
+    // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
+
+    const response = await fetch(topGamesUrl);
+    const jsonData = await response.json();
+
+    setData(jsonData.games);
+    if (!page) {
+      setPage(1);
+    }
+    setIsLoading(false);
+    setIsLoadingPageNums(false);
+  };
 
   return (
     <>
       <Header />
-      <GameSearch setInputValue={setInputValue} setPage={setPage} />
+      <GameSearch inputValue={inputValue} setInputValue={setInputValue} setPage={setPage} />
 
       <Container className='homepage-section'>
         <Row>
@@ -62,6 +80,7 @@ const Browse = () => {
               currentPage={page}
               setPage={setPage}
               inputValue={inputValue}
+              isLoadingPageNums={isLoadingPageNums}
             />
 
           </Col>
@@ -71,15 +90,34 @@ const Browse = () => {
             <Table style={{ textAlign: 'center', verticalAlign: 'middle' }}>
               <thead style={{ fontSize: '28px' }}>
                 <tr>
-                  <th style={{ width: '5%', color: 'rgb(97, 38, 144)' }}>#</th>
-                  <th style={{ width: '10%' }}>Rank</th>
-                  <th style={{ width: '10%' }}></th>
-                  <th style={{ width: '30%' }}>Title</th>
-                  <th style={{ width: '10%' }}>Player Count</th>
-                  <th style={{ width: '10%' }}>Learning Complexity</th>
-                  <th style={{ width: '10%' }}>Average Rating</th>
-                  <th style={{ width: '10%' }}>Num of Ratings</th>
-                  <th style={{ width: '5%' }}>Price</th>
+                  <th
+                    style={{ width: '5%', color: 'rgb(97, 38, 144)' }}
+                    className='table-header-toggle'
+                  >#</th>
+
+                  <th style={{ width: '10%' }}
+                  >Rank</th>
+
+                  <th style={{ width: '10%' }}
+                  ></th>
+
+                  <th style={{ width: '30%' }}
+                  >Title</th>
+
+                  <th style={{ width: '10%' }}
+                  >Player Count</th>
+
+                  <th style={{ width: '10%' }}
+                  >Learning Complexity</th>
+
+                  <th style={{ width: '10%' }}
+                  >Average Rating</th>
+
+                  <th style={{ width: '10%' }}
+                  >Num of Ratings</th>
+
+                  <th style={{ width: '5%' }}
+                  >Price</th>
                 </tr>
               </thead>
               <tbody style={{ fontSize: '24px' }}>
@@ -97,46 +135,42 @@ const Browse = () => {
                     <td>Loading...</td>
                   </>
                 ) : (
-                  data && data.map((game, idx) => (
-                    <tr key={idx}>
-                      <td style={{ fontSize: '20px', color: 'rgb(97, 38, 144)' }}>{(page - 1) * 50 + (idx + 1)}</td>
-                      <td>
-                        <h3>{game.rank>1000000 ? 'N/A' : game.rank}</h3>
-                      </td>
-                      <td>
-                        <img src={game.image_url} alt={`Name of ${game.name}`} width='100px' height='100px' />
-                      </td>
-                      <td>{game.name}</td>
-                      <td>{game.players}</td>
-                      <td>{(game.average_learning_complexity).toFixed(2)}</td>
-                      <td>{(game.average_user_rating).toFixed(2)}</td>
-                      <td>{game.num_user_ratings}</td>
-                      <td>{game.price}</td>
-                    </tr>
-                  ))
-                )}
+                      data && data.map((game, idx) => (
+                        <tr key={idx}>
+                          <td style={{ fontSize: '20px', color: 'rgb(97, 38, 144)' }}>
+                            {(page - 1) * 50 + (idx + 1)}
+                          </td>
+                          <td>
+                            <h3>{game.rank > 1000000 ? 'N/A' : game.rank}</h3>
+                          </td>
+                          <td>
+                            <img src={game.image_url} alt={`Name of ${game.name}`} width='100px' height='100px' />
+                          </td>
+                          <td>
+                            <a href={game.url} target="_blank">{game.name}</a>
+                          </td>
+                          <td>{game.players}</td>
+                          <td>{(game.average_learning_complexity).toFixed(2)}</td>
+                          <td>{(game.average_user_rating).toFixed(2)}</td>
+                          <td>{game.num_user_ratings}</td>
+                          <td>{game.price}</td>
+                        </tr>
+                      ))
+                  )}
 
-              </tbody>
+                  </tbody>
 
-
-              {/* <tbody style={{ fontSize: '24px' }}>
-                {data && data.map((game, idx) => (
-                  <tr key={idx}>
-                  <td style={{fontSize: '20px', color: 'rgb(97, 38, 144)'}}>{(page-1)*50+(idx+1)}</td>
-                    <td><h3>{game.rank}</h3></td>
-                    <td>
-                      <img src={game.image_url} alt={`Name of ${game.name}`} width='100px' height='100px' />
-                    </td>
-                    <td>{game.name}</td>
-                    <td>{game.players}</td>
-                    <td>{(game.average_learning_complexity).toFixed(2)}</td>
-                    <td>{(game.average_user_rating).toFixed(2)}</td>
-                    <td>{game.num_user_ratings}</td>
-                    <td>{game.price}</td>
-                  </tr>
-                ))}
-              </tbody> */}
             </Table>
+
+            {(data.length>0) ? (
+              null
+            )
+              : (
+                !isLoading && (
+                  <h1 className='text-center'>Error: Game Not Found.</h1>
+                )
+              )
+            }
           </Col>
         </Row>
 

@@ -3,7 +3,7 @@ import { Link, Routes, Route } from "react-router-dom";
 import { Button } from "reactstrap";
 import Browse from "../../pages/Browse";
 
-const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) => {
+const PagesTrackerForum = ({ currentPage, setPage, inputValue, isLoadingPageNums }) => {
 
 
 
@@ -12,9 +12,9 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) =
     // If there is already an input value (aka, you searched 'Catan'), then this will include a search/inputValue in the Url.
     let browseSearchUrl;
     if (inputValue) {
-        browseSearchUrl = `browse/search/${inputValue}`;
+        browseSearchUrl = `forums/search/${inputValue}`;
     } else {
-        browseSearchUrl = `browse`;
+        browseSearchUrl = `forums`;
     }
 
     let needPageOne = null;
@@ -134,4 +134,4 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) =
     )
 }
 
-export default PagesTracker
+export default PagesTrackerForum;
