@@ -3,11 +3,13 @@ import { Link, Routes, Route } from "react-router-dom";
 import { Button } from "reactstrap";
 import Browse from "../../pages/Browse";
 
-const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) => {
+const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
 
 
 
     const pageNum = Number(currentPage);
+    const maxPages = Math.ceil(fullLengthData / 50);
+
 
     // If there is already an input value (aka, you searched 'Catan'), then this will include a search/inputValue in the Url.
     let browseSearchUrl;
@@ -23,6 +25,11 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) =
     let thirdPage;
     let fourthPage;
     let fifthPage;
+    const lastPage = maxPages;
+
+    switch (maxPages) {
+
+    }
 
     switch (pageNum) {
         case 1:
@@ -65,20 +72,126 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) =
                         </>
                     )}
 
-                    {(pageNum === firstPage ? (
-                        <span>{firstPage}</span>
+
+                    {((pageNum === firstPage) && (firstPage <= maxPages) ? (
+                        <>
+                            <span>{firstPage}</span>
+                            {(secondPage <= maxPages) && ', '}
+                        </>
+
 
                     ) : (
-                        <Link
-                            to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${firstPage}`}
-                            onClick={() => setPage(firstPage)}
-                        >
-                            {firstPage}
-                        </Link>
-                    ))}
-                    {', '}
+                        <>
+                            <Link
+                                to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${firstPage}`}
+                                onClick={() => setPage(firstPage)}
+                            >
+                                {firstPage}
+                            </Link>
+                            {(secondPage <= maxPages) && ', '}
+                        </>
 
-                    {(pageNum === secondPage ? (
+                    ))}
+
+
+                    {secondPage <= maxPages && (
+                        pageNum === secondPage ? (
+                            <>
+                                <span>{secondPage}</span>
+                                {(thirdPage <= maxPages) && ', '}
+                            </>
+
+                        ) : (
+                            <>
+                                <Link
+                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${secondPage}`}
+                                    onClick={() => setPage(secondPage)}
+                                >
+                                    {secondPage}
+                                </Link>
+                                {(thirdPage <= maxPages) && ', '}
+                            </>
+
+                        )
+                    )}
+
+
+                    {thirdPage <= maxPages && (
+                        pageNum === thirdPage ? (
+                            <>
+                                <span>{thirdPage}</span>
+                                {(fourthPage <= maxPages) && ', '}
+                            </>
+
+                        ) : (
+                            <>
+                                <Link
+                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${thirdPage}`}
+                                    onClick={() => setPage(thirdPage)}
+                                >
+                                    {thirdPage}
+                                </Link>
+                                {(fourthPage <= maxPages) && ', '}
+                            </>
+
+                        )
+                    )}
+
+
+                    {fourthPage <= maxPages && (
+                        pageNum === fourthPage ? (
+                            <>
+                                <span>{fourthPage}</span>
+                                {(fifthPage <= maxPages) && ', '}
+                            </>
+
+                        ) : (
+                            <>
+                                <Link
+                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${fourthPage}`}
+                                    onClick={() => setPage(fourthPage)}
+                                >
+                                    {fourthPage}
+                                </Link>
+                                {(fifthPage <= maxPages) && ', '}
+                            </>
+
+                        )
+                    )}
+
+
+                    {fifthPage <= maxPages && (
+                        pageNum === fifthPage ? (
+                            <>
+                                <span>{fifthPage}</span>
+                                {(fifthPage <= maxPages) && ', '}
+                            </>
+
+                        ) : (
+                            <>
+                                <Link
+                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${fifthPage}`}
+                                    onClick={() => setPage(fifthPage)}
+                                >
+                                    {fifthPage}
+                                </Link>
+                            </>
+
+                        )
+                    )}
+
+
+
+
+
+
+
+
+
+
+
+
+                    {/* {((pageNum === secondPage) ? (
                         <span>{secondPage}</span>
 
                     ) : (
@@ -89,9 +202,9 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) =
                             {secondPage}
                         </Link>
                     ))}
-                    {', '}
+                    {', '} */}
 
-                    {(pageNum === thirdPage ? (
+                    {/* {(pageNum === thirdPage ? (
                         <span>{thirdPage}</span>
 
                     ) : (
@@ -127,7 +240,7 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums }) =
                         >
                             {fifthPage}
                         </Link>
-                    ))}
+                    ))} */}
                 </div>
             )}
         </div>

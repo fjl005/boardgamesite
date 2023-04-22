@@ -23,7 +23,7 @@ const GalorePosts = () => {
         <Row>
           <Col sm='3'>
             <div className="image-container">
-              <img src={concordia} alt="Concordia" />
+              <img src={concordia} alt="Concordia"/>
               <div className="image-text">
                 <h1>Text on top of image</h1>
                 <p>Some more text here</p>
