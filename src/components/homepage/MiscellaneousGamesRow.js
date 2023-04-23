@@ -6,7 +6,7 @@ import alone from '../../img/alone.jpg';
 const MiscellaneousGamesRow = () => {
     return (
         <>
-            <Container style={{maxWidth: '70%'}}>
+            <Container style={{maxWidth: '60%'}}>
                 <Row className='d-flex justify-content-between'>
                     <Col sm='3' className='homepage-card'>
                         <h3>Coming Soon: Wingspan Antarctica Edition</h3>

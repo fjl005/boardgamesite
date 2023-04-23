@@ -5,7 +5,7 @@ import Browse from './pages/Browse';
 import Forums from './pages/Forums';
 import Help from './pages/Help';
 import GalorePosts from './pages/GalorePosts';
-import GalorePostExample from './components/galorepostspage/GalorePostExample';
+import GalorePostTemplate from './components/galorepostspage/GalorePostTemplate';
 
 function App() {
 
@@ -25,7 +25,7 @@ function App() {
         <Route path='forums/search/:forum/page/:currentPage' element={<Forums />} />
         <Route path='galoreposts' element={<GalorePosts />} />
         <Route path='help' element={<Help />} />
-        <Route path='galoreposts/example' element={<GalorePostExample/>} />
+        <Route path='galoreposts/:title' element={<GalorePostTemplate/>} />
       </Routes>
 
 
