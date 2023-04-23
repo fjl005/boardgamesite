@@ -1,6 +1,8 @@
 import Header from "../components/allpages/Header";
 import { Container, Row, Col } from "reactstrap";
 import concordia from '../img/concordia.jpg';
+import { Link } from "react-router-dom";
+import GalorePostExample from "../components/galorepostspage/GalorePostExample";
 
 const GalorePosts = () => {
   return (
@@ -22,32 +24,55 @@ const GalorePosts = () => {
         </Row>
         <Row>
           <Col sm='3'>
-            <div className="image-container">
-              <img src={concordia} alt="Concordia"/>
+              <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/example`}>
+                <div className="galore-posts-highlight-container">
+                  <img src={concordia} alt="Concordia" />
+                  <div class="galore-posts-img-overlay"></div>
+                  <div className="image-text">
+                    <h2>Concordia</h2>
+                    <p style={{ fontSize: '20px' }}>Why do people put this as their top game of 2023?</p>
+                  </div>
+                </div>
+          </Link>
+
+          </Col>
+
+          <Col sm='3'>
+            <div className="galore-posts-highlight-container">
+              <img src={concordia} alt="Concordia" />
+              <div class="galore-posts-img-overlay"></div>
               <div className="image-text">
-                <h1>Text on top of image</h1>
-                <p>Some more text here</p>
+                <h2>Concordia</h2>
+                <p style={{ fontSize: '20px' }}>Why do people put this as their top game of 2023?</p>
               </div>
             </div>
-            {/* Outer div has a relative position, meaning its child elements can be positioned relative to it. */}
-
-            {/* BackgroundSize and backgroundPosition are used to ensure that the image covers the entire container and is centered within it. */}
-
-            {/* The inner div has an absolute position, which means it's positioned relative to the nearest ancestor with a position other than static (which would be the outer div) */}
-
-            {/* The top and left 50% moves it to the center of the parent element horizontally and vertically. Trnansform is used to apply a translate() to effectively center it perfectly */}
-
-
           </Col>
+
           <Col sm='3'>
-            <img src={concordia} alt='concordia' style={{ width: '300px', height: '300px' }} />
+            <div className="galore-posts-highlight-container">
+              <img src={concordia} alt="Concordia" />
+              <div class="galore-posts-img-overlay"></div>
+              <div className="image-text">
+                <h2>Concordia</h2>
+                <p style={{ fontSize: '20px' }}>Why do people put this as their top game of 2023?</p>
+              </div>
+            </div>
           </Col>
+
           <Col sm='3'>
-            <img src={concordia} alt='concordia' style={{ width: '300px', height: '300px' }} />
+            <div className="galore-posts-highlight-container">
+              <img src={concordia} alt="Concordia" />
+              <div class="galore-posts-img-overlay"></div>
+              <div className="image-text">
+                <h2>Concordia</h2>
+                <p style={{ fontSize: '20px' }}>Why do people put this as their top game of 2023?</p>
+              </div>
+            </div>
           </Col>
-          <Col sm='3'>
-            <img src={concordia} alt='concordia' style={{ width: '300px', height: '300px' }} />
-          </Col>
+
+
+
+
         </Row>
 
         <Row>

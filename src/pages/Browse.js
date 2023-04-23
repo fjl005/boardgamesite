@@ -15,7 +15,7 @@ const Browse = () => {
 
   // Define States
   const [data, setData] = useState([]);
-  const [fullLengthData, setFullLengthData] = useState(null);
+  const [fullLengthData, setFullLengthData] = useState(10000);
   const [page, setPage] = useState(currentPage);
   const [inputValue, setInputValue] = useState(boardGameName);
   const [isLoading, setIsLoading] = useState(true);

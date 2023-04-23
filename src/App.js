@@ -1,17 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Header from './components/allpages/Header';
-import FeaturedGamesList from './components/homepage/FeaturedGamesList';
-import Explore from './components/homepage/Explore';
-import MiscellaneousGamesRow from './components/homepage/MiscellaneousGamesRow';
-import GameOfTheWeek from './components/homepage/GameOfTheWeek';
-import Footer from './components/allpages/Footer';
-import TopTens from './components/homepage/TopRated';
 import HomePage from './pages/HomePage';
 import Browse from './pages/Browse';
 import Forums from './pages/Forums';
 import Help from './pages/Help';
 import GalorePosts from './pages/GalorePosts';
+import GalorePostExample from './components/galorepostspage/GalorePostExample';
 
 function App() {
 
@@ -31,6 +25,7 @@ function App() {
         <Route path='forums/search/:forum/page/:currentPage' element={<Forums />} />
         <Route path='galoreposts' element={<GalorePosts />} />
         <Route path='help' element={<Help />} />
+        <Route path='galoreposts/example' element={<GalorePostExample/>} />
       </Routes>
 
 
