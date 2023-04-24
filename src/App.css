@@ -13,6 +13,10 @@
   color: white !important;
 }
 
+.navbar-toggler-custom {
+  color: white;
+  background-color: white;
+}
 
 .search-bar {
   width: 400px;
@@ -53,6 +57,7 @@ body {
   padding: 10px;
   max-width: 60% !important;
 }
+
 
 .galore-posts-highlight-container {
   position: relative;

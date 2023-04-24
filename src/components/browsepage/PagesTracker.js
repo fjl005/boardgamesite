@@ -6,7 +6,6 @@ import Browse from "../../pages/Browse";
 const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
 
 
-
     const pageNum = Number(currentPage);
     const maxPages = Math.ceil(fullLengthData / 50);
 

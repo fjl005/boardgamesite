@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.css';
 import './index.css';
+import ScrollToTop from './components/allpages/ScrollToTop';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
@@ -16,6 +17,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+        <ScrollToTop />
         <App />
       </BrowserRouter>
     </Provider>

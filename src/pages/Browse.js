@@ -147,17 +147,16 @@ const Browse = () => {
     }
   };
 
-
-
-
   return (
     <>
       <Header />
       <GameSearch
         inputValue={inputValue}
         setInputValue={setInputValue}
+        page={page}
         setPage={setPage}
         fullLengthData={fullLengthData}
+        setFullLengthData={setFullLengthData}
         lookingUpResults={lookingUpResults}
         setLookingUpResults={setLookingUpResults}
 

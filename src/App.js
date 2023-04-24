@@ -6,14 +6,15 @@ import Forums from './pages/Forums';
 import Help from './pages/Help';
 import GalorePosts from './pages/GalorePosts';
 import GalorePostTemplate from './components/galorepostspage/GalorePostTemplate';
+import MakePost from './pages/MakePost';
 
 function App() {
-
 
   return (
     <div className="App">
 
       <Routes>
+        {/* <ScrollToTop /> */}
         <Route path='/' element={<HomePage />} />
         <Route path='browse/page/:currentPage' element={<Browse />} />
         <Route path='browse' element={<Browse />} />
@@ -26,6 +27,7 @@ function App() {
         <Route path='galoreposts' element={<GalorePosts />} />
         <Route path='help' element={<Help />} />
         <Route path='galoreposts/:title' element={<GalorePostTemplate/>} />
+        <Route path='makeapost' element={<MakePost/>} />
       </Routes>
 
 

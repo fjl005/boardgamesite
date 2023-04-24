@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setlookingUpResults }) => {
+const GameSearch = ({ inputValue, setInputValue, page, setPage, fullLengthData, lookingUpResults, setlookingUpResults, setFullLengthData }) => {
+
+    useEffect(() => {
+        setFullLengthData(10000);
+    }, [page, inputValue]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,7 +33,7 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
                         <h1>Browse</h1>
                         <Form onSubmit={handleSubmit} className='d-flex'>
                             <Label htmlFor='searchGames' style={{ fontSize: '20px', textAlign: 'center' }}>Search Games</Label>
-                            <Input id='searchGames'></Input>
+                            <Input id='searchGames' placeholder='e.g. Catan, Monopoly, Ark Nova, etc.'></Input>
                             <Button type='submit'>Search</Button>
                         </Form>
                     </Col>
@@ -51,7 +55,7 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
 
                                 <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/1`}
                                     onClick={() => {
-                                        setInputValue('');
+                                        setInputValue(null);
                                         setPage(1);
                                     }}
                                 >
