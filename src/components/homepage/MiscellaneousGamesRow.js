@@ -10,7 +10,7 @@ const MiscellaneousGamesRow = () => {
                 <Row>
                     <Col sm='12' lg='6' className='no-left-padding'>
                         <Col className='homepage-card'>
-                            <h3>Coming Soon: Wingspan Antarctica Edition</h3>
+                            <h3>Coming Soon: Wingspan Antarctica</h3>
                             <img src={penguins} width='100%' alt='cute penguins!' />
                             <p>"Well waddle you know, we're famous!"</p>
                         </Col>

@@ -68,7 +68,7 @@ const TopRated = () => {
     }, []);
 
     const fetchCatanData = async () => {
-        const catanTopFourUrl = `https://api.boardgameatlas.com/api/search?name=Catan&order_by=popularity&ascending=false&limit=4&client_id=${clientId}`;
+        const catanTopFourUrl = `https://api.boardgameatlas.com/api/search?name=Catan&order_by=popularity&ascending=false&skip=1&limit=4&client_id=${clientId}`;
         const response = await fetch(catanTopFourUrl);
         const jsonCatanData = await response.json();
         setCatanTopFour(jsonCatanData.games);
@@ -104,7 +104,7 @@ const TopRated = () => {
                             {catanTopFour && catanTopFour.map((game, idx) => (
                                 <Col key={idx} lg='5' md='12'>
                                     <div className='d-flex flex-column align-items-center'>
-                                        <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '100%', height: 'auto', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
+                                        <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '100%', maxWidth: '200px', height: 'auto', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
                                         <h4 className='text-center'>{game.name}</h4>
                                     </div>
 
