@@ -23,7 +23,6 @@ const FeaturedGamesList = () => {
 
     const fetchData = async () => {
         const clientId = 'f24B6m6kXF';
-        const url = `https://api.boardgameatlas.com/api/search?name=Catan&client_id=${clientId}`;
         const topFeaturedUrl = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&pretty=true&client_id=${clientId}`;
 
         const response = await fetch(topFeaturedUrl);
@@ -82,7 +81,7 @@ const FeaturedGamesList = () => {
                     {data && data.map((game, idx) => (
                         <div key={idx} style={{padding: '20px'}}>
                             <img src={game.image_url} alt={`image of ${game.name}`} style={{width: '300px', height: '300px', objectFit: 'cover', objectPosition: 'center'}}/>
-                            <h4 className='text-center' style={{paddingTop: '10px'}}>{game.name}</h4>
+                            <h5 className='text-center' style={{paddingTop: '10px', color: 'teal'}}>{game.name}</h5>
                             {/* <p>{game.description_preview}</p> */}
                         </div>
                     ))}
