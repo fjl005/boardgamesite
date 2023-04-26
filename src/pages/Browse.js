@@ -42,7 +42,7 @@ const Browse = () => {
       controller.abort();
       fetchPageChangeData();
     }
-  
+
     return () => controller.abort();
     // The return in the useEffect is used for cleanup or for cancelling any side effects.
   }, [page, inputValue]);
@@ -165,97 +165,99 @@ const Browse = () => {
       <Container className='homepage-section'>
         <Row>
           <Col>
-          {lookingUpResults ? (
-            <h3> Loading Pages, one second... </h3>
-            
-          ) : (
-            <PagesTracker
-              currentPage={page}
-              setPage={setPage}
-              inputValue={inputValue}
-              isLoadingPageNums={isLoadingPageNums}
-              fullLengthData={fullLengthData}
-            />
-          )}
+            {lookingUpResults ? (
+              <h3> Loading Pages, one second... </h3>
+
+            ) : (
+              <PagesTracker
+                currentPage={page}
+                setPage={setPage}
+                inputValue={inputValue}
+                isLoadingPageNums={isLoadingPageNums}
+                fullLengthData={fullLengthData}
+              />
+            )}
           </Col>
         </Row>
         <Row>
           <Col className='mx-auto'>
-            <Table style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-              <thead style={{ fontSize: '28px' }}>
-                <tr>
-                  <th
-                    style={{ width: '5%', color: 'rgb(97, 38, 144)' }}
-                    className='table-header-toggle'
-                  >#</th>
+            <div style={{ width: '100%', overflowX: 'auto' }}>
+              <Table className='search-table'>
+                <thead>
+                  <tr>
+                    <th
+                      style={{ width: '5%', color: 'rgb(97, 38, 144)' }}
+                      className='table-header-toggle'
+                    >#</th>
 
-                  <th style={{ width: '10%' }}
-                  >Rank</th>
+                    <th style={{ width: '10%' }}
+                    >Rank</th>
 
-                  <th style={{ width: '10%' }}
-                  ></th>
+                    <th style={{ width: '10%' }}
+                    ></th>
 
-                  <th style={{ width: '30%' }}
-                  >Title</th>
+                    <th style={{ width: '30%' }}
+                    >Title</th>
 
-                  <th style={{ width: '10%' }}
-                  >Player Count</th>
+                    <th style={{ width: '10%' }}
+                    >Player Count</th>
 
-                  <th style={{ width: '10%' }}
-                  >Learning Complexity</th>
+                    <th style={{ width: '10%' }}
+                    >Learning Complexity</th>
 
-                  <th style={{ width: '10%' }}
-                  >Average Rating</th>
+                    <th style={{ width: '10%' }}
+                    >Average Rating</th>
 
-                  <th style={{ width: '10%' }}
-                  >Num of Ratings</th>
+                    <th style={{ width: '10%' }}
+                    >Num of Ratings</th>
 
-                  <th style={{ width: '5%' }}
-                  >Price</th>
-                </tr>
-              </thead>
-              <tbody style={{ fontSize: '24px' }}>
+                    <th style={{ width: '5%' }}
+                    >Price</th>
+                  </tr>
+                </thead>
+                <tbody>
 
-                {isLoading ? (
-                  <>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                    <td>Loading...</td>
-                  </>
-                ) : (
-                  data && data.map((game, idx) => (
-                    <tr key={idx}>
-                      <td style={{ fontSize: '20px', color: 'rgb(97, 38, 144)' }}>
-                        {(page - 1) * 50 + (idx + 1)}
-                      </td>
-                      <td>
-                        <h3>{game.rank > 1000000 ? 'N/A' : game.rank}</h3>
-                      </td>
-                      <td>
-                        <img src={game.image_url} alt={`Name of ${game.name}`} width='100px' height='100px' />
-                      </td>
-                      <td>
-                        <a href={game.url} target="_blank">{game.name}</a>
-                      </td>
-                      <td>{game.players}</td>
-                      <td>{(game.average_learning_complexity).toFixed(2)}</td>
-                      <td>{(game.average_user_rating).toFixed(2)}</td>
-                      <td>{game.num_user_ratings}</td>
-                      <td>{game.price}</td>
+                  {isLoading ? (
+                    <>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                      <td>Loading...</td>
+                    </>
+                  ) : (
+                    data && data.map((game, idx) => (
+                      <tr key={idx}>
+                        <td style={{ fontSize: '20px', color: 'rgb(97, 38, 144)' }}>
+                          {(page - 1) * 50 + (idx + 1)}
+                        </td>
+                        <td>
+                          <h3>{game.rank > 1000000 ? 'N/A' : game.rank}</h3>
+                        </td>
+                        <td>
+                          <img src={game.image_url} alt={`Name of ${game.name}`} width='75px' height='75px' />
+                        </td>
+                        <td>
+                          <a href={game.url} target="_blank">{game.name}</a>
+                        </td>
+                        <td>{game.players}</td>
+                        <td>{(game.average_learning_complexity).toFixed(2)}</td>
+                        <td>{(game.average_user_rating).toFixed(2)}</td>
+                        <td>{game.num_user_ratings}</td>
+                        <td>{game.price}</td>
 
-                    </tr>
-                  ))
-                )}
+                      </tr>
+                    ))
+                  )}
 
-              </tbody>
+                </tbody>
 
-            </Table>
+              </Table>
+            </div>
 
             {(data.length > 0) ? (
               null

@@ -5,7 +5,7 @@ import { galorePostsData } from "./galorePostsData";
 import { useParams } from "react-router-dom";
 
 const GalorePostTemplate = () => {
-    const {title} = useParams();
+    const { title } = useParams();
     const articleJson = galorePostsData.find((data) => data.title.replace(/\s/g, "").toLowerCase() === title);
 
     return (
@@ -34,14 +34,17 @@ const GalorePostTemplate = () => {
 
                 <Row>
                     <Col>
-                        <img src={articleJson.img} alt={`image for ${articleJson.title}`} style={{ width: '100%' }} />
+                        <img 
+                            src={articleJson.img} 
+                            alt={`image for ${articleJson.title}`} 
+                            className='galore-post-img' />
                     </Col>
                 </Row>
 
                 <Row>
                     <Col>
                         {articleJson.paragraph && articleJson.paragraph.map((paragraph, idx) => {
-                            return paragraph.length<50 ? (
+                            return paragraph.length < 50 ? (
                                 <h4 key={idx}>{paragraph}</h4>
                             ) : (
                                 <p key={idx}>{paragraph}</p>

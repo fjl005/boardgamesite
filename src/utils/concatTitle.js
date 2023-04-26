@@ -1,3 +1,4 @@
 export const concatTitle = (title) => {
-    return title.replaceAll(" ", "").toLowerCase();
+    const noQMarks = title.replaceAll("?", "");
+    return noQMarks.replaceAll(" ", "").toLowerCase();
 }

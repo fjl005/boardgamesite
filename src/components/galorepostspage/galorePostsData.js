@@ -215,7 +215,7 @@ export const galorePostsData = [
     {
         id: 6,
         author: 'Frank',
-        title: 'Honest Review: The Best Game Ever?',
+        title: 'Honest Review: The Best Game Ever',
         subTitle: '',
         submissionTime: '',
         date: '',

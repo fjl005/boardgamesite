@@ -172,9 +172,13 @@ const GalorePosts = () => {
         </Row>
       </Container>
 
-      <GalorePostPopular post={concordiaPost} />
+      {galorePostsData.map((post, idx) => (
+        <GalorePostPopular post={post} key={idx} />
+      ))}
+
+      {/* <GalorePostPopular post={concordiaPost} />
       <GalorePostPopular post={wingspanPost} />
-      <GalorePostPopular post={strategyPost} />
+      <GalorePostPopular post={strategyPost} /> */}
 
     </>
   )

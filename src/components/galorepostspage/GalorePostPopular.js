@@ -18,7 +18,7 @@ const GalorePostPopular = ({post}) => {
                 </Row>
                 <Row>
                     <Col className='d-flex justify-content-center'>
-                        <img src={post.img} alt='concordia' style={{ width: '60%', height: 'auto' }} />
+                        <img src={post.img} alt={post.title} className='galore-post-img' />
                     </Col>
                 </Row>
             </Link>

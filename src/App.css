@@ -97,6 +97,10 @@ body {
   .no-right-padding {
     padding: 0 !important;
   }
+
+  .search-table {
+    overflow-x: auto;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -163,6 +167,31 @@ body {
 
 .galore-post-paragraph {
   font-size: 22px;
+}
+
+.galore-post-img {
+  max-width: 100%; 
+  max-height: 500px; 
+  object-fit: cover;  
+  display: block;
+  margin: 0 auto 15px auto;
+}
+
+.search-table {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.search-table thead {
+  font-size: '20px';
+}
+
+.search-table tbody {
+  font-size: '20px';
+}
+
+td {
+  vertical-align: middle;
 }
 
 
