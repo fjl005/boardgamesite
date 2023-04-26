@@ -1,7 +1,13 @@
 import { Container, Row, Col } from "reactstrap";
 import boardGames from '../../img/boardGames.jpg';
+import { galorePostsData } from "../galorepostspage/galorePostsData";
+import { concatTitle } from "../../utils/concatTitle";
+import { Link } from "react-router-dom";
+
 
 const Explore = () => {
+    const exploreListItems = galorePostsData.slice(2);
+
     return (
         <>
             <Container className='homepage-section'>
@@ -17,45 +23,25 @@ const Explore = () => {
 
                     <Col xl='6' className='d-flex flex-column justify-content-center'>
                         <ul>
-                            <li className='homepage-explore-list-items'>
-                                <div className='d-flex align-items-center'>
-                                    <img src={boardGames} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                    <div className='d-flex flex-column'>
-                                        <h5>Top 10 Board Games to Play with Friends and Family This Holiday Season!</h5>
-                                        <p>by Steven </p>
-                                    </div>
-                                </div>
-                            </li>
 
-                            <li className='homepage-explore-list-items'>
-                                <div className='d-flex align-items-center'>
-                                    <img src={boardGames} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                    <div className='d-flex flex-column'>
-                                        <h5>Unlock the Secrets of Strategy: A Guide to Winning at Classic Board Games</h5>
-                                        <p>by Erica </p>
-                                    </div>
-                                </div>
-                            </li>
+                            {exploreListItems.map((item, idx) => (
+                                <li className='homepage-explore-list-items' key={idx}>
+                                    <div className='d-flex align-items-center'>
+                                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(item.title)}`}>
+                                            <img src={item.img} className='explore-items-img' />
+                                        </Link>
+                                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(item.title)}`}>
+                                            <div className='d-flex flex-column'>
+                                                <h5>{item.title}</h5>
+                                                <p>by {item.author} </p>
+                                            </div>
+                                        </Link>
 
-                            <li className='homepage-explore-list-items'>
-                                <div className='d-flex align-items-center'>
-                                    <img src={boardGames} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                    <div className='d-flex flex-column'>
-                                        <h5>New Releases Alert: Get Your Hands on the Latest Board Game Titles Today!</h5>
-                                        <p>by Elliot </p>
                                     </div>
-                                </div>
-                            </li>
+                                </li>
+                            )
+                            )}
 
-                            <li className='homepage-explore-list-items'>
-                                <div className='d-flex align-items-center'>
-                                    <img src={boardGames} style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                                    <div className='d-flex flex-column'>
-                                        <h5>Unleash Your Inner Game Master: Tips and Tricks for Creating Your Own Board Game Masterpiece</h5>
-                                        <p>by "Anonymous" </p>
-                                    </div>
-                                </div>
-                            </li>
                         </ul>
                     </Col>
                 </Row>

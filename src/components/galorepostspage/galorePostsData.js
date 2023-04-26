@@ -1,6 +1,12 @@
 import concordia from '../../img/concordia.jpg';
 import penguins from '../../img/penguins.jpg';
 import boardGames from '../../img/boardGames.jpg';
+import friendsAndFamGames from '../../img/friendsAndFamGames.jpg';
+import latestGames from '../../img/latestGames.jpg';
+import dragon from '../../img/dragon.jpg';
+import secret from '../../img/secret.jpg';
+import genericMeeples from '../../img/genericMeeples.jpg';
+
 import { paragraphSplit } from '../../utils/paragraphSplit';
 
 export const galorePostsData = [
@@ -64,7 +70,7 @@ export const galorePostsData = [
         subTitle: `Whether you are constantly beating your friends or if you're on a losing streak, these tips will definitely help you out no matter what!`,
         submissionTime: '05:17:44 PM',
         date: 'Mon April 24, 2023',
-        img: boardGames,
+        img: secret,
         paragraph: paragraphSplit(
             `Board games have been enjoyed for centuries, and while each game has its unique rules and objectives, they all require players to employ strategy to succeed. Whether you're playing chess, Monopoly, or Settlers of Catan, having a solid strategy can make all the difference in winning the game. Here are some secrets to developing a winning strategy for classic board games.
 
@@ -91,5 +97,145 @@ export const galorePostsData = [
 
             In conclusion, developing a winning strategy for classic board games requires understanding the rules, analyzing the board, planning ahead, paying attention to your opponents, being flexible, controlling your emotions, and lots of practice. By following these secrets, you'll be well on your way to mastering your favorite board games and coming out on top.   
         `)
+    }, 
+    {
+        id: 3,
+        author: 'Steven',
+        title: 'Top 10 Board Games to Play with Friends and Family this Season!',
+        subTitle: '',
+        submissionTime: '',
+        date: '',
+        img: friendsAndFamGames,
+        paragraph: paragraphSplit(
+            `There’s nothing quite like gathering around a table with your loved ones and enjoying some quality time together. And what better way to do that than by playing some fun and engaging board games? Whether you're looking for an easy game to play with the family or something a little more challenging to play with friends, we’ve got you covered with our top ten board games to play this season!
+
+            Codenames
+            This easy-to-learn game is perfect for the whole family! Split into two teams, each player takes turns giving a one-word clue to their team to guess the correct word on the board. But beware, there are other words that could lead your team to the wrong answer!
+            
+            Carcassonne
+            This classic tile-laying game is great for players of all ages. As you build the game board, you score points by placing your meeples on the board and completing different features such as roads, cities, and farms.
+            
+            Splendor
+            This easy-to-learn strategy game is great for players who love a good challenge. In this game, players collect gems to purchase different cards that will give them more points. The player with the most points at the end of the game wins!
+            
+            Betrayal at Baldur's Gate
+            This exciting game is perfect for fans of Dungeons & Dragons. Players work together to explore a haunted mansion, but one player will turn on the others and become the villain. Will you be able to uncover the traitor before it's too late?
+            
+            Pandemic
+            This cooperative game is perfect for players who love to work together. As a team of scientists, you must work together to stop the spread of deadly diseases across the world. Can you find the cure before it’s too late?
+            
+            Ticket to Ride
+            This family-friendly game is perfect for players of all ages. Players collect and play train cards to claim routes across the map, and score points based on the length of their routes. With multiple versions available, you can travel across the world or even in your own backyard!
+            
+            Azul
+            This beautiful game is perfect for players who love a little bit of strategy. In Azul, players take turns drafting tiles to complete their own unique mosaic pattern. The player with the most points at the end of the game wins!
+            
+            Gloomhaven
+            This epic adventure game is perfect for players who love a good challenge. In this game, players take on the role of adventurers and work together to complete quests, fight monsters, and explore the world of Gloomhaven. With over 95 different scenarios, there’s always something new to discover!
+            
+            Dixit
+            This creative game is perfect for players who love to tell stories. In Dixit, players take turns being the storyteller and giving a clue about a card in their hand. The other players then choose a card from their own hand that they think matches the clue, and everyone tries to guess the storyteller's card.
+            
+            Catan
+            This classic game is perfect for players who love a little bit of strategy. In Catan, players collect resources to build settlements, cities, and roads, and score points based on their progress. With multiple expansions available, you can explore new lands and discover new challenges!
+            
+            Whether you're looking for an easy game to play with the family or something a little more challenging to play with friends, there's a board game out there for everyone. So why not gather around the table, grab some snacks, and get ready for a fun-filled game night with your loved ones?`
+        )
+    },
+    {
+        id: 4,
+        author: 'Elliot',
+        title: 'New Releases Alert: Get Your Hands on the Latest Board Game Titles Today!',
+        subTitle: '',
+        submissionTime: '',
+        date: '',
+        img: latestGames,
+        paragraph: paragraphSplit(
+            `Board gaming has been on the rise in recent years, with more and more people looking for engaging ways to spend their free time. Luckily, there's never been a better time to be a board gamer, as new titles are hitting the shelves all the time. In this article, we'll take a look at some of the latest and greatest board games that have been released recently. Whether you're a fan of strategy, party games, or anything in between, there's sure to be something here that will catch your eye.
+
+            Oath: Chronicles of Empire and Exile
+            Oath is a new release from Leder Games, the publisher behind the popular Root and Vast series. This game is a unique mix of strategy and storytelling, set in a fantastical world of magic and intrigue. Players take on the roles of different characters vying for control of the land, making alliances, and betraying each other as they compete for power. With beautiful art and innovative mechanics, Oath is sure to be a hit with fans of immersive, narrative-driven games.
+            
+            Dune: Imperium
+            If you're a fan of the classic sci-fi novel Dune, then you won't want to miss out on Dune: Imperium. This game, from Dire Wolf Digital, lets you take on the role of one of the great houses of Arrakis, battling for control of the planet's valuable spice resources. With a mix of deck-building, worker placement, and area control mechanics, Dune: Imperium offers a rich and complex gameplay experience that's sure to keep you engaged for hours.
+            
+            The Adventures of Robin Hood
+            Looking for a fun, family-friendly game that everyone can enjoy? Look no further than The Adventures of Robin Hood, a new release from Kosmos Games. In this game, players take on the roles of Robin Hood and his band of Merry Men, working together to rob from the rich and give to the poor. With simple rules and colorful components, this game is perfect for kids and adults alike.
+            
+            Cascadia
+            Cascadia, from publisher Flatout Games, is a beautiful tile-laying game set in the Pacific Northwest. Players compete to create the most diverse and ecologically balanced ecosystem by placing tiles representing different habitats and animal species. With stunning art and a unique gameplay system that rewards strategic thinking, Cascadia is a must-try for fans of elegant, nature-themed games.
+            
+            The Whatnot Cabinet
+            Finally, we have The Whatnot Cabinet, a new release from Pencil First Games. This game is a charming mix of puzzle and strategy, in which players collect and arrange different curiosities in their very own cabinets of wonder. With a whimsical art style and clever gameplay mechanics, The Whatnot Cabinet is a great choice for anyone looking for a game that's both engaging and relaxing.
+            
+            These are just a few of the many great board games that have been released recently. Whether you're a seasoned gamer or a newbie just starting to explore the world of tabletop gaming, there's sure to be something here that will pique your interest. So why not head down to your local game store today and pick up one of these great new titles? You won't be disappointed!`
+        )
+    },
+    {
+        id: 5,
+        author: 'Anonymous',
+        title: 'Unleash Your Inner Game Master: Tips and Tricks for Creating Your Own Board Game Masterpiece',
+        subTitle: '',
+        submissionTime: '',
+        date: '',
+        img: dragon,
+        paragraph: paragraphSplit(
+            `Have you ever dreamed of creating your own board game? Bringing your ideas to life and sharing them with friends, family, and even the world can be a thrilling experience. But where do you start? How do you turn your vision into a reality?
+
+            In this article, we'll explore some tips and tricks for creating your own board game masterpiece.
+            
+            Start with an Idea
+            Every great board game starts with a simple idea. Think about what kind of game you want to create. Do you want to create a game that's strategic, fast-paced, or maybe a mix of both? Do you want to create a game that's cooperative or competitive?
+            Once you have an idea, start brainstorming. Write down all the ideas that come to mind, no matter how crazy or silly they may seem. You never know what might spark your creativity.
+            
+            Research Other Games
+            One of the best ways to get inspired is to play other board games. Research games that are similar to the one you want to create. Look for patterns, mechanics, and design elements that you can adapt and make your own.
+            
+            Define the Game Mechanics
+            Game mechanics are the rules and systems that make your game work. Think about how players will move, interact, and compete with each other. Create a prototype of your game and test it out with friends and family to see how the mechanics work in practice.
+            
+            Create the Game Board and Pieces
+            The game board is the centerpiece of your game. Sketch out a rough design and test it out with your game mechanics. Create game pieces that fit the theme and style of your game. You can use everyday items like coins, buttons, or bottle caps, or you can create your own custom pieces using materials like clay, wood, or 3D printing.
+            
+            Write the Rules
+            The rules are the backbone of your game. They define how the game is played, and they help players understand what they need to do to win. Keep your rules clear and concise, and make sure they're easy to understand for players of all skill levels.
+            
+            Playtest, Playtest, Playtest
+            Once you have a prototype of your game, playtest it with as many people as possible. This will help you identify any flaws or issues with your game mechanics or rules. Take feedback from your playtesters and make adjustments as needed.
+            
+            Refine and Polish
+            As you playtest your game, refine and polish your game mechanics, board, and pieces. Add artwork and graphic design to make your game look professional and appealing. Make sure your rules are clear and easy to understand, and add any necessary components like scorecards or player aids.
+            
+            Launch Your Game
+            Once your game is polished and ready to go, it's time to launch it. You can sell your game online, at game stores, or at conventions. You can also create a crowdfunding campaign to fund the production of your game.
+            
+            Creating your own board game can be a challenging but rewarding experience. With these tips and tricks, you'll be on your way to unleashing your inner game master and creating your own board game masterpiece.`
+        )
+    },
+    {
+        id: 6,
+        author: 'Frank',
+        title: 'Honest Review: The Best Game Ever?',
+        subTitle: '',
+        submissionTime: '',
+        date: '',
+        img: genericMeeples,
+        paragraph: paragraphSplit(
+            `When it comes to board games, there are a lot of contenders for the title of "best game ever." But one game that has been generating a lot of buzz recently is Ark Nova. This game, which was released just last year, has quickly become a fan favorite, with many players declaring it to be one of the best games they've ever played. But is it really that good? In this honest review, we'll take a closer look at Ark Nova and what makes it so special.
+
+            At its core, Ark Nova is a strategy game that involves building and managing your own civilization. Players start with a small group of settlers and must work to expand their territory, gather resources, and develop new technologies. Along the way, they'll encounter various challenges and obstacles, including other players who may be competing for the same resources.
+            
+            What sets Ark Nova apart from other strategy games is its level of depth and complexity. There are countless different strategies and approaches that players can take, and each decision they make can have far-reaching consequences. This means that every game of Ark Nova is different, and players must stay alert and adaptable if they hope to succeed.
+            
+            But despite its complexity, Ark Nova is also remarkably accessible. The game is easy to learn, with intuitive mechanics that make it easy for even novice players to get started. And because the game is so engaging and rewarding, it's easy to get hooked and want to keep playing.
+            
+            One thing that really stands out about Ark Nova is its attention to detail. The game is beautifully designed, with stunning artwork and high-quality components that make playing it a truly immersive experience. And because the game is so well-balanced, with no one strategy or approach being inherently better than any other, every player can feel like they have a fair shot at victory.
+            
+            Of course, no game is perfect, and Ark Nova is no exception. Some players may find the game to be too complex or time-consuming, while others may not enjoy the competitive nature of the game. And because the game requires a significant investment of time and money, it may not be accessible to everyone.
+            
+            But for those who are willing to invest the time and effort, Ark Nova is a truly amazing game that offers endless hours of fun and excitement. With its deep strategic gameplay, stunning design, and immersive experience, it's easy to see why so many players are calling it one of the best games ever made.
+            
+            In conclusion, while it may be impossible to definitively declare any one game as the "best ever," it's clear that Ark Nova has earned its place among the greats. With its depth, accessibility, and attention to detail, it's a game that will continue to captivate players for years to come.`
+        )
     }
 ];

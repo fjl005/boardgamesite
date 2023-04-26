@@ -40,12 +40,13 @@ const GalorePostTemplate = () => {
 
                 <Row>
                     <Col>
-
-                        {articleJson.paragraph && articleJson.paragraph.map((paragraph, idx) => (
-                        <p key={idx} className='galore-post-paragraph'>
-                            {paragraph}
-                        </p>
-                        ))}
+                        {articleJson.paragraph && articleJson.paragraph.map((paragraph, idx) => {
+                            return paragraph.length<50 ? (
+                                <h4 key={idx}>{paragraph}</h4>
+                            ) : (
+                                <p key={idx}>{paragraph}</p>
+                            )
+                        })}
                     </Col>
                 </Row>
             </Container>
