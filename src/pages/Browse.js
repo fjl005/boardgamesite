@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import PagesTracker from "../components/browsepage/PagesTracker";
 import { useParams } from "react-router-dom";
 import GameSearch from "../components/browsepage/GameSearch";
+import Filters from "../components/browsepage/Filters";
 
 const Browse = () => {
   // Define basic variables. 
@@ -169,13 +170,17 @@ const Browse = () => {
               <h3> Loading Pages, one second... </h3>
 
             ) : (
-              <PagesTracker
-                currentPage={page}
-                setPage={setPage}
-                inputValue={inputValue}
-                isLoadingPageNums={isLoadingPageNums}
-                fullLengthData={fullLengthData}
-              />
+              <>
+                <PagesTracker
+                  currentPage={page}
+                  setPage={setPage}
+                  inputValue={inputValue}
+                  isLoadingPageNums={isLoadingPageNums}
+                  fullLengthData={fullLengthData}
+                />
+                <Filters />
+              </>
+
             )}
           </Col>
         </Row>
@@ -242,7 +247,7 @@ const Browse = () => {
                           <img src={game.image_url} alt={`Name of ${game.name}`} width='75px' height='75px' />
                         </td>
                         <td>
-                          <a href={game.url} target="_blank">{game.name}</a>
+                          <a href={game.url} target="_blank" style={{ fontSize: '22px' }}>{game.name}</a>
                         </td>
                         <td>{game.players}</td>
                         <td>{(game.average_learning_complexity).toFixed(2)}</td>
