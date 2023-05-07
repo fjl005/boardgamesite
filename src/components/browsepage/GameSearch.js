@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, page, setPage, fullLengthData, lookingUpResults, setlookingUpResults, setFullLengthData }) => {
+const GameSearch = ({ inputValue, setInputValue, page, setPage, fullLengthData, lookingUpResults, setFullLengthData }) => {
 
     useEffect(() => {
         setFullLengthData(10000);
