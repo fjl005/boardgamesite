@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from "reactstrap";
 
-const Filters = ({ setData, selectedCategory, setSelectedCategory, apiUrlCategory, setApiUrlCategory }) => {
+const Filters = ({ page, setPage, selectedCategory, setSelectedCategory, apiUrlCategory, setApiUrlCategory }) => {
     const clientId = 'f24B6m6kXF';
 
+    // States are defined here.
     const [isOpen, setIsOpen] = useState(false);
+    const [showCategory, setShowCategory] = useState(false);
+    const [categories, setCategories] = useState([]);
+    const [categoryIds, setCategoryIds] = useState([]);
 
     const toggle = () => {
         setIsOpen(!isOpen);
@@ -19,15 +23,19 @@ const Filters = ({ setData, selectedCategory, setSelectedCategory, apiUrlCategor
             setApiUrlCategory(`https://api.boardgameatlas.com/api/search?&categories=${categorySearch}&client_id=${clientId}`);
             console.log('api url is: ', apiUrlCategory);
             toggle();
+            setShowCategory(true);
         }
+    }
+
+    const clearCategory = () => {
+        setShowCategory(false);
+        setSelectedCategory(null);
+        setApiUrlCategory(null);
     }
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
     }
-
-    const [categories, setCategories] = useState([]);
-    const [categoryIds, setCategoryIds] = useState([]);
 
     useEffect(() => {
         fetch('https://api.boardgameatlas.com/api/game/categories?pretty=true&client_id=f24B6m6kXF')
@@ -101,13 +109,22 @@ const Filters = ({ setData, selectedCategory, setSelectedCategory, apiUrlCategor
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={toggle}>Close</Button>
-                        <Button className='bg-primary' onClick={()=>updateCategory()}>Update</Button>
+                        <Button className='bg-primary' onClick={() => updateCategory()}>Update</Button>
                     </ModalFooter>
                 </Modal>
             )}
 
-            {selectedCategory && (
-                <h4>Selected Category: {selectedCategory}</h4>
+            {showCategory && (
+                <>
+                    <h4>Selected Category: {selectedCategory}</h4>
+                    <span 
+                        style={{ 
+                            textDecoration: 'underline', 
+                            color: 'blue',
+                            cursor: 'pointer'}}
+                        onClick={()=>clearCategory()}
+                    >Clear Category</span>
+                </>
             )}
         </>
     )

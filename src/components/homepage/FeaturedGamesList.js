@@ -66,10 +66,7 @@ const FeaturedGamesList = () => {
     return (
         <>
             <Container className='homepage-section container-fluid'>
-                <div className='d-flex align-items-center justify-content-between'>
-                    <h1>Featured Games</h1>
-                    <span>See All</span>
-                </div>
+                <h1>Featured Games</h1>
 
                 <InfiniteScroll
                     dataLength={data.length}
@@ -79,9 +76,9 @@ const FeaturedGamesList = () => {
                 >
 
                     {data && data.map((game, idx) => (
-                        <div key={idx} style={{padding: '20px'}}>
-                            <img src={game.image_url} alt={`image of ${game.name}`} style={{width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center'}}/>
-                            <h5 className='text-center' style={{paddingTop: '10px', color: 'teal'}}>{game.name}</h5>
+                        <div key={idx} style={{ padding: '20px' }}>
+                            <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }} />
+                            <h5 className='text-center' style={{ paddingTop: '10px', color: 'teal' }}>{game.name}</h5>
                             {/* <p>{game.description_preview}</p> */}
                         </div>
                     ))}

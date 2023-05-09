@@ -1,34 +1,34 @@
 /* Navbar Stuff */
 .header-navbar {
-  background-color: rgb(97, 38, 144);
+    background-color: rgb(97, 38, 144);
 }
 
 .header-navbar .nav-link {
-  color: white;
+    color: white;
 }
 
 .nav-link:hover {
-  border-radius: 2px;
-  background-color: rgb(70, 0, 127);
-  color: white !important;
+    border-radius: 2px;
+    background-color: rgb(70, 0, 127);
+    color: white !important;
 }
 
 .navbar-toggler-custom {
-  color: white;
-  background-color: white;
+    color: white;
+    background-color: white;
 }
 
 .search-bar {
-  width: 400px;
+    width: 400px;
 }
 
 /* Body, namely setting the background */
 body {
-  background-color:rgb(240, 240, 240) !important;
+    background-color: rgb(240, 240, 240) !important;
 }
 
 .App {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .homepage-section h1,
@@ -39,169 +39,171 @@ body {
 .homepage-card h2,
 .homepage-card h3,
 .homepage-card h4 {
-  color: teal;
+    color: teal;
 }
 
 
 /* For sections in the home page */
 .homepage-section {
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 15px;
-  background-color:white;
-  width: 90%;
-  max-width: 1000px;
-  /* max-width: 60% !important; */
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    background-color: white;
+    width: 90%;
+    max-width: 1000px;
 }
 
 .homepage-section-no-border {
-  padding: 10px;
-  margin: 15px;
-  width: 90%;
-  max-width: 1000px;
+    padding: 10px;
+    margin: 15px;
+    width: 90%;
+    max-width: 1000px;
 }
 
 .homepage-card {
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 10px;
 
-  word-wrap: break-word; /* break words that are too long to fit */
-  overflow-wrap: anywhere; /* allow words to break at any character */
+    word-wrap: break-word;
+    /* break words that are too long to fit */
+    overflow-wrap: anywhere;
+    /* allow words to break at any character */
 }
 
 .homepage-card img {
-  height: 300px;
-  object-fit: cover;
-  object-position: center;
+    height: 300px;
+    object-fit: cover;
+    object-position: center;
 }
 
 @media (min-width: 992px) {
-  .no-left-padding {
-    padding-left: 0 !important;
-  }
+    .no-left-padding {
+        padding-left: 0 !important;
+    }
 
-  .no-right-padding {
-    padding-right: 0 !important;
-  }
+    .no-right-padding {
+        padding-right: 0 !important;
+    }
 }
 
 
 @media (max-width: 992px) {
-  .no-left-padding {
-    padding: 0px 0px 25px 0px !important;
-  }
+    .no-left-padding {
+        padding: 0px 0px 25px 0px !important;
+    }
 
-  .no-right-padding {
-    padding: 0 !important;
-  }
+    .no-right-padding {
+        padding: 0 !important;
+    }
 
-  .search-table {
-    overflow-x: auto;
-  }
+    .search-table {
+        overflow-x: auto;
+    }
 }
 
 @media (max-width: 1200px) {
-  .top-rated-center-align {
-    flex-direction: column;
-    text-align: center;
-  }
+    .top-rated-center-align {
+        flex-direction: column;
+        text-align: center;
+    }
 
-  .top-rated-text {
-    margin-bottom: 10px;
-  }
+    .top-rated-text {
+        margin-bottom: 10px;
+    }
 
-  .top-rated-img {
-    margin: 10px auto !important;
-  }
+    .top-rated-img {
+        margin: 10px auto !important;
+    }
 }
 
-.explore-items-img, .top-rated-img {
-  width: 100px;
-  height: 100px !important;
-  object-fit: contain;
-  object-position: center;
-  margin: 10px;
+.explore-items-img,
+.top-rated-img {
+    width: 100px;
+    height: 100px !important;
+    object-fit: contain;
+    object-position: center;
+    margin: 10px;
 }
 
 .homepage-explore-list-items {
-  list-style: none;
-  border-bottom: 1px solid #ccc;
+    list-style: none;
+    border-bottom: 1px solid #ccc;
 }
 
 .galore-posts-highlight-container {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  margin: 10px;
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 10px;
 }
 
 .galore-posts-highlight-container img {
-  position: absolute;
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 .galore-posts-img-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  /* background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)); */
-  background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)); */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .image-text {
-  position: absolute;
-  top: 40%;
-  left: 5%;
-  color: white;
-  font-size: 2rem;
-  z-index: 10;
+    position: absolute;
+    top: 40%;
+    left: 5%;
+    color: white;
+    font-size: 2rem;
+    z-index: 10;
 }
 
 .galore-post-paragraph {
-  font-size: 22px;
+    font-size: 22px;
 }
 
 .galore-post-img {
-  max-width: 100%; 
-  max-height: 500px; 
-  object-fit: cover;  
-  display: block;
-  margin: 0 auto 15px auto;
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 15px auto;
 }
 
 .search-table {
-  text-align: center;
-  vertical-align: middle;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .search-table thead {
-  font-size: '20px';
+    font-size: '20px';
 }
 
 .search-table tbody {
-  font-size: '20px';
+    font-size: '20px';
 }
 
 td {
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 
 
 /* For Infinite Scroll */
 .infinite-scroll-featured-games {
-  display: flex;
+    display: flex;
 }
 
- /* Saving this code for when I do want to use the carousel */
+/* Saving this code for when I do want to use the carousel */
 /* .featured-games-carousel {
   overflow-x: scroll;
   white-space: nowrap;

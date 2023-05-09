@@ -25,7 +25,7 @@ const Browse = () => {
     const [prevInputValue, setPrevInputValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [apiUrlCategory, setApiUrlCategory] = useState(`https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=50&client_id=${clientId}`);
-
+    const [apiUrlCategoryAndInput, setApiUrlCategoryAndInput] = useState(`https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=50&client_id=${clientId}`);
 
 
     // Controller used for abort when clear search is used.
@@ -35,33 +35,57 @@ const Browse = () => {
     // Side Effect, when search is performed or when page is changed. Basically, whenever we need to access the api.
     useEffect(() => {
         // Check if we have a category selected
+        // If we have a selected category and no input value, only search based on the selected category.
         if (selectedCategory && !inputValue) {
-            const fetchData = async () => {
-                const response = await fetch(apiUrlCategory);
-                const data = await response.json();
-                setData(data.games);
-                console.log('api url is: ', apiUrlCategory);
-                console.log('data has been fetched');
-            }
-            fetchData();
-        } else if (inputValue && (inputValue !== prevInputValue)) {
+            fetchCategoryData();
+
+
+        }
+        // Otherwise, if there is a selected category with an input value, then search based on the category and input value.
+        else if (selectedCategory && inputValue) {
+
+        }
+
+        // By this point, there should be no selected category. In this case, check if there is an input value or not; and if so, check if the input value is different from the previous input value. If it is, then we need to start a new search.
+        else if (inputValue && (inputValue !== prevInputValue)) {
             setLookingUpResults(true);
             fetchInputData();
             findTotalDataLength(controller);
             setPrevInputValue(inputValue);
-        } else if (inputValue) {
+        }
+
+        // If it's the same as the previous input value, then we just fetch the input data as normal. 
+        else if (inputValue) {
             setLookingUpResults(false);
             fetchInputData();
-        } else {
+        }
+        // If there is no selected category and no input search, then just do normal search.
+        else {
             setLookingUpResults(false);
             controller.abort();
             fetchPageChangeData();
         }
 
-        return () => controller.abort();
         // The return in the useEffect is used for cleanup or for cancelling any side effects.
+        return () => controller.abort();
     }, [page, inputValue, apiUrlCategory]);
 
+    const fetchCategoryData = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(apiUrlCategory);
+            const data = await response.json();
+            setData(data.games);
+            console.log('api url is: ', apiUrlCategory);
+            console.log('data has been fetched');
+        } catch (error) {
+            console.log('Error: ', error);
+        } finally {
+            setIsLoading(false);
+            setIsLoadingPageNums(false);
+        }
+        
+    }
 
     const fetchInputData = async () => {
         try {
@@ -192,11 +216,12 @@ const Browse = () => {
                                     fullLengthData={fullLengthData}
                                 />
                                 <Filters
-                                    setData={setData}
                                     selectedCategory={selectedCategory}
                                     setSelectedCategory={setSelectedCategory}
                                     apiUrlCategory={apiUrlCategory}
                                     setApiUrlCategory={setApiUrlCategory}
+                                    currentPage={page}
+                                    setPage={setPage}
                                 />
                             </>
 
