@@ -25,7 +25,6 @@ const Browse = () => {
     const [prevInputValue, setPrevInputValue] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [apiUrlCategory, setApiUrlCategory] = useState(`https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=50&client_id=${clientId}`);
-    const [apiUrlCategoryAndInput, setApiUrlCategoryAndInput] = useState(`https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=50&client_id=${clientId}`);
 
 
     // Controller used for abort when clear search is used.
@@ -36,30 +35,25 @@ const Browse = () => {
     useEffect(() => {
         // Check if we have a category selected
         // If we have a selected category and no input value, only search based on the selected category.
-        if (selectedCategory && !inputValue) {
+        if (selectedCategory) {
             fetchCategoryData();
-
-
-        }
-        // Otherwise, if there is a selected category with an input value, then search based on the category and input value.
-        else if (selectedCategory && inputValue) {
-
         }
 
         // By this point, there should be no selected category. In this case, check if there is an input value or not; and if so, check if the input value is different from the previous input value. If it is, then we need to start a new search.
-        else if (inputValue && (inputValue !== prevInputValue)) {
+        if (inputValue && (inputValue !== prevInputValue)) {
             setLookingUpResults(true);
             fetchInputData();
             findTotalDataLength(controller);
             setPrevInputValue(inputValue);
         }
 
-        // If it's the same as the previous input value, then we just fetch the input data as normal. 
+        // If it's the same as the previous input value, then there is no need to show 'Loading' things.
         else if (inputValue) {
             setLookingUpResults(false);
             fetchInputData();
         }
-        // If there is no selected category and no input search, then just do normal search.
+
+        // If we reach here, then there is no input or category. We should also cancel all other API calls in case you're waiting for a long search and decide to clear. 
         else {
             setLookingUpResults(false);
             controller.abort();
@@ -69,6 +63,32 @@ const Browse = () => {
         // The return in the useEffect is used for cleanup or for cancelling any side effects.
         return () => controller.abort();
     }, [page, inputValue, apiUrlCategory]);
+
+
+    // This is run only when we have a new inut value entered in to determine the total data length, which helps show the number of pages shown and the number of results found.
+    useEffect(() => {
+        if (!inputValue) {
+            fetchDefaultData();
+        }
+        setFullLengthData(10000);
+        findTotalDataLength(controller);
+    }, [inputValue]);
+
+
+    const fetchDefaultData = async () => {
+        try {
+            setIsLoading(true);
+            const url = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+            const response = await fetch(url);
+            const data = await response.json();
+        } catch (error) {
+            console.log('Error: ', error);
+        } finally {
+            setIsLoading(false);
+            setIsLoadingPageNums(false);
+        }
+    };
+
 
     const fetchCategoryData = async () => {
         try {
@@ -84,8 +104,8 @@ const Browse = () => {
             setIsLoading(false);
             setIsLoadingPageNums(false);
         }
-        
     }
+
 
     const fetchInputData = async () => {
         try {
@@ -103,7 +123,6 @@ const Browse = () => {
             setIsLoadingPageNums(false);
         }
 
-        // So again, the pattern is: (1) set up a use effect since all api calls are side effects. Then we will fetch the data by creating an async function. In the async function, we fetch the url and await the promise (which would be the response). Once we receive the response, we need to convert it to JSON. 
         if (!page) {
             setPage(1);
         }
@@ -123,16 +142,11 @@ const Browse = () => {
         if (!page) {
             setPage(1);
         }
+
         setIsLoading(false);
         setIsLoadingPageNums(false);
     };
 
-
-    const fetchData = async (url) => {
-        const response = await fetch(url);
-        const data = await response.json();
-        return data;
-    }
 
     // Declare a variable to hold the AbortController instance. This will help determine if the input changed while we're still loading the results.
     const findTotalDataLength = async (controller) => {
@@ -143,8 +157,14 @@ const Browse = () => {
 
         try {
             while (!controller.signal.aborted) {
-                const url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-                const data = await fetchData(url);
+                let url = '';
+                if (inputValue) {
+                    url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                } else {
+                    url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                }
+                const response = await fetch(url);
+                const data = await response.json();
 
                 const checkDataLength = () => {
                     return new Promise((resolve) => {
@@ -168,7 +188,6 @@ const Browse = () => {
                         }
                     })
                 }
-
 
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means the data length is less than 100. 
                 if (await checkDataLength()) {
@@ -194,7 +213,6 @@ const Browse = () => {
                 page={page}
                 setPage={setPage}
                 fullLengthData={fullLengthData}
-                setFullLengthData={setFullLengthData}
                 lookingUpResults={lookingUpResults}
                 setLookingUpResults={setLookingUpResults}
 

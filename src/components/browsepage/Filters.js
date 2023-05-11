@@ -16,12 +16,9 @@ const Filters = ({ page, setPage, selectedCategory, setSelectedCategory, apiUrlC
 
     const updateCategory = () => {
         if (selectedCategory) {
-            console.log('selected category: ', selectedCategory);
             const selectedCategoryIndex = categories.indexOf(selectedCategory);
-            console.log('category index is: ', selectedCategoryIndex);
             const categorySearch = categoryIds[selectedCategoryIndex];
             setApiUrlCategory(`https://api.boardgameatlas.com/api/search?&categories=${categorySearch}&client_id=${clientId}`);
-            console.log('api url is: ', apiUrlCategory);
             toggle();
             setShowCategory(true);
         }
