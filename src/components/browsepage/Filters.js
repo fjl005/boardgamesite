@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from "reactstrap";
 
-const Filters = ({ page, setPage, selectedCategory, setSelectedCategory, apiUrlCategory, setApiUrlCategory }) => {
-    const clientId = 'f24B6m6kXF';
+const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCategoryId, setCategoryReset }) => {
 
     // States are defined here.
     const [isOpen, setIsOpen] = useState(false);
@@ -18,16 +17,19 @@ const Filters = ({ page, setPage, selectedCategory, setSelectedCategory, apiUrlC
         if (selectedCategory) {
             const selectedCategoryIndex = categories.indexOf(selectedCategory);
             const categorySearch = categoryIds[selectedCategoryIndex];
-            setApiUrlCategory(`https://api.boardgameatlas.com/api/search?&categories=${categorySearch}&client_id=${clientId}`);
+            setSelectedCategoryId(categorySearch);
             toggle();
             setShowCategory(true);
+            setPage(1);
         }
     }
 
     const clearCategory = () => {
+        setCategoryReset(true);
         setShowCategory(false);
         setSelectedCategory(null);
-        setApiUrlCategory(null);
+        setSelectedCategoryId(null);
+        // console.log('i am in clear category in Filters.js. the selected category should say reset. ', selectedCategory);
     }
 
     const handleCategoryChange = (event) => {

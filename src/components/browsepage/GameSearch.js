@@ -1,7 +1,6 @@
 import { Label, Input, Button, Form } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
 const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults }) => {

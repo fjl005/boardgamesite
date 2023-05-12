@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
-import { Link, Routes, Route } from "react-router-dom";
-import { Button } from "reactstrap";
-import Browse from "../../pages/Browse";
+import { Link } from "react-router-dom";
 
 const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
 
 
     const pageNum = Number(currentPage);
     const maxPages = Math.ceil(fullLengthData / 50);
+    // console.log('full length data is: ', fullLengthData);
+    // console.log('max pages is: ', maxPages);
 
 
     // If there is already an input value (aka, you searched 'Catan'), then this will include a search/inputValue in the Url.

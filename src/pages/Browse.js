@@ -23,8 +23,10 @@ const Browse = () => {
     const [isLoadingPageNums, setIsLoadingPageNums] = useState(true);
     const [lookingUpResults, setLookingUpResults] = useState(false);
     const [prevInputValue, setPrevInputValue] = useState('');
+    const [prevCategory, setPrevCategory] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [apiUrlCategory, setApiUrlCategory] = useState(`https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=50&client_id=${clientId}`);
+    const [selectedCategoryId, setSelectedCategoryId] = useState('');
+    const [categoryReset, setCategoryReset] = useState(false);
 
 
     // Controller used for abort when clear search is used.
@@ -33,21 +35,28 @@ const Browse = () => {
 
     // Side Effect, when search is performed or when page is changed. Basically, whenever we need to access the api.
     useEffect(() => {
-        // Check if we have a category selected
-        // If we have a selected category and no input value, only search based on the selected category.
+        // If we have a selected category, only search based on the selected category.
         if (selectedCategory) {
+            // If the selected category is new (different than what was previously selected), then we will determine the number of results. As we do that, we'll setLookingUpResults.
+            if (selectedCategory !== prevCategory) {
+                setLookingUpResults(true);
+                findTotalDataLength(controller);
+                setLookingUpResults(false);
+                setPrevCategory(selectedCategory);
+            }
+            // Whether it's a new search or not, we will always be fetching the category data via fetchCategoryData.
             fetchCategoryData();
         }
 
-        // By this point, there should be no selected category. In this case, check if there is an input value or not; and if so, check if the input value is different from the previous input value. If it is, then we need to start a new search.
-        if (inputValue && (inputValue !== prevInputValue)) {
+        // Otherwise, there is no selected category. In this case, check if there is an input value or not; and if so, check if the input value is different from the previous input value. If it is, then we need to start a new search. Just as mentioned above, we setLookingUpResults as we search and find the total data length. 
+        else if (inputValue && (inputValue !== prevInputValue)) {
             setLookingUpResults(true);
             fetchInputData();
             findTotalDataLength(controller);
             setPrevInputValue(inputValue);
         }
 
-        // If it's the same as the previous input value, then there is no need to show 'Loading' things.
+        // If it's the same as the previous input value, then there is no need to show 'Loading' things. setLookingUpResults is false. But we still need to fetch the data via fetchInputData.
         else if (inputValue) {
             setLookingUpResults(false);
             fetchInputData();
@@ -58,29 +67,44 @@ const Browse = () => {
             setLookingUpResults(false);
             controller.abort();
             fetchPageChangeData();
+            console.log('hmmmmm???');
+            console.log('selected category is: ', selectedCategory);
         }
 
         // The return in the useEffect is used for cleanup or for cancelling any side effects.
         return () => controller.abort();
-    }, [page, inputValue, apiUrlCategory]);
+    }, [page, inputValue, selectedCategoryId]);
 
 
-    // This is run only when we have a new inut value entered in to determine the total data length, which helps show the number of pages shown and the number of results found.
+
+    // ------------ RUN WHEN THE SEARCH OR THE SELECTED CATEGORY ARE REMOVED --------------- //
     useEffect(() => {
         if (!inputValue) {
+            // The setFullLengthData(10000) is needed to search for all the games again when the input and category are removed.
+            setFullLengthData(10000);
             fetchDefaultData();
         }
-        setFullLengthData(10000);
-        findTotalDataLength(controller);
     }, [inputValue]);
 
 
+    useEffect(() => {
+        if (categoryReset && !selectedCategory) {
+            setFullLengthData(10000);
+            setCategoryReset(false);
+            fetchDefaultData();
+        }
+    }, [selectedCategory]);
+
+
+
+    //  ---------------- ASYNC FUNCTIONS FOR FETCH DEFINED HERE --------------------- //
     const fetchDefaultData = async () => {
         try {
             setIsLoading(true);
             const url = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
             const response = await fetch(url);
             const data = await response.json();
+            setData(data.games);
         } catch (error) {
             console.log('Error: ', error);
         } finally {
@@ -93,11 +117,10 @@ const Browse = () => {
     const fetchCategoryData = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch(apiUrlCategory);
+            const url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+            const response = await fetch(url);
             const data = await response.json();
             setData(data.games);
-            console.log('api url is: ', apiUrlCategory);
-            console.log('data has been fetched');
         } catch (error) {
             console.log('Error: ', error);
         } finally {
@@ -150,6 +173,8 @@ const Browse = () => {
 
     // Declare a variable to hold the AbortController instance. This will help determine if the input changed while we're still loading the results.
     const findTotalDataLength = async (controller) => {
+        setIsLoadingPageNums(true);
+
         let allDataLength = 0;
         let offset = 0;
         const limit = 100;
@@ -158,7 +183,11 @@ const Browse = () => {
         try {
             while (!controller.signal.aborted) {
                 let url = '';
-                if (inputValue) {
+                if (selectedCategory) {
+                    url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                    // console.log('selected category id is: ', selectedCategoryId);
+                    // console.log(url);
+                } else if (inputValue) {
                     url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
                 } else {
                     url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
@@ -171,18 +200,18 @@ const Browse = () => {
 
                         if (offset >= upperLimit) {
                             allDataLength = upperLimit;
-                            console.log(`welp, this is too much for me. the data length should be ${upperLimit}. lets see: `, allDataLength);
+                            // console.log(`welp, this is too much for me. the data length should be ${upperLimit}. lets see: `, allDataLength);
                             resolve(true);
                         } else {
                             if (data.games.length < 100) {
                                 allDataLength += data.games.length;
-                                console.log('yay done');
+                                // console.log('data length is: ', allDataLength);
                                 resolve(true);
                             } else {
                                 offset += limit;
                                 allDataLength += data.games.length;
-                                console.log('still lookin it up. current length is: ', allDataLength);
-                                console.log('looking up status: ', lookingUpResults);
+                                // console.log('still lookin it up. current length is: ', allDataLength);
+                                // console.log('looking up status: ', lookingUpResults);
                                 resolve(false);
                             }
                         }
@@ -236,9 +265,8 @@ const Browse = () => {
                                 <Filters
                                     selectedCategory={selectedCategory}
                                     setSelectedCategory={setSelectedCategory}
-                                    apiUrlCategory={apiUrlCategory}
-                                    setApiUrlCategory={setApiUrlCategory}
-                                    currentPage={page}
+                                    setSelectedCategoryId={setSelectedCategoryId}
+                                    setCategoryReset={setCategoryReset}
                                     setPage={setPage}
                                 />
                             </>
@@ -326,18 +354,15 @@ const Browse = () => {
                             </Table>
                         </div>
 
-                        {(data.length > 0) ? (
+                        {isLoading ? (
+                            <h1 className='text-center'>Loading...</h1>
+                        ) : data.length > 0 ? (
                             null
-                        )
-                            : (
-                                !isLoading && (
-                                    <h1 className='text-center'>Error: Game Not Found.</h1>
-                                )
-                            )
-                        }
+                        ) : (
+                            <h1 className='text-center'>Error: Game Not Found.</h1>
+                        )}
                     </Col>
                 </Row>
-
             </Container>
         </>
     )
