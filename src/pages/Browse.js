@@ -79,21 +79,31 @@ const Browse = () => {
 
     // ------------ RUN WHEN THE SEARCH OR THE SELECTED CATEGORY ARE REMOVED --------------- //
     useEffect(() => {
-        if (!inputValue) {
+        // This will only fetch default data when both input value and selected category are both null. Otherwise, if it's just the input value empty but the selected category still exists, then continue to show results for the selected category.
+        if (!inputValue && !selectedCategory) {
             // The setFullLengthData(10000) is needed to search for all the games again when the input and category are removed.
             setFullLengthData(10000);
             fetchDefaultData();
+        } else if (!inputValue && selectedCategory) {
+            findTotalDataLength(controller);
+            console.log('total data length after input reset is: ', fullLengthData);
         }
     }, [inputValue]);
 
 
     useEffect(() => {
         if (categoryReset && !selectedCategory) {
-            setFullLengthData(10000);
-            setCategoryReset(false);
-            fetchDefaultData();
+            if (inputValue) {
+                fetchInputData();
+                findTotalDataLength(controller);
+            } else {
+                setFullLengthData(10000);
+                setCategoryReset(false);
+                fetchDefaultData();
+            }
         }
     }, [selectedCategory]);
+
 
 
 
@@ -113,14 +123,25 @@ const Browse = () => {
         }
     };
 
-
     const fetchCategoryData = async () => {
         try {
             setIsLoading(true);
             const url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
             const response = await fetch(url);
             const data = await response.json();
-            setData(data.games);
+
+            if (inputValue) {
+                setLookingUpResults(true);
+                // The remaining code in here will run only when lookingUpResults is set to true. This will be placed in a useEffect because it seems to take some time for the state to update. 
+                // Need to use lowercase to standardize the search.
+                const filteredData = data.games.filter((game) => game.name.toLowerCase().includes(inputValue.toLowerCase()));
+                setData(filteredData);
+                setFullLengthData(filteredData.length);
+                setLookingUpResults(false);
+            } else {
+                setData(data.games);
+                console.log('fetch category data. no input value :( ');
+            }
         } catch (error) {
             console.log('Error: ', error);
         } finally {
@@ -221,6 +242,7 @@ const Browse = () => {
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means the data length is less than 100. 
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
+                    console.log('full length data is: ', allDataLength);
                     break;
                 }
             }
