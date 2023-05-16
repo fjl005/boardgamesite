@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 
 const Explore = () => {
-    const exploreListItems = galorePostsData.slice(2);
+    const exploreListItems = galorePostsData.slice(4);
 
     return (
         <>

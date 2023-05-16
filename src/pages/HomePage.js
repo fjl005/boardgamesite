@@ -18,7 +18,7 @@ const HomePage = () => {
             <FeaturedGamesList />
             <TopRated />
             <DiscountedGames />
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }

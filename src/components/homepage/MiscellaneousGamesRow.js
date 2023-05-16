@@ -10,6 +10,7 @@ import { galorePostsData } from "../galorepostspage/galorePostsData";
 const MiscellaneousGamesRow = () => {
     const wingspan = galorePostsData[1];
     const honestReview = galorePostsData[6];
+    const aloneGames = galorePostsData[7];
 
     return (
         <>
@@ -18,9 +19,9 @@ const MiscellaneousGamesRow = () => {
 
                     <Col sm='12' lg='6' className='no-left-padding'>
                         <Col className='homepage-card'>
-                            <Link 
+                            <Link
                                 to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(wingspan.title)}`}
-                                style={{textDecoration: 'none', color: 'black'}}
+                                style={{ textDecoration: 'none', color: 'black' }}
                             >
                                 <h3>Coming Soon: Wingspan Antarctica {' '}</h3>
                                 <img src={penguins} width='100%' alt='cute penguins!' />
@@ -31,9 +32,9 @@ const MiscellaneousGamesRow = () => {
 
                     <Col lg='6' className='no-right-padding'>
                         <Col className='homepage-card ml-5'>
-                            <Link 
+                            <Link
                                 to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(honestReview.title)}`}
-                                style={{textDecoration: 'none', color: 'black'}}
+                                style={{ textDecoration: 'none', color: 'black' }}
                             >
                                 <h3>Honest Review: The Best Game Ever?</h3>
                                 <img src={genericMeeples} width='100%' alt='generic board game image' />
@@ -47,9 +48,13 @@ const MiscellaneousGamesRow = () => {
             <Container className='homepage-section-no-border'>
                 <Row>
                     <Col className='homepage-card'>
-                        <h3>Solo Games vs. with Friends?</h3>
-                        <img src={alone} alt='alone' width='100%' style={{ height: '330px' }} />
-                        <p>Take the poll here.</p>
+                        <Link
+                            to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(aloneGames.title)}`}
+                            style={{ textDecoration: 'none', color: 'black' }}
+                        >
+                            <h3>Solo Games vs. with Friends?</h3>
+                            <img src={alone} alt='alone' width='100%' style={{ height: '330px' }} />
+                        </Link>
                     </Col>
 
 

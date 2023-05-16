@@ -6,6 +6,7 @@ import latestGames from '../../img/latestGames.jpg';
 import dragon from '../../img/dragon.jpg';
 import secret from '../../img/secret.jpg';
 import genericMeeples from '../../img/genericMeeples.jpg';
+import alone from '../../img/alone.jpg';
 
 import { paragraphSplit } from '../../utils/paragraphSplit';
 
@@ -97,14 +98,14 @@ export const galorePostsData = [
 
             In conclusion, developing a winning strategy for classic board games requires understanding the rules, analyzing the board, planning ahead, paying attention to your opponents, being flexible, controlling your emotions, and lots of practice. By following these secrets, you'll be well on your way to mastering your favorite board games and coming out on top.   
         `)
-    }, 
+    },
     {
         id: 3,
         author: 'Steven',
         title: 'Top 10 Board Games to Play with Friends and Family this Season!',
         subTitle: '',
-        submissionTime: '',
-        date: '',
+        submissionTime: '10:30:45 AM',
+        date: 'Sat April 22, 2023',
         img: friendsAndFamGames,
         paragraph: paragraphSplit(
             `There’s nothing quite like gathering around a table with your loved ones and enjoying some quality time together. And what better way to do that than by playing some fun and engaging board games? Whether you're looking for an easy game to play with the family or something a little more challenging to play with friends, we’ve got you covered with our top ten board games to play this season!
@@ -147,8 +148,8 @@ export const galorePostsData = [
         author: 'Elliot',
         title: 'New Releases Alert: Get Your Hands on the Latest Board Game Titles Today!',
         subTitle: '',
-        submissionTime: '',
-        date: '',
+        submissionTime: '10:30:45 AM',
+        date: 'Sat April 22, 2023',
         img: latestGames,
         paragraph: paragraphSplit(
             `Board gaming has been on the rise in recent years, with more and more people looking for engaging ways to spend their free time. Luckily, there's never been a better time to be a board gamer, as new titles are hitting the shelves all the time. In this article, we'll take a look at some of the latest and greatest board games that have been released recently. Whether you're a fan of strategy, party games, or anything in between, there's sure to be something here that will catch your eye.
@@ -176,8 +177,8 @@ export const galorePostsData = [
         author: 'Anonymous',
         title: 'Unleash Your Inner Game Master: Tips and Tricks for Creating Your Own Board Game Masterpiece',
         subTitle: '',
-        submissionTime: '',
-        date: '',
+        submissionTime: '10:30:45 AM',
+        date: 'Sat April 22, 2023',
         img: dragon,
         paragraph: paragraphSplit(
             `Have you ever dreamed of creating your own board game? Bringing your ideas to life and sharing them with friends, family, and even the world can be a thrilling experience. But where do you start? How do you turn your vision into a reality?
@@ -217,8 +218,8 @@ export const galorePostsData = [
         author: 'Frank',
         title: 'Honest Review: The Best Game Ever',
         subTitle: '',
-        submissionTime: '',
-        date: '',
+        submissionTime: '10:30:45 AM',
+        date: 'Sat April 22, 2023',
         img: genericMeeples,
         paragraph: paragraphSplit(
             `When it comes to board games, there are a lot of contenders for the title of "best game ever." But one game that has been generating a lot of buzz recently is Ark Nova. This game, which was released just last year, has quickly become a fan favorite, with many players declaring it to be one of the best games they've ever played. But is it really that good? In this honest review, we'll take a closer look at Ark Nova and what makes it so special.
@@ -236,6 +237,54 @@ export const galorePostsData = [
             But for those who are willing to invest the time and effort, Ark Nova is a truly amazing game that offers endless hours of fun and excitement. With its deep strategic gameplay, stunning design, and immersive experience, it's easy to see why so many players are calling it one of the best games ever made.
             
             In conclusion, while it may be impossible to definitively declare any one game as the "best ever," it's clear that Ark Nova has earned its place among the greats. With its depth, accessibility, and attention to detail, it's a game that will continue to captivate players for years to come.`
+        )
+    },
+    {
+        id: 7,
+        author: 'Frank',
+        title: 'Solo Board Games vs. With Friends: Unveiling the Epic Battle of Entertainment',
+        subTitle: 'Discover the Hidden Charms and Thrills of Solitude or Embrace the Chaotic Joy of Friendship',
+        submissionTime: '10:30:45 AM',
+        date: 'Sat April 22, 2023',
+        img: alone,
+        paragraph: paragraphSplit(
+            `In the realm of board games, a heated debate has been raging for years, pitting solo adventurers against social enthusiasts. Should you dive into the immersive world of solo board gaming, or would you rather gather a group of friends and ignite the sparks of camaraderie? Today, we unravel this age-old dilemma and explore the wondrous merits of both solo and multiplayer board gaming experiences.
+            
+            The Enchanting Allure of Solo Board Games:
+            
+            Solitude takes center stage as we delve into the captivating realm of solo board games. Picture yourself alone, cozying up by the fire, ready to embark on an epic quest. The mystical allure of solo gaming lies in its ability to transport you to enchanting worlds without any distractions. From slaying dragons to building empires, the possibilities are endless.
+            
+            Unleash Your Inner Hero:
+            
+            In solo board games, such as "Gloomhaven" or "Mage Knight," you have the opportunity to showcase your skills and unleash your inner hero. With no interference from friends, you can fully immerse yourself in the game's storyline, forging your own destiny and conquering adversities with valor. Every decision you make shapes the narrative, allowing you to bask in the glory of personal triumph.
+            
+            Flexibility and Convenience:
+            
+            The beauty of solo board gaming lies in its flexibility and convenience. No more scheduling conflicts or waiting for others to arrive—games like "Friday" or "One Deck Dungeon" are always ready when you are. Whether you have a free hour or an entire weekend, the solo gaming experience adapts to your needs, granting you complete control over your time.
+            
+            The Chaotic Delight of Multiplayer Board Games:
+            
+            As the adage goes, "the more, the merrier." In this section, we explore the exhilarating world of multiplayer board games, where laughter, friendly competition, and unforgettable memories reign supreme. Gather your comrades and brace yourself for a wild ride.
+            
+            Laughter and Bonding:
+            
+            There's nothing quite like the camaraderie that blossoms during a raucous game night with friends. Multiplayer board games like "Codenames" or "Ticket to Ride" create an electric atmosphere filled with laughter, banter, and memorable moments. The shared experience strengthens friendships, leaving you with tales to reminisce about for years to come.
+            
+            Strategic Battles:
+            
+            While solo gaming can be intellectually stimulating, multiplayer board games take strategy to a whole new level. Engage in fierce battles of wits as you navigate complex alliances, secret agendas, and intricate game mechanics. The challenge of outsmarting your friends while remaining one step ahead provides an adrenaline rush like no other. Games such as "Catan" or "Twilight Imperium" offer intricate strategic gameplay that keeps players on their toes.
+            
+            Finding Harmony: Solo and Multiplayer Games Coexisting
+            
+            Fortunately, the board gaming world is not confined to an either-or choice. A true connoisseur of board games knows that both solo and multiplayer experiences hold their own merits. The secret lies in finding the right balance and choosing the game that suits your mood, company, and occasion.
+            
+            Hybrid Games:
+            
+            The rise of hybrid games offers a perfect compromise, combining elements of solo and multiplayer experiences. These games seamlessly transition between solo play and multiplayer engagement, catering to your ever-changing preferences. Enjoy the best of both worlds as you immerse yourself in gripping narratives while relishing the company of friends. Games like "Robinson Crusoe: Adventures on the Cursed Island" or "Pandemic Legacy" offer captivating stories that can be enjoyed both solo and with friends.
+            
+            Conclusion:
+
+            In the eternal battle between solo board games and those played with friends, there is no definitive winner. Each experience offers its own unique charm, whether it's the serene immersion of solo play or the uproarious camaraderie of multiplayer sessions. Embrace the versatility of the board gaming universe and let the games begin!`
         )
     }
 ];
