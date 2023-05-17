@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults }) => {
+const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue }) => {
 
 
     const handleSubmit = (event) => {
@@ -51,7 +51,9 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
 
                                 <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/1`}
                                     onClick={() => {
-                                        setInputValue(null);
+                                        setInputValue('');
+                                        // setPrevInputValue is used because if we search up the same game twice between clearing, it will not process the change that had occurred when the input was cleared. The effect of this will be that the total results found will continue to reflect that of the general home page (which will be 'at least 1000 games found').
+                                        setPrevInputValue('');
                                         setPage(1);
                                     }}
                                 >

@@ -6,43 +6,39 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
-    
+
 
     return (
         <>
-            <Navbar className='header-navbar' bg="light" expand="lg" variant="light">
+            <Navbar className="header-navbar" bg="light" expand="lg" variant="light">
+                <NavbarBrand href="/" style={{ color: 'white' }} >
+                    <img src={boredGamesGaloreDice} alt='Board Games Galore' width='50px' height='50px' />
+                    Bored Games Galore
+                </NavbarBrand>
+                <NavbarToggler onClick={toggle} style={{ backgroundColor: 'white' }} />
 
-                <div className='d-flex align-items-center justify-content-between w-100'>
-                    <NavbarBrand href="/" className="mr-auto" style={{ color: 'white' }} >
-                        <img src={boredGamesGaloreDice} alt='Board Games Galore' width='50px' height='50px' />
-                        Bored Games Galore
-                    </NavbarBrand>
-                    <NavbarToggler onClick={toggle}/>
-
-                    <Collapse isOpen={isOpen} navbar>
-                        <Nav navbar>
-                            <NavItem>
-                                <NavLink href="/" className="nav-link">Home</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/browse/page/1" className="nav-link">Browse Games</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/forums" className="nav-link">Atlas Forums</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/galoreposts" className="nav-link">Galore Posts</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/makeapost" className="nav-link">Make a Post</NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="/help" className="nav-link">Help</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-
-                </div>
+                <Collapse isOpen={isOpen} navbar>
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLink href="/" className="nav-link">Home</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/browse/page/1" className="nav-link">Browse Games</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/forums" className="nav-link">Atlas Forums</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/galoreposts" className="nav-link">Galore Posts</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/makeapost" className="nav-link">Make a Post</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/help" className="nav-link">Help</NavLink>
+                        </NavItem>
+                    </Nav>
+                </Collapse>
             </Navbar>
         </>
     )

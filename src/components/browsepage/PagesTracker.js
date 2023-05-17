@@ -4,7 +4,11 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
 
 
     const pageNum = Number(currentPage);
-    const maxPages = Math.ceil(fullLengthData / 50);
+    let maxPages = Math.ceil(fullLengthData / 50);
+    // Set maxPages to 1 if the fullLengthData is 0. If there are no results, then we should just make the maxPages 1 instead of 0. This would later down the road prevent the '1' page be shown as a link.
+    if (maxPages === 0) {
+        maxPages = 1;
+    }
     // console.log('full length data is: ', fullLengthData);
     // console.log('max pages is: ', maxPages);
 
@@ -80,6 +84,9 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
                                 onClick={() => setPage(firstPage)}
                             >
                                 {firstPage}
+                                {console.log('page num: ', pageNum)}
+                                {console.log('first page: ', firstPage)}
+                                {console.log('max pages: ', maxPages)}
                             </Link>
                             {(secondPage <= maxPages) && ', '}
                         </>

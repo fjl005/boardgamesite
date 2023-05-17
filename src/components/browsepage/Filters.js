@@ -61,6 +61,7 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
                             {categories.map((category, idx) => (
                                 idx % 3 === 0 ? (
                                     <Row key={idx}>
+
                                         <Col sm='4'>
                                             <FormGroup check>
                                                 <Label check>
@@ -75,8 +76,10 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
                                                 </Label>
                                             </FormGroup>
                                         </Col>
+
                                         <Col sm='4'>
-                                            <FormGroup check>
+                                            {categories[idx+1] ? (
+                                                <FormGroup check>
                                                 <Label check>
                                                     <Input
                                                         type='radio'
@@ -87,8 +90,11 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
                                                     {categories[idx + 1]}
                                                 </Label>
                                             </FormGroup>
+                                            ) : null}
                                         </Col>
+
                                         <Col sm='4'>
+                                        {categories[idx+2] ? (
                                             <FormGroup check>
                                                 <Label check>
                                                     <Input
@@ -100,6 +106,7 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
                                                     {categories[idx + 2]}
                                                 </Label>
                                             </FormGroup>
+                                        ) : null}
                                         </Col>
                                     </Row>
                                 ) : null

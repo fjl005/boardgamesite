@@ -5,6 +5,7 @@ import PagesTracker from "../components/browsepage/PagesTracker";
 import { useParams } from "react-router-dom";
 import GameSearch from "../components/browsepage/GameSearch";
 import Filters from "../components/browsepage/Filters";
+import LoadingIcon from "../components/allpages/LoadingIcon";
 
 const Browse = () => {
     // Define basic variables. 
@@ -40,7 +41,7 @@ const Browse = () => {
             // If the selected category is new (different than what was previously selected), then we will determine the number of results. As we do that, we'll setLookingUpResults.
             if (selectedCategory !== prevCategory) {
                 setLookingUpResults(true);
-                findTotalDataLength(controller);
+                // findTotalDataLength(controller);
                 setLookingUpResults(false);
                 setPrevCategory(selectedCategory);
             }
@@ -205,6 +206,10 @@ const Browse = () => {
             while (!controller.signal.aborted) {
                 let url = '';
                 if (selectedCategory) {
+
+                    // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
+
+
                     url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
                     // console.log('selected category id is: ', selectedCategoryId);
                     // console.log(url);
@@ -266,6 +271,7 @@ const Browse = () => {
                 fullLengthData={fullLengthData}
                 lookingUpResults={lookingUpResults}
                 setLookingUpResults={setLookingUpResults}
+                setPrevInputValue={setPrevInputValue}
 
             />
 
@@ -336,6 +342,17 @@ const Browse = () => {
 
                                     {isLoading ? (
                                         <>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+                                            <td> <LoadingIcon /> </td>
+
+                                            {/* <td>Loading...</td>
                                             <td>Loading...</td>
                                             <td>Loading...</td>
                                             <td>Loading...</td>
@@ -343,8 +360,7 @@ const Browse = () => {
                                             <td>Loading...</td>
                                             <td>Loading...</td>
                                             <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
+                                            <td>Loading...</td> */}
                                         </>
                                     ) : (
                                         data && data.map((game, idx) => (

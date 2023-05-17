@@ -88,72 +88,75 @@ const Forums = () => {
                 </Row>
                 <Row>
                     <Col className='mx-auto'>
-                        <Table style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                            <thead style={{ fontSize: '28px' }}>
-                                <tr>
-                                    <th
-                                        style={{ width: '5%', color: 'rgb(97, 38, 144)' }}
-                                        className='table-header-toggle'
-                                    >#</th>
+                        <div style={{ width: '100%', overflowX: 'auto' }}>
 
-                                    <th style={{ width: '5%' }}
-                                    >Likes</th>
+                            <Table style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                <thead>
+                                    <tr>
+                                        <th
+                                            style={{ width: '5%', color: 'rgb(97, 38, 144)' }}
+                                            className='table-header-toggle'
+                                        >#</th>
 
-                                    <th style={{ width: '10%' }}
-                                    ></th>
+                                        <th style={{ width: '5%' }}
+                                        >Likes</th>
 
-                                    <th style={{ width: '40%' }}
-                                    >Title</th>
+                                        <th style={{ width: '10%' }}
+                                        ></th>
 
-                                    <th style={{ width: '10%' }}
-                                    >Comments</th>
+                                        <th style={{ width: '40%' }}
+                                        >Title</th>
 
-                                    <th style={{ width: '15%' }}
-                                    >Published</th>
+                                        <th style={{ width: '10%' }}
+                                        >Comments</th>
 
-                                    <th style={{ width: '15%' }}
-                                    >Posted By</th>
-                                </tr>
-                            </thead>
-                            <tbody style={{ fontSize: '24px' }}>
+                                        <th style={{ width: '15%' }}
+                                        >Published</th>
 
-                                {isLoading ? (
-                                    <>
-                                        <td>Loading...</td>
-                                        <td>Loading...</td>
-                                        <td>Loading...</td>
-                                        <td>Loading...</td>
-                                        <td>Loading...</td>
-                                        <td>Loading...</td>
-                                        <td>Loading...</td>
-                                    </>
-                                ) : (
-                                    data && data.map((forum, idx) => (
-                                        <tr key={idx}>
-                                            <td style={{ fontSize: '20px', color: 'rgb(97, 38, 144)' }}>
-                                                {(page - 1) * 50 + (idx + 1)}
-                                            </td>
-                                            <td>
-                                                <h3>{forum.num_likes > 1000000 ? 'N/A' : forum.num_likes}</h3>
-                                            </td>
-                                            <td>
-                                                <img src={forum.image_url} alt={`Name of ${forum.name}`} width='100px' height='100px' />
-                                            </td>
-                                            <td>
-                                                <a href={forum.post_url} target="_blank">{forum.title}</a>
-                                            </td>
-                                            <td>{forum.num_comments}</td>
-                                            <td>{convertDate(forum.created_at)} <br />
-                                                <span style={{ fontSize: '18px' }}><i>{forum.created_at_ago}</i></span>
-                                            </td>
-                                            <td>{forum.user.username}</td>
-                                        </tr>
-                                    ))
-                                )}
+                                        <th style={{ width: '15%' }}
+                                        >Posted By</th>
+                                    </tr>
+                                </thead>
+                                <tbody style={{ fontSize: '20px' }}>
 
-                            </tbody>
+                                    {isLoading ? (
+                                        <>
+                                            <td>Loading...</td>
+                                            <td>Loading...</td>
+                                            <td>Loading...</td>
+                                            <td>Loading...</td>
+                                            <td>Loading...</td>
+                                            <td>Loading...</td>
+                                            <td>Loading...</td>
+                                        </>
+                                    ) : (
+                                        data && data.map((forum, idx) => (
+                                            <tr key={idx}>
+                                                <td style={{ fontSize: '20px', color: 'rgb(97, 38, 144)' }}>
+                                                    {(page - 1) * 50 + (idx + 1)}
+                                                </td>
+                                                <td>
+                                                    <h3>{forum.num_likes > 1000000 ? 'N/A' : forum.num_likes}</h3>
+                                                </td>
+                                                <td>
+                                                    <img src={forum.image_url} alt={`Name of ${forum.name}`} width='100px' height='100px' />
+                                                </td>
+                                                <td>
+                                                    <a href={forum.post_url} target="_blank">{forum.title}</a>
+                                                </td>
+                                                <td>{forum.num_comments}</td>
+                                                <td>{convertDate(forum.created_at)} <br />
+                                                    <span style={{ fontSize: '18px' }}><i>{forum.created_at_ago}</i></span>
+                                                </td>
+                                                <td>{forum.user.username}</td>
+                                            </tr>
+                                        ))
+                                    )}
 
-                        </Table>
+                                </tbody>
+
+                            </Table>
+                        </div>
 
                         {(data.length > 0) ? (
                             null

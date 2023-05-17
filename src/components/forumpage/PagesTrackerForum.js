@@ -57,7 +57,7 @@ const PagesTrackerForum = ({ currentPage, setPage, inputValue, isLoadingPageNums
                 <h4>Searching for Pages...</h4>
 
             ) : (
-                <div style={{ fontSize: '25px' }}>
+                <div style={{ fontSize: '18px' }}>
                     {needPageOne && (
                         <>
                             <Link to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${needPageOne}`} onClick={() => setPage(needPageOne)}>First Page</Link>
