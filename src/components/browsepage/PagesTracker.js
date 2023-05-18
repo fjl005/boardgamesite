@@ -74,7 +74,7 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
                     )}
 
 
-                    {((pageNum === firstPage) && (firstPage <= maxPages) ? (
+                    {(((pageNum === firstPage) && (firstPage <= maxPages)) || maxPages === 'NaN' ? (
                         <>
                             <span>{firstPage}</span>
                             {(secondPage <= maxPages) && ', '}
