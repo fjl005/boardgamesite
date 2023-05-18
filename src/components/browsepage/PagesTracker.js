@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import LoadingIcon from "../allpages/LoadingIcon";
 
 const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
 
@@ -58,7 +59,10 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
         <div>
             <h5>Page Tracker</h5>
             {isLoadingPageNums ? (
-                <h4>Searching for Pages...</h4>
+                <div style={{ display: 'flex', alignItems: 'center', color: 'teal' }}>
+                    <LoadingIcon />
+                    <h4 style={{ marginLeft: '0.5rem' }}>Loading Pages...</h4>
+                </div>
 
             ) : (
                 <div style={{ fontSize: '18px' }}>

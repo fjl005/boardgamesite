@@ -38,12 +38,16 @@ const Browse = () => {
     useEffect(() => {
         // If we have a selected category, only search based on the selected category.
         if (selectedCategory) {
+            console.log('selected category is: ', selectedCategory);
             // If the selected category is new (different than what was previously selected), then we will determine the number of results. As we do that, we'll setLookingUpResults.
             if (selectedCategory !== prevCategory) {
                 setLookingUpResults(true);
-                // findTotalDataLength(controller);
-                setLookingUpResults(false);
+                findTotalDataLength(controller);
                 setPrevCategory(selectedCategory);
+            }
+            // If there is a selected category and an input value is given, then we need to look up results.
+            if (inputValue !== prevInputValue) {
+                setLookingUpResults(true);
             }
             // Whether it's a new search or not, we will always be fetching the category data via fetchCategoryData.
             fetchCategoryData();
@@ -87,7 +91,7 @@ const Browse = () => {
             fetchDefaultData();
         } else if (!inputValue && selectedCategory) {
             findTotalDataLength(controller);
-            console.log('total data length after input reset is: ', fullLengthData);
+            // console.log('total data length after input reset is: ', fullLengthData);
         }
     }, [inputValue]);
 
@@ -279,7 +283,14 @@ const Browse = () => {
                 <Row>
                     <Col>
                         {lookingUpResults ? (
-                            <h3> Loading Pages, one second... </h3>
+                            <>
+                                <div style={{ display: 'flex', alignItems: 'center', color: 'teal' }}>
+                                    <LoadingIcon style={{color: 'teal'}}/>
+                                    <h3 style={{ marginLeft: '0.5rem' }}>Searching Pages 
+                                    {selectedCategory ? ` for "${selectedCategory}"` : null}, this may take a moment...</h3>
+                                </div>
+                            </>
+
 
                         ) : (
                             <>
@@ -296,9 +307,9 @@ const Browse = () => {
                                     setSelectedCategoryId={setSelectedCategoryId}
                                     setCategoryReset={setCategoryReset}
                                     setPage={setPage}
+                                    lookingUpResults={lookingUpResults}
                                 />
                             </>
-
                         )}
                     </Col>
                 </Row>

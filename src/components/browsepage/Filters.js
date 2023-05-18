@@ -1,25 +1,37 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from "reactstrap";
 
-const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCategoryId, setCategoryReset }) => {
+const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCategoryId, setCategoryReset, lookingUpResults }) => {
 
     // States are defined here.
     const [isOpen, setIsOpen] = useState(false);
     const [showCategory, setShowCategory] = useState(false);
     const [categories, setCategories] = useState([]);
     const [categoryIds, setCategoryIds] = useState([]);
+    const [tempCategorySelection, setTempCategorySelection] = useState(null);
 
+    // When the results are being looked up, check to see if there is a category selected. If so, then showCategory is true
+    useEffect(()=>{
+        if (selectedCategory) {
+            setShowCategory(true);
+        } else {
+            setShowCategory(false);
+            setTempCategorySelection(null);
+        }
+    }, [lookingUpResults]);
+
+    // Set up toggle for the modal
     const toggle = () => {
         setIsOpen(!isOpen);
     }
 
     const updateCategory = () => {
-        if (selectedCategory) {
-            const selectedCategoryIndex = categories.indexOf(selectedCategory);
+        if (tempCategorySelection) {
+            setSelectedCategory(tempCategorySelection);
+            const selectedCategoryIndex = categories.indexOf(tempCategorySelection);
             const categorySearch = categoryIds[selectedCategoryIndex];
             setSelectedCategoryId(categorySearch);
             toggle();
-            setShowCategory(true);
             setPage(1);
         }
     }
@@ -29,11 +41,10 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
         setShowCategory(false);
         setSelectedCategory(null);
         setSelectedCategoryId(null);
-        // console.log('i am in clear category in Filters.js. the selected category should say reset. ', selectedCategory);
     }
 
     const handleCategoryChange = (event) => {
-        setSelectedCategory(event.target.value);
+        setTempCategorySelection(event.target.value);
     }
 
     useEffect(() => {
@@ -136,4 +147,4 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
     )
 }
 
-export default Filters
+export default Filters;
