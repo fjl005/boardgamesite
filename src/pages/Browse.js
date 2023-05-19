@@ -40,6 +40,7 @@ const Browse = () => {
             // If the selected category is new (different than what was previously selected), then we need to set setLookingUpResults as true (since we're looking up).
             if (selectedCategory !== prevCategory) {
                 setLookingUpResults(true);
+                setIsLoadingPageNums(true);
                 setPrevCategory(selectedCategory);
             }
             // If there is already a selected category, but the input value changed, then we also need to look up results. 
@@ -56,22 +57,18 @@ const Browse = () => {
         else if (inputValue) {
             if (inputValue !== prevInputValue) {
                 setLookingUpResults(true);
-                // fetchInputData();
-                findTotalDataLength(controller);
                 setPrevInputValue(inputValue);
             } else {
                 setLookingUpResults(false);
-                // fetchInputData();
             }
             fetchInputData();
         }
 
-        // If we reach here, then there is no input or category. We should also cancel all other API calls in case you're waiting for a long search and decide to clear. 
+        // If we reach here, then there is no input or category. We should also cancel all other API calls in case you're waiting for a long search and decided to clear results. 
         else {
             setLookingUpResults(false);
             controller.abort();
             fetchDefaultData();
-            // fetchPageChangeData();
         }
 
         // The return in the useEffect is used for cleanup or for cancelling any side effects.
@@ -82,38 +79,50 @@ const Browse = () => {
 
     // ------------ RUN WHEN THE SEARCH OR THE SELECTED CATEGORY ARE REMOVED --------------- //
     useEffect(() => {
-        // This will only fetch default data when both input value and selected category are both null. Otherwise, if it's just the input value empty but the selected category still exists, then continue to show results for the selected category.
+        // This will only fetch default data when both input value and selected category are both cleared. 
         if (!inputValue && !selectedCategory) {
             setPage(1);
             // The setFullLengthData(10000) is needed to search for all the games again when the input and category are removed.
             setFullLengthData(10000);
             fetchDefaultData();
-        } else if (!inputValue && selectedCategory) {
-            // But, if the category is still selected, then let's still search for the total length of the data.
+        }
+        // Otherwise, if it's just the input value empty but the selected category still exists, then continue to show results for the selected category.
+        else if (!inputValue && selectedCategory) {
             setLookingUpResults(true);
-            findTotalDataLength(controller);
-            // console.log('total data length after input reset is: ', fullLengthData);
+            fetchCategoryData();
         }
     }, [inputValue]);
 
 
     useEffect(() => {
-        if (categoryReset && !selectedCategory) {
+        // We will run this code once the category is reset. I included !selectedCategory to ensure that there is no selected category when categoryReset occurs.
+
+        if (categoryReset) {
+            if (!inputValue) {
+                setPage(1);
+                setFullLengthData(10000);
+                fetchDefaultData();
+                setCategoryReset(false);
+            }
             // If category has been reset, then let's check if there is an input value still. otherwise, it's a complete reset and we will fetch default data. 
-            if (inputValue) {
+            else {
+                setLookingUpResults(true);
                 fetchInputData();
                 setCategoryReset(false);
-                findTotalDataLength(controller);
-            } else {
-                setFullLengthData(10000);
-                setCategoryReset(false);
-                fetchDefaultData();
             }
-        } 
-        // else {
-        //     // Otherwise, if there was no category reset, we will fetch category data. I don't think we would ever run into this code though because 
-        //     fetchCategoryData();
-        // }
+        }
+
+        // if (categoryReset && !selectedCategory) {
+        //     // If category has been reset, then let's check if there is an input value still. otherwise, it's a complete reset and we will fetch default data. 
+        //     if (inputValue) {
+        //         fetchInputData();
+        //         setCategoryReset(false);
+        //     } else {
+        //         setFullLengthData(10000);
+        //         fetchDefaultData();
+        //         setCategoryReset(false);
+        //     }
+        // } 
     }, [selectedCategory]);
 
 
@@ -122,9 +131,8 @@ const Browse = () => {
     //  ---------------- ASYNC FUNCTIONS FOR FETCH DEFINED HERE --------------------- //
     const fetchDefaultData = async () => {
         try {
-            // isLoading is to show the loading icons in the JSX code
+            // isLoading is to show the loading icons in the JSX code (for the table)
             setIsLoading(true);
-            setLookingUpResults(true);
 
             const url = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
             const response = await fetch(url);
@@ -158,17 +166,16 @@ const Browse = () => {
                 const filteredData = data.games.filter((game) => game.name.toLowerCase().includes(inputValue.toLowerCase()));
                 setData(filteredData);
                 setFullLengthData(filteredData.length);
-                setLookingUpResults(false);
             } else {
                 setData(data.games);
                 findTotalDataLength(controller);
-                // setLookingUpResults(false);
                 console.log('fetch category data. no input value :( ');
             }
         } catch (error) {
             console.log('Error: ', error);
         } finally {
             setIsLoading(false);
+            setLookingUpResults(false);
             setIsLoadingPageNums(false);
         }
 
@@ -180,6 +187,21 @@ const Browse = () => {
     const fetchInputData = async () => {
         try {
             setIsLoading(true);
+
+            if (inputValue !== prevInputValue) {
+                setLookingUpResults(true);
+                findTotalDataLength(controller);
+                console.log('am i here?');
+                console.log('setlookingupresults: ', lookingUpResults);
+            }
+
+            if (inputValue !== prevInputValue) {
+                setLookingUpResults(true);
+                // findTotalDataLength(controller);
+                // console.log('am i here?');
+                // console.log('setlookingupresults: ', lookingUpResults);
+            }
+
             const inputSearchUrl = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
             const response = await fetch(inputSearchUrl);
             const jsonData = await response.json();
@@ -190,6 +212,7 @@ const Browse = () => {
             }
         } finally {
             setIsLoading(false);
+            setLookingUpResults(false);
             setIsLoadingPageNums(false);
         }
 
@@ -201,7 +224,6 @@ const Browse = () => {
 
     // Declare a variable to hold the AbortController instance. This will help determine if the input changed while we're still loading the results.
     const findTotalDataLength = async (controller) => {
-        setIsLoadingPageNums(true);
 
         let allDataLength = 0;
         let offset = 0;
@@ -227,6 +249,7 @@ const Browse = () => {
 
                 const checkDataLength = () => {
                     return new Promise((resolve) => {
+                        // setLookingUpResults(true);
 
                         if (offset >= upperLimit) {
                             allDataLength = upperLimit;
@@ -260,6 +283,7 @@ const Browse = () => {
             }
         } finally {
             setLookingUpResults(false);
+            setIsLoadingPageNums(false);
         }
     };
 

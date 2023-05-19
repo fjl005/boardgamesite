@@ -8,7 +8,14 @@ const GameOfTheWeek = () => {
     const concordia = galorePostsData[0];
 
     return (
-        <Container className='homepage-section' style={{ backgroundColor: 'rgb(97, 38, 144)', color: 'white' }}>
+        <Container
+            className='homepage-section' 
+            style={{ 
+                backgroundColor: 'rgb(97, 38, 144)', 
+                color: 'white',
+                marginBottom: '25px'
+                }}
+        >
             <Row>
                 <Col>
                     <Link
