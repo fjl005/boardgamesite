@@ -13,9 +13,14 @@ const GalorePostTemplate = () => {
             <Header />
 
             <Container className='homepage-section-no-border'>
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
-                    Back to Galore Posts
-                </Link>
+                <div className='d-flex justify-content-between'>
+                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
+                        Back to Galore Posts
+                    </Link>
+                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/`}>
+                        Back to Home Page
+                    </Link>
+                </div>
             </Container>
 
             <Container className='homepage-section'>
@@ -34,9 +39,9 @@ const GalorePostTemplate = () => {
 
                 <Row>
                     <Col>
-                        <img 
-                            src={articleJson.img} 
-                            alt={`image for ${articleJson.title}`} 
+                        <img
+                            src={articleJson.img}
+                            alt={`image for ${articleJson.title}`}
                             className='galore-post-img' />
                     </Col>
                 </Row>
@@ -55,9 +60,16 @@ const GalorePostTemplate = () => {
             </Container>
 
             <Container className='homepage-section-no-border'>
-                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
-                    Back to Galore Posts
-                </Link>
+                <div className='d-flex justify-content-between'>
+                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
+                        Back to Galore Posts
+                    </Link>
+                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/`}>
+                        Back to Home Page
+                    </Link>
+                </div>
+
+
             </Container>
         </>
 

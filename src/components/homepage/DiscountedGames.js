@@ -30,28 +30,31 @@ const DiscountedGames = () => {
                 <Col>
                     <h2>Discounted Games</h2>
                     <InfiniteScroll
-                    dataLength={data.length}
-                    next={fetchData}
-                    hasMore={hasMore}
-                    className='infinite-scroll-featured-games'
-                >
+                        dataLength={data.length}
+                        next={fetchData}
+                        hasMore={hasMore}
+                        className='infinite-scroll-featured-games'
+                    >
 
-                    {data && data.map((game, idx) => (
-                        <div key={idx} style={{padding: '20px'}}>
-                            <img src={game.image_url} alt={`image of ${game.name}`} style={{width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center'}}/>
-                            <h5 className='text-center' style={{paddingTop: '10px', color: 'teal'}}>{game.name}</h5>
-                            <h5 className='text-center'> 
-                                ${game.price} 
-                                <p style={{ textDecoration: 'line-through'}}>
-                                        <i>${game.msrp}</i>
-                                </p> 
-                                <h6>~{game.discount*100}% off!</h6>
-                                
-                                
-                            </h5>
-                        </div>
-                    ))}
-                </InfiniteScroll>
+                        {data && data.map((game, idx) => (
+                            <div key={idx} style={{ padding: '20px' }}>
+                                <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
+
+                                    <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }} />
+                                    <h5 className='text-center' style={{ paddingTop: '10px', color: 'teal' }}>{game.name}</h5>
+                                    <h5 className='text-center'>
+                                        ${game.price}
+                                        <p style={{ textDecoration: 'line-through' }}>
+                                            <i>${game.msrp}</i>
+                                        </p>
+                                        <h6>~{game.discount * 100}% off!</h6>
+
+
+                                    </h5>
+                                </a>
+                            </div>
+                        ))}
+                    </InfiniteScroll>
                 </Col>
             </Row>
         </Container>

@@ -45,6 +45,7 @@ const Browse = () => {
             // If there is already a selected category, but the input value changed, then we also need to look up results. 
             if (inputValue !== prevInputValue) {
                 setLookingUpResults(true);
+                setPrevInputValue(inputValue);
             }
             // Whether it's a new search or not, we will always be fetching the category data via fetchCategoryData.
             fetchCategoryData();
@@ -83,10 +84,10 @@ const Browse = () => {
     useEffect(() => {
         // This will only fetch default data when both input value and selected category are both null. Otherwise, if it's just the input value empty but the selected category still exists, then continue to show results for the selected category.
         if (!inputValue && !selectedCategory) {
+            setPage(1);
             // The setFullLengthData(10000) is needed to search for all the games again when the input and category are removed.
             setFullLengthData(10000);
             fetchDefaultData();
-            setPage(1);
         } else if (!inputValue && selectedCategory) {
             // But, if the category is still selected, then let's still search for the total length of the data.
             setLookingUpResults(true);
@@ -121,15 +122,20 @@ const Browse = () => {
     //  ---------------- ASYNC FUNCTIONS FOR FETCH DEFINED HERE --------------------- //
     const fetchDefaultData = async () => {
         try {
+            // isLoading is to show the loading icons in the JSX code
             setIsLoading(true);
+            setLookingUpResults(true);
+
             const url = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
             const response = await fetch(url);
             const data = await response.json();
+
             setData(data.games);
         } catch (error) {
             console.log('Error: ', error);
         } finally {
             setIsLoading(false);
+            setLookingUpResults(false);
             setIsLoadingPageNums(false);
         }
 
@@ -165,6 +171,10 @@ const Browse = () => {
             setIsLoading(false);
             setIsLoadingPageNums(false);
         }
+
+        if (!page) {
+            setPage(1);
+        }
     }
 
     const fetchInputData = async () => {
@@ -188,24 +198,6 @@ const Browse = () => {
         }
     };
 
-    // const fetchPageChangeData = async () => {
-    //     setIsLoading(true);
-    //     const topGamesUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&client_id=${clientId}`;
-    //     // For the Url, we add skip in case we move on to the next page.
-    //     // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
-
-    //     const response = await fetch(topGamesUrl);
-    //     const jsonData = await response.json();
-
-    //     setData(jsonData.games);
-    //     if (!page) {
-    //         setPage(1);
-    //     }
-
-    //     setIsLoading(false);
-    //     setIsLoadingPageNums(false);
-    // };
-
 
     // Declare a variable to hold the AbortController instance. This will help determine if the input changed while we're still loading the results.
     const findTotalDataLength = async (controller) => {
@@ -220,7 +212,6 @@ const Browse = () => {
             while (!controller.signal.aborted) {
                 let url = '';
                 if (selectedCategory) {
-
                     // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
                     url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
                     // console.log('selected category id is: ', selectedCategoryId);
@@ -230,6 +221,7 @@ const Browse = () => {
                 } else {
                     url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
                 }
+
                 const response = await fetch(url);
                 const data = await response.json();
 
@@ -248,15 +240,14 @@ const Browse = () => {
                             } else {
                                 offset += limit;
                                 allDataLength += data.games.length;
-                                // console.log('still lookin it up. current length is: ', allDataLength);
-                                // console.log('looking up status: ', lookingUpResults);
+                                console.log('still lookin it up. current length is: ', allDataLength);
                                 resolve(false);
                             }
                         }
                     })
                 }
 
-                // We will wait for the checkDataLength with 'await'. If the resolve is true then that means the data length is less than 100. 
+                // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
                     console.log('full length data is: ', allDataLength);
@@ -370,16 +361,6 @@ const Browse = () => {
                                             <td> <LoadingIcon /> </td>
                                             <td> <LoadingIcon /> </td>
                                             <td> <LoadingIcon /> </td>
-
-                                            {/* <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td> */}
                                         </>
                                     ) : (
                                         data && data.map((game, idx) => (

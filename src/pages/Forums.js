@@ -5,6 +5,7 @@ import PagesTrackerForum from "../components/forumpage/PagesTrackerForum";
 import { useParams } from "react-router-dom";
 import ForumSearch from "../components/forumpage/ForumSearch";
 import { convertDate } from "../utils/dateConvert";
+import LoadingIcon from "../components/allpages/LoadingIcon";
 
 const Forums = () => {
     const clientId = 'f24B6m6kXF';
@@ -121,13 +122,13 @@ const Forums = () => {
 
                                     {isLoading ? (
                                         <>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
-                                            <td>Loading...</td>
+                                            <td><LoadingIcon /></td>
+                                            <td><LoadingIcon /></td>
+                                            <td><LoadingIcon /></td>
+                                            <td><LoadingIcon /></td>
+                                            <td><LoadingIcon /></td>
+                                            <td><LoadingIcon /></td>
+                                            <td><LoadingIcon /></td>
                                         </>
                                     ) : (
                                         data && data.map((forum, idx) => (

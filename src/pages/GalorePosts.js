@@ -176,9 +176,6 @@ const GalorePosts = () => {
                 <GalorePostPopular post={post} key={idx} />
             ))}
 
-            {/* <GalorePostPopular post={concordiaPost} />
-      <GalorePostPopular post={wingspanPost} />
-      <GalorePostPopular post={strategyPost} /> */}
 
         </>
     )

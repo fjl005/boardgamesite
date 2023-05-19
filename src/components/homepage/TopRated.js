@@ -78,23 +78,27 @@ const TopRated = () => {
     return (
         <Container className='homepage-section-no-border'>
             <Row className='d-flex justify-content-between'>
-                    <Col sm='3' className='homepage-card'>
-                        <h1 >Top Rated Games</h1>
+                <Col sm='3' className='homepage-card'>
+                    <h1 >Top Rated Games</h1>
 
-                        <ul style={{ paddingLeft: '0' }}>
-                            {gameData && gameData.map((game, idx) => (
-                                <li className='homepage-explore-list-items' key={idx}>
-                                    <div className='d-flex top-rated-center-align'>
-                                        <img src={game.image_url} alt={`image of ${game.name}`} className='top-rated-img'/>
-                                        <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
+                    <ul style={{ paddingLeft: '0' }}>
+                        {gameData && gameData.map((game, idx) => (
+                            <li className='homepage-explore-list-items' key={idx}>
+                                <div className='d-flex top-rated-center-align'>
+                                    <a href={game.url} target="_blank">
+                                        <img src={game.image_url} alt={`image of ${game.name}`} className='top-rated-img' />
+                                    </a>
+                                    <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
+                                        <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
                                             <h5>{game.name}</h5>
                                             <span className='top-rated-text'>{game.year_published}, ${game.price}</span>
-                                        </div>
+                                        </a>
                                     </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </Col>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </Col>
 
 
                 <Col sm='4' className='homepage-card'>
@@ -102,12 +106,13 @@ const TopRated = () => {
                     <Container>
                         <Row className='d-flex justify-content-center'>
                             {catanTopFour && catanTopFour.map((game, idx) => (
-                                <Col key={idx} lg='5' md='12'>
+                                <Col key={idx} xl='5' md='12'>
                                     <div className='d-flex flex-column align-items-center'>
-                                        <img src={game.image_url} alt={`image of ${game.name}`} className='top-ranked-items' style={{ width: '100%', maxWidth: '200px', height: 'auto', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
-                                        <h4 className='text-center'>{game.name}</h4>
+                                        <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
+                                            <img src={game.image_url} alt={`image of ${game.name}`} className='top-ranked-items' style={{ width: '100%', maxWidth: '150px', height: 'auto', objectFit: 'cover', objectPosition: 'center', margin: '10px' }} />
+                                            <h4 className='text-center'>{game.name}</h4>
+                                        </a>
                                     </div>
-
                                 </Col>
 
                             ))}
@@ -118,14 +123,18 @@ const TopRated = () => {
 
                 <Col sm='4' className='homepage-card'>
                     <h1>Top Rated Forums</h1>
-                    <ul style={{paddingLeft: '0px'}}>
+                    <ul style={{ paddingLeft: '0px' }}>
                         {forumData && forumData.map((forum, idx) => (
                             <li className='homepage-explore-list-items' key={idx}>
                                 <div className='d-flex top-rated-center-align'>
-                                    <img src={forum.image_url} alt={`image of ${forum.title}`} className='top-rated-img'/>
+                                    <a href={forum.url} target="_blank">
+                                        <img src={forum.image_url} alt={`image of ${forum.title}`} className='top-rated-img' />
+                                    </a>
                                     <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
+                                    <a href={forum.url} target="_blank" style={{textDecoration: 'none'}}>
                                         <h5>{forum.title}</h5>
                                         <span className='top-rated-text'>By {forum.user.username}</span>
+                                        </a>
                                     </div>
                                 </div>
                             </li>
