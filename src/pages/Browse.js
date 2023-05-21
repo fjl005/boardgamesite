@@ -15,7 +15,7 @@ const Browse = () => {
     const { currentPage } = useParams();
 
     // **--------------------------------------------------------------** //
-    //  ---------------- STATES FETCH DEFINED HERE --------------------- //
+    //  ---------------------- STATES DEFINED HERE --------------------- //
     // **------------------------------------------------------------** //
 
     // States regarding the data
@@ -40,14 +40,20 @@ const Browse = () => {
     // Controller used for abort when clear search is used.
     const controller = new AbortController();
 
+    // Initial render: signal abort is set to true at initial render. So, I will create a state to specifically allow us to successfully run findTotalDataLength (as this depends on the abort controller being false). InitialRenderState will NEVER be set to true in any other instance.
+    const [initialRenderState, setInitialRenderState] = useState(true);
+
+
 
     // **-------------------------------------------------------------** //
     //  ---------------- USE EFFECTS DEFINED HERE --------------------- //
     // **-----------------------------------------------------------** //
 
-    // SIDE EFFECT: WHEN SEARCH IS PERFORMED, CATEGORY IS CHANGED, OR WHEN PAGE IS CHANGED. THIS SIDE EFFECT WILL GUIDE THE FETCH CALLS TO BE PERFORMED AND SETLOOKINGUPRESULTS.
+    // SIDE EFFECT: WHEN SEARCH IS PERFORMED, CATEGORY IS CHANGED, OR WHEN PAGE IS CHANGED
+    // THIS SIDE EFFECT WILL GUIDE THE FETCH CALLS TO BE PERFORMED AND SETLOOKINGUPRESULTS.
     useEffect(() => {
-        let fetchCriteria = 'default';
+        let fetchCriteria = '';
+
         // If we have a selected category, only search based on the selected category.
         if (selectedCategory || inputValue) {
             // If the selected category is new (different than what was previously selected), then we need to set setLookingUpResults as true (since we're looking up).
@@ -56,7 +62,6 @@ const Browse = () => {
                 setIsLoadingPageNums(true);
                 setPrevCategory(selectedCategory);
                 fetchCriteria = 'category';
-                console.log('fetchcriteria should be category: ', fetchCriteria);
             }
 
             if (inputValue !== prevInputValue) {
@@ -64,15 +69,13 @@ const Browse = () => {
                 setIsLoadingPageNums(true);
                 setPrevInputValue(inputValue);
                 fetchCriteria = 'inputValue';
-                console.log('fetchcriteria should be inputValue: ', fetchCriteria);
             }
 
         } else {
             // Otherwise, there is nothing changed. No input, no category, nothing!
             setLookingUpResults(false);
             controller.abort();
-            console.log('fetchcriteria should be default: ', fetchCriteria);
-
+            fetchCriteria = 'default';
         }
 
         switch (fetchCriteria) {
@@ -89,6 +92,7 @@ const Browse = () => {
     }, [page, inputValue, selectedCategoryId]);
 
 
+
     // **------------------------------------------------------------------------------------------** //
     // ------------ RUN WHEN THE SEARCH OR THE SELECTED CATEGORY ARE REMOVED/CLEARED --------------- //
     // **----------------------------------------------------------------------------------------** //
@@ -100,29 +104,24 @@ const Browse = () => {
                 clearedAndSetDefault();
             } else {
                 // Otherwise, there is no input but there is still a category.
-                // setLookingUpResults(true);
                 setIsLoadingPageNums(true);
                 fetchChangedData();
-                console.log('input value gone, but category still exists');
             }
         }
     }, [inputValue]);
 
     useEffect(() => {
         // We will run this code once the category is reset (aka, !selectedCategory).
-        if (!selectedCategory) {
+        if (categoryReset) {
             if (!inputValue) {
                 clearedAndSetDefault();
                 setCategoryReset(false);
             } else {
                 // Otherwise, there is no category but there is still an input.
-                // setLookingUpResults(true);
                 setIsLoadingPageNums(true);
                 fetchChangedData();
-                console.log('category gone, but the input still exists')
             }
         }
-
     }, [selectedCategory]);
 
     const clearedAndSetDefault = () => {
@@ -137,11 +136,11 @@ const Browse = () => {
     // **-------------------------------------------------------------------------** //
 
     const fetchDefaultData = async () => {
+        setIsLoading(true);
+
+        const url = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
         try {
             // isLoading is to show the loading icons in the JSX code (for the table)
-            setIsLoading(true);
-
-            const url = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
             const response = await fetch(url);
             const data = await response.json();
 
@@ -163,27 +162,26 @@ const Browse = () => {
         let categoryUrl = '';
         let url = '';
         let bothInputAndCategory = false;
+        setIsLoading(true);
+        setLookingUpResults(true);
+
+        if (inputValue) {
+            inputUrl = `name=${inputValue}`;
+            url = `https://api.boardgameatlas.com/api/search?${inputUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        }
+        if (selectedCategory) {
+            categoryUrl = `categories=${selectedCategoryId}`;
+            url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        }
+
+        if (inputValue && selectedCategory) {
+            // If there is both an inputValue and a selectedCategory, we will search by category then search the category by name once we retrieve the data.
+            inputUrl = '';
+            url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+            bothInputAndCategory = true;
+        }
 
         try {
-            setIsLoading(true);
-
-            if (inputValue) {
-                inputUrl = `name=${inputValue}`;
-                url = `https://api.boardgameatlas.com/api/search?${inputUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
-            }
-            if (selectedCategory) {
-                categoryUrl = `categories=${selectedCategoryId}`;
-                url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
-            }
-
-            if (inputValue && selectedCategory) {
-                // If there is both an inputValue and a selectedCategory, we will search by category then search the category by name once we retrieve the data.
-                inputUrl = '';
-                url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
-                bothInputAndCategory = true;
-            }
-
-            setLookingUpResults(true);
             const response = await fetch(url);
             const data = await response.json();
 
@@ -197,14 +195,11 @@ const Browse = () => {
                 setData(data.games);
                 findTotalDataLength(controller);
                 // I won't include setLookingUpResults(false) or setIsLoadingPageNums(false) because these will be determined once findTotalDataLength is completed. This does take some time as the return is a promise. 
-                console.log('fetch category data. no input value :( ');
             }
         } catch (error) {
             console.log('Error: ', error)
         } finally {
             setIsLoading(false);
-            // setLookingUpResults(false);
-            // setIsLoadingPageNums(false);
             if (!page) {
                 setPage(1);
             }
@@ -224,26 +219,23 @@ const Browse = () => {
         const limit = 100;
         const upperLimit = 1000;
 
-        try {
+        let url = '';
+        if (selectedCategory) {
+            // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
+            url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+        } else if (inputValue) {
+            url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+        } else {
+            url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+        }
 
-            while (!controller.signal.aborted) {
-                let url = '';
-                if (selectedCategory) {
-                    // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
-                    url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-                    // console.log('selected category id is: ', selectedCategoryId);
-                    // console.log(url);
-                } else if (inputValue) {
-                    url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-                } else {
-                    url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-                }
+        try {
+            while (!controller.signal.aborted || initialRenderState) {
 
                 const response = await fetch(url);
                 const data = await response.json();
 
                 const checkDataLength = () => {
-
                     return new Promise((resolve, reject) => {
                         setIsLoadingPageNums(true);
                         setLookingUpResults(true);
@@ -260,7 +252,7 @@ const Browse = () => {
                             } else {
                                 offset += limit;
                                 allDataLength += data.games.length;
-                                console.log('still lookin it up. current length is: ', allDataLength);
+                                // console.log('still lookin it up. current length is: ', allDataLength);
                                 resolve(false);
                             }
                         }
@@ -270,9 +262,9 @@ const Browse = () => {
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
-                    console.log('full length data is: ', allDataLength);
-                    console.log('input value is: ', inputValue);
-                    console.log('category is: ', selectedCategory);
+                    // console.log('full length data is: ', allDataLength);
+                    // console.log('input value is: ', inputValue);
+                    // console.log('category is: ', selectedCategory);
                     break;
                 }
             }
@@ -281,6 +273,7 @@ const Browse = () => {
                 console.log("Error:", error);
             }
         } finally {
+            setInitialRenderState(false);
             setLookingUpResults(false);
             setIsLoadingPageNums(false);
         }
