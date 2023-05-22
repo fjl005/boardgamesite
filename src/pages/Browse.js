@@ -61,15 +61,18 @@ const Browse = () => {
                 setLookingUpResults(true);
                 setIsLoadingPageNums(true);
                 setPrevCategory(selectedCategory);
-                fetchCriteria = 'category';
-            }
-
-            if (inputValue !== prevInputValue) {
+                fetchCriteria = 'categoryChange';
+            } else if (inputValue !== prevInputValue) {
                 setLookingUpResults(true);
                 setIsLoadingPageNums(true);
                 setPrevInputValue(inputValue);
-                fetchCriteria = 'inputValue';
+                fetchCriteria = 'inputChange';
+            } else {
+                // Otherwise, the input or category didn't change (but one of them is still selected, hence the reason why we're in this loop). No need to look up results or load page numbers.
+                fetchCriteria = 'propExistsNoChange';
             }
+
+            // Otherwise, it seems like we have an input but it didn't change. We should still fetch the fetchChangedData; I just wrote 'category' arbitrarily. 
 
         } else {
             // Otherwise, there is nothing changed. No input, no category, nothing!
@@ -79,12 +82,16 @@ const Browse = () => {
         }
 
         switch (fetchCriteria) {
-            case 'category':
-            case 'inputValue':
+            case 'categoryChange':
+            case 'inputChange':
                 fetchChangedData();
+                break;
+            case 'propExistsNoChange':
+                fetchPageChangeData();
                 break;
             case 'default':
                 fetchDefaultData();
+                console.log('fetchDefaultData');
         }
 
         // The return in the useEffect is used for cleanup or for cancelling any side effects.
@@ -149,8 +156,8 @@ const Browse = () => {
             console.log('Error: ', error);
         } finally {
             setIsLoading(false);
-            setLookingUpResults(false);
-            setIsLoadingPageNums(false);
+            // setLookingUpResults(false);
+            // setIsLoadingPageNums(false);
         }
         if (!page) {
             setPage(1);
@@ -158,12 +165,112 @@ const Browse = () => {
     };
 
     const fetchChangedData = async () => {
+        setIsLoading(true);
+        setLookingUpResults(true);
+        setIsLoadingPageNums(true);
+
+        // let inputUrl = '';
+        // let categoryUrl = '';
+        // let url = '';
+        // let bothInputAndCategory = false;
+
+        // if (inputValue) {
+        //     inputUrl = `name=${inputValue}`;
+        //     url = `https://api.boardgameatlas.com/api/search?${inputUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        // }
+        // if (selectedCategory) {
+        //     categoryUrl = `categories=${selectedCategoryId}`;
+        //     url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        // }
+
+        // if (inputValue && selectedCategory) {
+        //     // If there is both an inputValue and a selectedCategory, we will search by category then search the category by name once we retrieve the data.
+        //     inputUrl = '';
+        //     url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        //     bothInputAndCategory = true;
+        // }
+
+        const {url, bothInputAndCategory} = determineUrl();
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log('url is: ', url);
+
+            if (bothInputAndCategory) {
+                const filteredData = data.games.filter((game) => game.name.toLowerCase().includes(inputValue.toLowerCase()));
+                setData(filteredData);
+                setFullLengthData(filteredData.length);
+                setIsLoadingPageNums(false);
+                setLookingUpResults(false);
+            } else {
+                setData(data.games);
+                setLookingUpResults(true);
+                findTotalDataLength(controller);
+                // I won't include setLookingUpResults(false) or setIsLoadingPageNums(false) because these will be determined once findTotalDataLength is completed. This does take some time as the return is a promise. 
+            }
+        } catch (error) {
+            console.log('Error: ', error)
+        } finally {
+            setIsLoading(false);
+            if (!page) {
+                setPage(1);
+            }
+        }
+    }
+
+    const fetchPageChangeData = async () => {
+        setIsLoading(true);
+
+        // let inputUrl = '';
+        // let categoryUrl = '';
+        // let url = '';
+        // let bothInputAndCategory = false;
+
+        // if (inputValue) {
+        //     inputUrl = `name=${inputValue}`;
+        //     url = `https://api.boardgameatlas.com/api/search?${inputUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        // }
+        // if (selectedCategory) {
+        //     categoryUrl = `categories=${selectedCategoryId}`;
+        //     url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        // }
+
+        // if (inputValue && selectedCategory) {
+        //     // If there is both an inputValue and a selectedCategory, we will search by category then search the category by name once we retrieve the data.
+        //     inputUrl = '';
+        //     url = `https://api.boardgameatlas.com/api/search?${categoryUrl}&order_by=rank&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        //     bothInputAndCategory = true;
+        // }
+
+        const {url, bothInputAndCategory} = determineUrl();
+
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (bothInputAndCategory) {
+                const filteredData = data.games.filter((game) => game.name.toLowerCase().includes(inputValue.toLowerCase()));
+                setData(filteredData);
+            } else {
+                setData(data.games);
+            }
+        } catch (error) {
+            console.log('Error: ', error)
+        } finally {
+            setIsLoading(false);
+            if (!page) {
+                setPage(1);
+            }
+        }
+    };
+
+    const determineUrl = () => {
         let inputUrl = '';
         let categoryUrl = '';
         let url = '';
         let bothInputAndCategory = false;
-        setIsLoading(true);
-        setLookingUpResults(true);
 
         if (inputValue) {
             inputUrl = `name=${inputValue}`;
@@ -181,29 +288,7 @@ const Browse = () => {
             bothInputAndCategory = true;
         }
 
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (bothInputAndCategory) {
-                const filteredData = data.games.filter((game) => game.name.toLowerCase().includes(inputValue.toLowerCase()));
-                setData(filteredData);
-                setFullLengthData(filteredData.length);
-                setLookingUpResults(false);
-                setIsLoadingPageNums(false);
-            } else {
-                setData(data.games);
-                findTotalDataLength(controller);
-                // I won't include setLookingUpResults(false) or setIsLoadingPageNums(false) because these will be determined once findTotalDataLength is completed. This does take some time as the return is a promise. 
-            }
-        } catch (error) {
-            console.log('Error: ', error)
-        } finally {
-            setIsLoading(false);
-            if (!page) {
-                setPage(1);
-            }
-        }
+        return {url, bothInputAndCategory};
     }
 
 
@@ -219,18 +304,18 @@ const Browse = () => {
         const limit = 100;
         const upperLimit = 1000;
 
-        let url = '';
-        if (selectedCategory) {
-            // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
-            url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-        } else if (inputValue) {
-            url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-        } else {
-            url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
-        }
 
         try {
             while (!controller.signal.aborted || initialRenderState) {
+                let url = '';
+                if (selectedCategory) {
+                    // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
+                    url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                } else if (inputValue) {
+                    url = `https://api.boardgameatlas.com/api/search?name=${inputValue}&order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                } else {
+                    url = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                }
 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -242,17 +327,19 @@ const Browse = () => {
 
                         if (offset >= upperLimit) {
                             allDataLength = upperLimit;
-                            // console.log(`welp, this is too much for me. the data length should be ${upperLimit}. lets see: `, allDataLength);
+                            console.log(`welp, this is too much for me. the data length should be ${upperLimit}. lets see: `, allDataLength);
                             resolve(true);
                         } else {
                             if (data.games.length < 100) {
                                 allDataLength += data.games.length;
-                                // console.log('data length is: ', allDataLength);
+                                console.log('data length is: ', allDataLength);
+                                console.log('data.games.length is: ', data.games.length);
                                 resolve(true);
                             } else {
                                 offset += limit;
                                 allDataLength += data.games.length;
-                                // console.log('still lookin it up. current length is: ', allDataLength);
+                                console.log('still lookin it up. current length is: ', allDataLength);
+                                console.log('data.games.length is: ', data.games.length);
                                 resolve(false);
                             }
                         }
@@ -262,9 +349,9 @@ const Browse = () => {
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
-                    // console.log('full length data is: ', allDataLength);
-                    // console.log('input value is: ', inputValue);
-                    // console.log('category is: ', selectedCategory);
+                    console.log('full length data is: ', allDataLength);
+                    console.log('input value is: ', inputValue);
+                    console.log('category is: ', selectedCategory);
                     break;
                 }
             }

@@ -7,7 +7,7 @@ The 'Browse Games' section lets you browse games fetched by the BGA API, with fi
 
 The 'Atlas Forums' section also incorporates the BGA API, using forum data from actual BGA users. 
 
-'Galore Posts' is a section made entirely by Frank, with the help of auto-generated AI responses. 
+'Galore Posts' is a section made by Frank (so it does not use an API), with the help of auto-generated AI responses. 
 
 The 'Make a Post' section is used to add a post to the 'Galore Posts' database; however, as of right now this function is not accessible. 
 

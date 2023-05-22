@@ -88,9 +88,9 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
                                 onClick={() => setPage(firstPage)}
                             >
                                 {firstPage}
-                                {console.log('page num: ', pageNum)}
+                                {/* {console.log('page num: ', pageNum)}
                                 {console.log('first page: ', firstPage)}
-                                {console.log('max pages: ', maxPages)}
+                                {console.log('max pages: ', maxPages)} */}
                             </Link>
                             {(secondPage <= maxPages) && ', '}
                         </>
