@@ -72,7 +72,7 @@ const Browse = () => {
                 fetchCriteria = 'propExistsNoChange';
             }
 
-            // Otherwise, it seems like we have an input but it didn't change. We should still fetch the fetchChangedData; I just wrote 'category' arbitrarily. 
+            // Otherwise, it seems like we have an input but it didn't change. We should still fetch the fetchParamChangedData; I just wrote 'category' arbitrarily. 
 
         } else {
             // Otherwise, there is nothing changed. No input, no category, nothing!
@@ -84,7 +84,7 @@ const Browse = () => {
         switch (fetchCriteria) {
             case 'categoryChange':
             case 'inputChange':
-                fetchChangedData();
+                fetchParamChangedData();
                 break;
             case 'propExistsNoChange':
                 fetchPageChangeData();
@@ -112,7 +112,7 @@ const Browse = () => {
             } else {
                 // Otherwise, there is no input but there is still a category.
                 setIsLoadingPageNums(true);
-                fetchChangedData();
+                fetchParamChangedData();
             }
         }
     }, [inputValue]);
@@ -126,7 +126,7 @@ const Browse = () => {
             } else {
                 // Otherwise, there is no category but there is still an input.
                 setIsLoadingPageNums(true);
-                fetchChangedData();
+                fetchParamChangedData();
             }
         }
     }, [selectedCategory]);
@@ -164,7 +164,7 @@ const Browse = () => {
         }
     };
 
-    const fetchChangedData = async () => {
+    const fetchParamChangedData = async () => {
         setIsLoading(true);
         setLookingUpResults(true);
         setIsLoadingPageNums(true);
