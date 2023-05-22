@@ -156,8 +156,8 @@ const Browse = () => {
             console.log('Error: ', error);
         } finally {
             setIsLoading(false);
-            // setLookingUpResults(false);
-            // setIsLoadingPageNums(false);
+            setLookingUpResults(false);
+            setIsLoadingPageNums(false);
         }
         if (!page) {
             setPage(1);
