@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import LoadingIcon from "../allpages/LoadingIcon";
 
-const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
+const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
 
-
-    const pageNum = Number(currentPage);
+    const pageNum = Number(page);
     let maxPages = Math.ceil(fullLengthData / 50);
     // Set maxPages to 1 if the fullLengthData is 0. If there are no results, then we should just make the maxPages 1 instead of 0. This would later down the road prevent the '1' page be shown as a link.
     if (maxPages === 0) {
@@ -78,6 +77,8 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
                         <>
                             <span>{firstPage}</span>
                             {(secondPage <= maxPages) && ', '}
+                            {console.log('secondPage is: ', secondPage)}
+                            {console.log('page num is, ', pageNum)}
                         </>
 
 
@@ -88,9 +89,9 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
                                 onClick={() => setPage(firstPage)}
                             >
                                 {firstPage}
-                                {/* {console.log('page num: ', pageNum)}
+                                {console.log('page num: ', pageNum)}
                                 {console.log('first page: ', firstPage)}
-                                {console.log('max pages: ', maxPages)} */}
+                                {console.log('max pages: ', maxPages)}
                             </Link>
                             {(secondPage <= maxPages) && ', '}
                         </>
@@ -103,6 +104,7 @@ const PagesTracker = ({ currentPage, setPage, inputValue, isLoadingPageNums, ful
                             <>
                                 <span>{secondPage}</span>
                                 {(thirdPage <= maxPages) && ', '}
+                                {console.log('secondPage is ', secondPage)}
                             </>
 
                         ) : (

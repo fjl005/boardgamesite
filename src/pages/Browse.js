@@ -37,6 +37,11 @@ const Browse = () => {
     const [categoryReset, setCategoryReset] = useState(false);
 
 
+    console.log('currentpage is: ', currentPage);
+
+    console.log('page should be same as currentPage: ', page);
+
+
     // Controller used for abort when clear search is used.
     const controller = new AbortController();
 
@@ -106,27 +111,31 @@ const Browse = () => {
 
     useEffect(() => {
         // This will only fetch default data when both input value and selected category are both cleared. 
-        if (!inputValue) {
-            if (!selectedCategory) {
-                clearedAndSetDefault();
-            } else {
-                // Otherwise, there is no input but there is still a category.
-                setIsLoadingPageNums(true);
-                fetchParamChangedData();
+        if (!initialRenderState) {
+            if (!inputValue) {
+                if (!selectedCategory) {
+                    clearedAndSetDefault();
+                } else {
+                    // Otherwise, there is no input but there is still a category.
+                    setIsLoadingPageNums(true);
+                    fetchParamChangedData();
+                }
             }
         }
     }, [inputValue]);
 
     useEffect(() => {
         // We will run this code once the category is reset (aka, !selectedCategory).
-        if (categoryReset) {
-            if (!inputValue) {
-                clearedAndSetDefault();
-                setCategoryReset(false);
-            } else {
-                // Otherwise, there is no category but there is still an input.
-                setIsLoadingPageNums(true);
-                fetchParamChangedData();
+        if (!initialRenderState) {
+            if (categoryReset) {
+                if (!inputValue) {
+                    clearedAndSetDefault();
+                    setCategoryReset(false);
+                } else {
+                    // Otherwise, there is no category but there is still an input.
+                    setIsLoadingPageNums(true);
+                    fetchParamChangedData();
+                }
             }
         }
     }, [selectedCategory]);
@@ -190,7 +199,7 @@ const Browse = () => {
         //     bothInputAndCategory = true;
         // }
 
-        const {url, bothInputAndCategory} = determineUrl();
+        const { url, bothInputAndCategory } = determineUrl();
 
         try {
             const response = await fetch(url);
@@ -243,7 +252,7 @@ const Browse = () => {
         //     bothInputAndCategory = true;
         // }
 
-        const {url, bothInputAndCategory} = determineUrl();
+        const { url, bothInputAndCategory } = determineUrl();
 
 
         try {
@@ -288,7 +297,7 @@ const Browse = () => {
             bothInputAndCategory = true;
         }
 
-        return {url, bothInputAndCategory};
+        return { url, bothInputAndCategory };
     }
 
 
@@ -303,7 +312,6 @@ const Browse = () => {
         let offset = 0;
         const limit = 100;
         const upperLimit = 1000;
-
 
         try {
             while (!controller.signal.aborted || initialRenderState) {
@@ -327,19 +335,14 @@ const Browse = () => {
 
                         if (offset >= upperLimit) {
                             allDataLength = upperLimit;
-                            console.log(`welp, this is too much for me. the data length should be ${upperLimit}. lets see: `, allDataLength);
                             resolve(true);
                         } else {
                             if (data.games.length < 100) {
                                 allDataLength += data.games.length;
-                                console.log('data length is: ', allDataLength);
-                                console.log('data.games.length is: ', data.games.length);
                                 resolve(true);
                             } else {
                                 offset += limit;
                                 allDataLength += data.games.length;
-                                console.log('still lookin it up. current length is: ', allDataLength);
-                                console.log('data.games.length is: ', data.games.length);
                                 resolve(false);
                             }
                         }
@@ -349,9 +352,6 @@ const Browse = () => {
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
-                    console.log('full length data is: ', allDataLength);
-                    console.log('input value is: ', inputValue);
-                    console.log('category is: ', selectedCategory);
                     break;
                 }
             }
@@ -365,6 +365,7 @@ const Browse = () => {
             setIsLoadingPageNums(false);
         }
     };
+
 
     return (
         <>
@@ -397,7 +398,7 @@ const Browse = () => {
                         ) : (
                             <>
                                 <PagesTracker
-                                    currentPage={page}
+                                    page={page}
                                     setPage={setPage}
                                     inputValue={inputValue}
                                     isLoadingPageNums={isLoadingPageNums}
