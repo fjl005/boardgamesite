@@ -7,6 +7,8 @@ import Help from './pages/Help';
 import GalorePosts from './pages/GalorePosts';
 import GalorePostTemplate from './components/galorepostspage/GalorePostTemplate';
 import MakePost from './pages/MakePost';
+import MyPosts from './pages/MyPosts';
+import MyPostArticle from './components/mypostspage/MyPostArticle';
 
 function App() {
     return (
@@ -26,6 +28,8 @@ function App() {
                 <Route path="galoreposts" element={<GalorePosts />} />
                 <Route path="help" element={<Help />} />
                 <Route path="makeapost" element={<MakePost />} />
+                <Route path="myposts" element={<MyPosts />} />
+                <Route path="myposts/:uniqueId" element={<MyPostArticle />} />
             </Routes>
         </div>
     );
