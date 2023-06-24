@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios';
 import { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 
 const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts, setUserPosts, imgUrl }) => {
@@ -10,6 +10,11 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     const [newSubTitle, setNewSubTitle] = useState(subTitle);
     const [newAuthor, setNewAuthor] = useState(author);
     const [newParagraph, setNewParagraph] = useState(paragraph);
+
+    const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app/';
+
+    // const location = useLocation();
+    // const { pathname } = location;
 
     const deleteSinglePost = async (uniqueId) => {
         try {
@@ -220,13 +225,13 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                             // className='bg-danger'
                             >Delete</Button>
                             {/* <Link to={`${window.location.protocol}//${window.location.hostname}:3000/myposts/${uniqueId}`}> */}
-                            <Link to={`/myposts/${uniqueId}`}>
+                            {/* <Link to={`${pathname}/${uniqueId}`}> */}
+                            <Link to={`${netlifyUrl}/${uniqueId}`}>
                                 <Button
                                     onClick={() => { viewArticle(uniqueId) }}
                                     className='bg-primary'
                                 >View Article</Button>
                             </Link>
-
                         </Col>
                     </Row>
                 </>

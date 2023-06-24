@@ -8,6 +8,7 @@ import axios from 'axios'
 const MyPostArticle = () => {
     const { uniqueId } = useParams();
     const [articleData, setArticleData] = useState({});
+    const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app';
 
     const fetchApiData = async () => {
         try {
@@ -28,13 +29,13 @@ const MyPostArticle = () => {
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/myposts`}>
+                    <Link to={`${netlifyUrl}/myposts`}>
                         Back to My Posts
                     </Link>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
+                    <Link to={`${netlifyUrl}/galoreposts`}>
                         Back to Galore Posts
                     </Link>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/`}>
+                    <Link to={`${netlifyUrl}`}>
                         Back to Home Page
                     </Link>
                 </div>
@@ -85,13 +86,13 @@ const MyPostArticle = () => {
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/myposts`}>
+                    <Link to={`${netlifyUrl}/myposts`}>
                         Back to My Posts
                     </Link>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
+                    <Link to={`${netlifyUrl}/galoreposts`}>
                         Back to Galore Posts
                     </Link>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/`}>
+                    <Link to={`${netlifyUrl}`}>
                         Back to Home Page
                     </Link>
                 </div>
