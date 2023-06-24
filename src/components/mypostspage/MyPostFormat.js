@@ -221,7 +221,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                             >Delete</Button>
                             {/* <Link to={`${window.location.protocol}//${window.location.hostname}:3000/myposts/${uniqueId}`}> */}
                             <Link to={`https://master--cosmic-begonia-9265d4.netlify.app/myposts/${uniqueId}`}>
-
                                 <Button
                                     onClick={() => { viewArticle(uniqueId) }}
                                     className='bg-primary'
