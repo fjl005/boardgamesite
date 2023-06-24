@@ -37,11 +37,6 @@ const Browse = () => {
     const [categoryReset, setCategoryReset] = useState(false);
 
 
-    console.log('currentpage is: ', currentPage);
-
-    console.log('page should be same as currentPage: ', page);
-
-
     // Controller used for abort when clear search is used.
     const controller = new AbortController();
 
