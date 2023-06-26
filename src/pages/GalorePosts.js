@@ -29,8 +29,8 @@ const GalorePosts = () => {
                     <Col>
                         <div className='d-flex justify-content-between'>
                             <h1>Posts from Bored Games Galore</h1>
-                            <Button className='bg-primary'
-                                onClick={handleOpenModal}>Add Post</Button>
+                            {/* <Button className='bg-primary'
+                                onClick={handleOpenModal}>Add Post</Button> */}
                         </div>
                     </Col>
                 </Row>
@@ -124,7 +124,7 @@ const GalorePosts = () => {
                 </Row>
                 <Row>
                     <Col sm='12' lg='6' xl='4'>
-                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(concordiaPost.title)}`}>
+                        <Link to={`/galoreposts/${concatTitle(concordiaPost.title)}`}>
                             <div
                                 className="galore-posts-highlight-container">
                                 <img src={concordiaPost.img} alt="Concordia" />
@@ -139,7 +139,7 @@ const GalorePosts = () => {
                     </Col>
 
                     <Col sm='12' lg='6' xl='4'>
-                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(wingspanPost.title)}`}>
+                        <Link to={`/galoreposts/${concatTitle(wingspanPost.title)}`}>
                             <div className="galore-posts-highlight-container">
                                 <img src={wingspanPost.img} alt="penguins" />
                                 <div class="galore-posts-img-overlay"></div>
@@ -152,7 +152,7 @@ const GalorePosts = () => {
                     </Col>
 
                     <Col sm='12' lg='6' xl='4'>
-                        <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(strategyPost.title)}`}>
+                        <Link to={`/galoreposts/${concatTitle(strategyPost.title)}`}>
                             <div className="galore-posts-highlight-container">
                                 <img src={strategyPost.img} alt="board game collection" />
                                 <div class="galore-posts-img-overlay"></div>

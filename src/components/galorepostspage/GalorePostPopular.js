@@ -2,10 +2,10 @@ import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { concatTitle } from "../../utils/concatTitle";
 
-const GalorePostPopular = ({post}) => {
+const GalorePostPopular = ({ post }) => {
     return (
-        <Container className='homepage-section' style={{maxWidth: '1000px'}}>
-            <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(post.title)}`}
+        <Container className='homepage-section' style={{ maxWidth: '1000px' }}>
+            <Link to={`/galoreposts/${concatTitle(post.title)}`}
                 style={{ textDecoration: 'none', color: 'inherit' }}
                 onClick={() => window.scrollTo(0, 0)}>
                 <Row>

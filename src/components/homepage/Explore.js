@@ -28,15 +28,15 @@ const Explore = () => {
                             {exploreListItems.map((item, idx) => (
                                 <li className='homepage-explore-list-items' key={idx}>
                                     <div className='d-flex align-items-center'>
-                                        <Link 
-                                            to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(item.title)}`}
-                                            style={{textDecoration: 'none', color: 'black'}}
+                                        <Link
+                                            to={`/galoreposts/${concatTitle(item.title)}`}
+                                            style={{ textDecoration: 'none', color: 'black' }}
                                         >
                                             <img src={item.img} className='explore-items-img' />
                                         </Link>
-                                        <Link 
-                                            to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(item.title)}`}
-                                            style={{textDecoration: 'none', color: 'black'}}
+                                        <Link
+                                            to={`/galoreposts/${concatTitle(item.title)}`}
+                                            style={{ textDecoration: 'none', color: 'black' }}
                                         >
                                             <div className='d-flex flex-column'>
                                                 <h5>{item.title}</h5>

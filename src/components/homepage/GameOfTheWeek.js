@@ -9,17 +9,17 @@ const GameOfTheWeek = () => {
 
     return (
         <Container
-            className='homepage-section' 
-            style={{ 
-                backgroundColor: 'rgb(97, 38, 144)', 
+            className='homepage-section'
+            style={{
+                backgroundColor: 'rgb(97, 38, 144)',
                 color: 'white',
                 marginBottom: '25px'
-                }}
+            }}
         >
             <Row>
                 <Col>
                     <Link
-                        to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts/${concatTitle(concordia.title)}`}
+                        to={`/galoreposts/${concatTitle(concordia.title)}`}
                         style={{ textDecoration: 'none', color: 'white' }}
                     >
                         <h3 className='text-center' style={{ color: 'white' }}>Game of the Week: Concordia</h3>

@@ -3,10 +3,12 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import MyPostFormat from '../components/mypostspage/MyPostFormat';
+import LoadingIcon from '../components/allpages/LoadingIcon';
 
 const MyPosts = () => {
 
     const [userPosts, setUserPosts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     // const [userId, setUserId] = useState('');
     // const [author, setAuthor] = useState('');
     // const [title, setTitle] = useState('');
@@ -18,8 +20,11 @@ const MyPosts = () => {
 
     const fetchApiData = async () => {
         try {
-            const response = await axios.get('https://boardgames-api-attempt2.onrender.com/api');
+            // const response = await axios.get('https://boardgames-api-attempt2.onrender.com/api');
+            const response = await axios.get('http://localhost:5000/api');
+
             setUserPosts(response.data);
+            setIsLoading(false);
         } catch (error) {
             console.error('Error: ', error);
         }
@@ -31,14 +36,14 @@ const MyPosts = () => {
 
     const deleteAllPosts = async () => {
         try {
-            await axios.delete('https://boardgames-api-attempt2.onrender.com/api');
+            // await axios.delete('https://boardgames-api-attempt2.onrender.com/api');
+            await axios.delete('http://localhost:5000/api');
             alert('All of your posts have been deleted!')
             fetchApiData();
         } catch (error) {
             console.log(error)
         }
     }
-
 
     return (
         <>
@@ -56,33 +61,39 @@ const MyPosts = () => {
             <Container className='homepage-section'>
                 <Row>
                     <Col>
-                        {userPosts ?
-                            userPosts.map(post => (
-                                <MyPostFormat
-                                    key={post._id}
-                                    uniqueId={post._id}
-                                    title={post.title}
-                                    subTitle={post.subTitle}
-                                    author={post.author}
-                                    paragraph={post.paragraph}
-                                    userPosts={userPosts}
-                                    setUserPosts={setUserPosts}
-                                    imgUrl={post.imgUrl} />
-                                /* <div key={post._id}>
-                                    Title: {post.title}
-                                </div> */
-                            ))
-                            : (
+                        {isLoading ? (
+                            <>
+                                <LoadingIcon style={{ color: 'teal' }} />
+                                <h4>Loading...</h4>
+                            </>
+                        ) : (
+                            userPosts.length > 0 ? (
+                                userPosts.map(post => (
+                                    <MyPostFormat
+                                        key={post._id}
+                                        uniqueId={post._id}
+                                        title={post.title}
+                                        subTitle={post.subTitle}
+                                        author={post.author}
+                                        paragraph={post.paragraph}
+                                        userPosts={userPosts}
+                                        setUserPosts={setUserPosts}
+                                        img={post.img}
+                                    />
+                                ))
+                            ) : (
                                 <h2>No posts have been made by you. Go make some!</h2>
-                            )}
+                            )
+                        )}
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Button
+                        {userPosts.length > 0 && <Button
                             onClick={deleteAllPosts}
                             className='bg-danger'
-                        >Delete All Articles</Button>
+                        >Delete All Articles</Button>}
+
                     </Col>
                 </Row>
             </Container>

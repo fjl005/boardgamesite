@@ -3,7 +3,6 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import cardsAndTrinkets from '../img/makePostImg/cardsAndTrinkets.jpg';
-import chess from '../img/makePostImg/chess.jpg';
 import diceOnMap from '../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../img/makePostImg/foozballGame.jpg'
 
@@ -19,6 +18,7 @@ const MakePost = () => {
     const [imageFile, setImageFile] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1); // For storing the index of the selected image
     const [paragraph, setParagraph] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const imagesSelection = [
         cardsAndTrinkets,
@@ -63,35 +63,50 @@ const MakePost = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsSubmitting(true);
 
         try {
             // Create a formData object to append the text-based form fields and the image file together.
             const formData = new FormData();
+            const formDataImg = new FormData();
             formData.append('title', title);
             formData.append('subTitle', subTitle);
             formData.append('author', author);
             formData.append('paragraph', paragraph);
 
+            // This would mean that the image is one of the selected. If it wasn't, the index would be -1 and it'd instead possibly be an image upload, tested in the next else if.
             if (selectedImageIdx !== -1) {
                 formData.append('img', imagesSelection[selectedImageIdx]);
-                console.log('selected image idx exists: ', selectedImageIdx);
-                console.log('image path is: ', imagesSelection[selectedImageIdx]);
             } else if (imageFile) {
-                formData.append('img', imageFile);
-                console.log('image file is: ', imageFile);
+                formDataImg.append('file', imageFile);
+                formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+                // Just wanted to try fetching without axios, so that I know what axios is doing and the code it's saving me to write!
+                const imgData = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: 'POST',
+                    body: formDataImg
+                }).then(response => response.json())
+                    .then(data => {
+                        formData.append('publicId', data.public_id);
+                        formData.append('img', data.url);
+                    })
+                    .catch(error => console.log('error when posting: ', error));
             }
 
-            // const response = await axios.post('http://localhost:5000/api', formData);
-            const response = await axios.post('https://boardgames-api-attempt2.onrender.com/api', formData);
+            // const response = await axios.post('https://boardgames-api-attempt2.onrender.com/api', formData);
+            const response = await axios.post('http://localhost:5000/api', formData);
 
+
+            setIsSubmitting(false);
             if (response.data.error === 'title already exists') {
                 alert('Sorry, you must make a post with a different title name. That title name already exists in a previous post you made.');
             } else if (response.data.error === 'incomplete form') {
                 alert('You must complete all entries on the form.');
+                console.log(response.data);
             } else {
                 console.log('form submitted');
-                alert('Post updated!');
+                alert('Post submitted!');
             }
+
         } catch (error) {
             console.log('Error: ', error);
         }
@@ -314,6 +329,11 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                             </FormGroup>
 
                             <Button type='submit' color='primary'>Submit</Button>
+                            {isSubmitting ? (
+                                <>
+                                    <span style={{ marginLeft: '5px' }}>Submitting, this will take a few seconds...</span>
+                                </>
+                            ) : null}
                         </Form>
                     </Col>
                 </Row>

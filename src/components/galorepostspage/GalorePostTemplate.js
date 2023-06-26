@@ -14,10 +14,10 @@ const GalorePostTemplate = () => {
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
+                    <Link to={`/galoreposts`}>
                         Back to Galore Posts
                     </Link>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/`}>
+                    <Link to={`/`}>
                         Back to Home Page
                     </Link>
                 </div>
@@ -61,10 +61,10 @@ const GalorePostTemplate = () => {
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/galoreposts`}>
+                    <Link to={`/galoreposts`}>
                         Back to Galore Posts
                     </Link>
-                    <Link to={`${window.location.protocol}//${window.location.hostname}:3000/`}>
+                    <Link to={`/`}>
                         Back to Home Page
                     </Link>
                 </div>

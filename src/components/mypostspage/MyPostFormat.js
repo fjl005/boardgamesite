@@ -2,23 +2,26 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import axios from 'axios';
 import { useState } from 'react';
 import { Link, useLocation } from "react-router-dom";
+import cardsAndTrinkets from '../../img/makePostImg/cardsAndTrinkets.jpg';
+import diceOnMap from '../../img/makePostImg/diceOnMap.jpg';
+import foozballGame from '../../img/makePostImg/foozballGame.jpg'
 
 
-const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts, setUserPosts, imgUrl }) => {
+const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts, setUserPosts, img }) => {
 
     const [newTitle, setNewTitle] = useState(title);
     const [newSubTitle, setNewSubTitle] = useState(subTitle);
     const [newAuthor, setNewAuthor] = useState(author);
     const [newParagraph, setNewParagraph] = useState(paragraph);
+    const [imageFile, setImageFile] = useState(null);
+    const [selectedImageIdx, setSelectedImageIdx] = useState(-1);
 
     const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app/';
 
-    // const location = useLocation();
-    // const { pathname } = location;
-
     const deleteSinglePost = async (uniqueId) => {
         try {
-            await axios.delete(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
+            // await axios.delete(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
+            await axios.delete(`http://localhost:5000/api/${uniqueId}`);
             console.log('post deleted');
             setUserPosts(userPosts.filter(post => post._id !== uniqueId));
             alert('Single Post Deleted');
@@ -83,6 +86,47 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             console.log('Error: ', error);
         }
     }
+
+    const imagesSelection = [
+        cardsAndTrinkets,
+        foozballGame,
+        diceOnMap
+    ];
+
+    const handleImageChange = (event) => {
+        if (selectedImageIdx > -1) {
+            alert('You must unselect an image above if you want to upload your own image.');
+            setImageFile(null);
+        } else {
+            const file = event.target.files[0];
+            setImageFile(file);
+        }
+    };
+
+    const handleImageClick = (idx) => {
+        // Only allow the image click to be successful if there is no image file already uploaded. If an image is already uploaded, then don't allow the user to select an image on the browser.
+        if (!imageFile) {
+            // Image Key represents the image URL. 
+            if (selectedImageIdx === idx) {
+                // If the index of the selected image already matches, then it's already selected. That means that this click is to unselect the image.
+                setSelectedImageIdx(-1);
+            } else {
+                // Otherwise, the selected image should be a legitimate selection. Store the index of this image.
+                setSelectedImageIdx(idx);
+            }
+        } else {
+            setSelectedImageIdx(-1);
+            alert('You already have an image uploaded. Please remove that file if you want to use one of the default images here.');
+        }
+    };
+
+    const removeFile = () => {
+        setImageFile(null);
+        const fileInput = document.getElementById('img');
+        if (fileInput) {
+            fileInput.value = ''; // Clear the file input value to remove the selected file
+        }
+    };
 
 
     return (
@@ -153,17 +197,58 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                 </FormGroup>
 
                                 <FormGroup>
-                                    <h3>Image</h3>
+                                    <h3>Image (this currently doesn't work. Am still working on it!)</h3>
+                                    <h5>Either select an image below, or upload your own image!</h5>
+                                    <div className='d-flex'
+                                        style={{
+                                            justifyContent: 'space-between',
+                                            flexDirection: 'row',
+                                            marginBottom: '10px'
+                                        }}
+                                    >
+                                        {imagesSelection.map((img, idx) => (
+                                            <img
+                                                key={idx}
+                                                src={img}
+                                                alt='selection image'
+                                                style={{
+                                                    width: '30%',
+                                                    border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none',
+                                                    height: '250px',
+                                                    objectFit: 'cover'
+                                                }}
+                                                onClick={() => handleImageClick(idx)}
+                                            />
+                                        ))}
+
+                                    </div>
+
+
                                     <Input
                                         name='img'
                                         id='img'
                                         type='file'
                                         accept="image/*"
+                                        onChange={handleImageChange}
+                                        disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
                                     />
+
+                                    {imageFile ? (
+                                        <span
+                                            style={{
+                                                color: 'blue',
+                                                display: 'inline-block',
+                                                textDecoration: 'underline',
+                                                marginTop: '10px',
+                                                cursor: 'pointer'
+                                            }}
+                                            onClick={removeFile}
+                                        >Remove File</span>
+                                    ) : null}
                                 </FormGroup>
 
                                 <Button onClick={cancelClick}>Cancel</Button>
-                                <Button type='submit' color='primary' style={{ margin: '10px' }}>Submit</Button>
+                                <Button type='submit' color='primary' style={{ margin: '10px' }}>Save</Button>
                             </Form>
                         </Col>
                     </Row>
@@ -183,18 +268,18 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                         </Col>
                     </Row>
 
-                    {imgUrl ? (
+                    {img &&
                         <Row>
                             <Col>
                                 <img
-                                    src={imgUrl}
+                                    src={`${img}`}
                                     alt={`image for ${title}`}
                                     className='galore-post-img'
                                 />
-                                {console.log('imgUrl is: ', imgUrl)}
+                                {console.log('imgUrl is: ', img)}
                             </Col>
                         </Row>
-                    ) : null}
+                    }
 
                     <Row>
                         <Col>
@@ -226,7 +311,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                             >Delete</Button>
                             {/* <Link to={`${window.location.protocol}//${window.location.hostname}:3000/myposts/${uniqueId}`}> */}
                             {/* <Link to={`${pathname}/${uniqueId}`}> */}
-                            <Link to={`${netlifyUrl}/${uniqueId}`}>
+                            <Link to={`/myposts/${uniqueId}`}>
                                 <Button
                                     onClick={() => { viewArticle(uniqueId) }}
                                     className='bg-primary'

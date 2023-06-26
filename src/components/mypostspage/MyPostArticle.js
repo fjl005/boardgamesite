@@ -12,7 +12,8 @@ const MyPostArticle = () => {
 
     const fetchApiData = async () => {
         try {
-            const response = await axios.get(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
+            // const response = await axios.get(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
+            const response = await axios.get(`http://localhost:5000/api/${uniqueId}`)
             setArticleData(response.data);
         } catch (error) {
             console.error('Error: ', error);
@@ -29,13 +30,13 @@ const MyPostArticle = () => {
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`${netlifyUrl}/myposts`}>
+                    <Link to={`/myposts`}>
                         Back to My Posts
                     </Link>
-                    <Link to={`${netlifyUrl}/galoreposts`}>
+                    <Link to={`/galoreposts`}>
                         Back to Galore Posts
                     </Link>
-                    <Link to={`${netlifyUrl}`}>
+                    <Link to={`/`}>
                         Back to Home Page
                     </Link>
                 </div>
@@ -52,17 +53,18 @@ const MyPostArticle = () => {
                     <Col>
                         <p>By {articleData.author}</p>
                         <p>Posted {articleData.submissionTime}, {articleData.date}</p>
+                        {console.log('article data: ', articleData)}
                     </Col>
                 </Row>
 
-                {articleData.imgUrl != 'http://localhost:5000/undefined' ? (
+                {articleData.imgUrl != 'https://boardgames-api-attempt2.onrender.com/undefined' ? (
                     <Row>
                         <Col>
-                            <img
-                                src={articleData.imgUrl}
+                            {articleData.img && (<img
+                                src={articleData.img}
                                 alt={`image for ${articleData.title}`}
                                 className='galore-post-img' />
-                            {console.log('articleData Img URL: ', articleData.imgUrl)}
+                            )}
                         </Col>
                     </Row>
                 ) : null}
@@ -86,13 +88,13 @@ const MyPostArticle = () => {
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`${netlifyUrl}/myposts`}>
+                    <Link to={`/myposts`}>
                         Back to My Posts
                     </Link>
-                    <Link to={`${netlifyUrl}/galoreposts`}>
+                    <Link to={`/galoreposts`}>
                         Back to Galore Posts
                     </Link>
-                    <Link to={`${netlifyUrl}`}>
+                    <Link to={`/`}>
                         Back to Home Page
                     </Link>
                 </div>
