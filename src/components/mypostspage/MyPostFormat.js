@@ -61,10 +61,13 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             // This will be used later, when we try to display the new image on the browser after edit is saved.
             let newImg;
 
+            // If an image was selected from the selection, set the new image to that image.
             if (selectedImageIdx !== -1) {
                 newImg = imagesSelection[selectedImageIdx];
                 formData.append('img', newImg);
-            } else if (imageFile) {
+            }
+            // Otherwise, check if there is an image file. That will be the new image, and we will also post this to Cloudinary. 
+            else if (imageFile) {
                 formDataImg.append('file', imageFile);
                 formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
                 // Just wanted to try fetching without axios, so that I know what axios is doing and the code it's saving me to write!
@@ -78,6 +81,11 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                         formData.append('img', newImg);
                     })
                     .catch(error => console.log('error when posting: ', error));
+            }
+            // Lastly, check if nothing was changed and if an image was there from the start. If so, then the new image will remain as the current image
+            else if (img) {
+                newImg = img;
+                formData.append('img', newImg);
             }
 
             formData.append('title', newTitle);
