@@ -16,6 +16,7 @@ const MakePost = () => {
     const [submissionTime, setSubmissionTime] = useState('');
     const [date, setDate] = useState('');
     const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1); // For storing the index of the selected image
     const [paragraph, setParagraph] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,6 +61,19 @@ const MakePost = () => {
             fileInput.value = ''; // Clear the file input value to remove the selected file
         }
     };
+
+    // Image preview
+    useEffect(() => {
+        if (!imageFile) {
+            setImagePreview(null);
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(imageFile);
+        setImagePreview(objectUrl);
+
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [imageFile]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -154,7 +168,6 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
         setAuthor('');
         setParagraph('');
     }
-
 
 
     return (
@@ -314,18 +327,31 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                     disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
                                 />
 
-                                {imageFile ? (
-                                    <span
+                                <div className='d-flex flex-column'>
+                                    {imageFile && (
+                                        <span
+                                            style={{
+                                                color: 'blue',
+                                                display: 'inline-block',
+                                                textDecoration: 'underline',
+                                                marginTop: '10px',
+                                                cursor: 'pointer'
+                                            }}
+                                            onClick={removeFile}
+                                        >Remove File</span>
+                                    )}
+
+                                    {imageFile && <img
+                                        src={imagePreview}
+                                        alt='Uploaded Image'
                                         style={{
-                                            color: 'blue',
-                                            display: 'inline-block',
-                                            textDecoration: 'underline',
-                                            marginTop: '10px',
-                                            cursor: 'pointer'
+                                            width: '40%',
+                                            height: 'auto',
+                                            objectFit: 'cover'
                                         }}
-                                        onClick={removeFile}
-                                    >Remove File</span>
-                                ) : null}
+                                    />}
+                                </div>
+
                             </FormGroup>
 
                             <Button type='submit' color='primary'>Submit</Button>

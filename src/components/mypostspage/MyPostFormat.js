@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import cardsAndTrinkets from '../../img/makePostImg/cardsAndTrinkets.jpg';
 import diceOnMap from '../../img/makePostImg/diceOnMap.jpg';
@@ -15,6 +15,8 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     const [newParagraph, setNewParagraph] = useState(paragraph);
     const [imageFile, setImageFile] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1);
+    const [savingPost, setSavingPost] = useState(false);
+    const [imagePreview, setImagePreview] = useState(null);
 
     const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app/';
 
@@ -50,14 +52,42 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
 
     const updatePost = async (event) => {
         event.preventDefault();
+        setSavingPost(true);
 
         try {
-            const response = await axios.put(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`, {
-                title: newTitle,
-                subTitle: newSubTitle,
-                author: newAuthor,
-                paragraph: newParagraph
-            });
+            const formData = new FormData();
+            const formDataImg = new FormData();
+
+            // This will be used later, when we try to display the new image on the browser after edit is saved.
+            let newImg;
+
+            if (selectedImageIdx !== -1) {
+                newImg = imagesSelection[selectedImageIdx];
+                formData.append('img', newImg);
+            } else if (imageFile) {
+                formDataImg.append('file', imageFile);
+                formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
+                // Just wanted to try fetching without axios, so that I know what axios is doing and the code it's saving me to write!
+                const imgData = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
+                    method: 'POST',
+                    body: formDataImg
+                }).then(response => response.json())
+                    .then(data => {
+                        formData.append('publicId', data.public_id);
+                        newImg = data.url;
+                        formData.append('img', newImg);
+                    })
+                    .catch(error => console.log('error when posting: ', error));
+            }
+
+            formData.append('title', newTitle);
+            formData.append('subTitle', newSubTitle);
+            formData.append('author', newAuthor);
+            formData.append('paragraph', newParagraph);
+
+
+            const response = await axios.put(`http://localhost:5000/api/${uniqueId}`, formData);
+
             if (response.data.error === 'no changes') {
                 alert("Doesn't seem like anything changed!");
             }
@@ -72,18 +102,22 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                             title: response.data.title,
                             subTitle: response.data.subTitle,
                             author: response.data.author,
-                            paragraph: response.data.paragraph
-                        };
+                            paragraph: response.data.paragraph,
+                            img: newImg
+                        }
                     }
                     return post;
                 }));
 
                 togglePost();
-                console.log('Post has been updated!');
                 alert('Post has been updated!!');
             }
+            setSavingPost(false);
+
         } catch (error) {
             console.log('Error: ', error);
+            setSavingPost(false);
+
         }
     }
 
@@ -119,6 +153,19 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             alert('You already have an image uploaded. Please remove that file if you want to use one of the default images here.');
         }
     };
+
+    // Image preview
+    useEffect(() => {
+        if (!imageFile) {
+            setImagePreview(null);
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(imageFile);
+        setImagePreview(objectUrl);
+
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [imageFile]);
 
     const removeFile = () => {
         setImageFile(null);
@@ -197,7 +244,21 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                 </FormGroup>
 
                                 <FormGroup>
-                                    <h3>Image (this currently doesn't work. Am still working on it!)</h3>
+                                    {img && (
+                                        <div className='text-center'>
+                                            <h3>Current Image Shown Below</h3>
+                                            <img
+                                                src={img}
+                                                alt='Uploaded Image'
+                                                style={{
+                                                    width: '40%',
+                                                    height: 'auto',
+                                                    objectFit: 'cover'
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                    <h3 style={{ marginTop: '15px' }}>Change Image (this currently doesn't work. Am still working on it!)</h3>
                                     <h5>Either select an image below, or upload your own image!</h5>
                                     <div className='d-flex'
                                         style={{
@@ -223,7 +284,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
 
                                     </div>
 
-
                                     <Input
                                         name='img'
                                         id='img'
@@ -233,22 +293,35 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                         disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
                                     />
 
-                                    {imageFile ? (
-                                        <span
+                                    <div className='d-flex flex-column'>
+                                        {imageFile && (
+                                            <span
+                                                style={{
+                                                    color: 'blue',
+                                                    display: 'inline-block',
+                                                    textDecoration: 'underline',
+                                                    marginTop: '10px',
+                                                    cursor: 'pointer'
+                                                }}
+                                                onClick={removeFile}
+                                            >Remove File</span>
+                                        )}
+
+                                        {imageFile && <img
+                                            src={imagePreview}
+                                            alt='Uploaded Image'
                                             style={{
-                                                color: 'blue',
-                                                display: 'inline-block',
-                                                textDecoration: 'underline',
-                                                marginTop: '10px',
-                                                cursor: 'pointer'
+                                                width: '40%',
+                                                height: 'auto',
+                                                objectFit: 'cover'
                                             }}
-                                            onClick={removeFile}
-                                        >Remove File</span>
-                                    ) : null}
+                                        />}
+                                    </div>
                                 </FormGroup>
 
                                 <Button onClick={cancelClick}>Cancel</Button>
                                 <Button type='submit' color='primary' style={{ margin: '10px' }}>Save</Button>
+                                {savingPost && (<span>Saving, this will take a few seconds...</span>)}
                             </Form>
                         </Col>
                     </Row>
