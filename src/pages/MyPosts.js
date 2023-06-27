@@ -58,45 +58,65 @@ const MyPosts = () => {
                 </Row>
             </Container>
 
-            <Container className='homepage-section'>
-                <Row>
-                    <Col>
-                        {isLoading ? (
-                            <>
-                                <LoadingIcon style={{ color: 'teal' }} />
-                                <h4>Loading...</h4>
-                            </>
-                        ) : (
-                            userPosts.length > 0 ? (
-                                userPosts.map(post => (
-                                    <MyPostFormat
-                                        key={post._id}
-                                        uniqueId={post._id}
-                                        title={post.title}
-                                        subTitle={post.subTitle}
-                                        author={post.author}
-                                        paragraph={post.paragraph}
-                                        userPosts={userPosts}
-                                        setUserPosts={setUserPosts}
-                                        img={post.img}
-                                    />
-                                ))
-                            ) : (
+            {/* <Container className='homepage-section'> */}
+            {/* <Row>
+                    <Col> */}
+            {isLoading ? (
+                <>
+                    <LoadingIcon style={{ color: 'teal' }} />
+                    <h4>Loading...</h4>
+                </>
+            ) : (
+                userPosts.length > 0 ? (
+                    userPosts.map(post => (
+                        <MyPostFormat
+                            key={post._id}
+                            uniqueId={post._id}
+                            title={post.title}
+                            subTitle={post.subTitle}
+                            author={post.author}
+                            paragraph={post.paragraph}
+                            userPosts={userPosts}
+                            setUserPosts={setUserPosts}
+                            img={post.img}
+                        />
+                    ))
+                ) : (
+                    <Container className='homepage-section'>
+                        <Row>
+                            <Col>
                                 <h2>No posts have been made by you. Go make some!</h2>
-                            )
-                        )}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {userPosts.length > 0 && <Button
-                            onClick={deleteAllPosts}
-                            className='bg-danger'
-                        >Delete All Articles</Button>}
 
-                    </Col>
-                </Row>
-            </Container>
+                            </Col>
+                        </Row>
+                    </Container>
+
+                )
+            )}
+            {/* </Col>
+                </Row> */}
+            {/* <Row>
+                    <Col> */}
+
+            {userPosts.length > 0 && (
+                <Container className='homepage-section'>
+                    <Row>
+                        <Col>
+                            <Button
+                                onClick={deleteAllPosts}
+                                className='bg-danger'
+                            >Delete All Articles</Button>
+                        </Col>
+                    </Row>
+                </Container>
+            )}
+
+
+
+
+            {/* </Col>
+                </Row> */}
+            {/* </Container> */}
         </>
     )
 }

@@ -33,8 +33,8 @@ const Forums = () => {
     const fetchInputData = async () => {
         try {
             setIsLoading(true);
-
-            const inputSearchUrl = `https://api.boardgameatlas.com/api/forum?name=${inputValue}&sort_by=num_likes&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+            const inputSearchUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+            console.log('forums search: ', inputSearchUrl);
             const response = await fetch(inputSearchUrl);
             const jsonData = await response.json();
             setData(jsonData.posts);
@@ -55,7 +55,7 @@ const Forums = () => {
 
         setIsLoading(true);
 
-        const topGamesUrl = `https://api.boardgameatlas.com/api/forum?name=${inputValue}&sort_by=num_likes&ascending=false&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        const topGamesUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
         // For the Url, we add skip in case we move on to the next page.
         // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
 

@@ -10,7 +10,7 @@ const ForumSearch = ({ inputValue, setInputValue, setPage }) => {
         event.preventDefault();
         const entry = event.target.elements.searchGames.value;
         setInputValue(entry);
-        const searchUrl = `/browse/search/${entry}`;
+        const searchUrl = `/forums/search/${entry}`;
         window.history.pushState({ path: searchUrl }, '', searchUrl);
         setPage(1);
 
@@ -27,19 +27,20 @@ const ForumSearch = ({ inputValue, setInputValue, setPage }) => {
                 <Row>
                     <Col>
                         <h1>Board Game Atlas Forums</h1>
+                        <p style={{ fontSize: '18px' }}>Search for user posts and forums from the Board Game Atlas API. <span style={{ fontWeight: 'bold' }}>This is different from the Galore Posts Section</span>, as Galore Posts is where users from Bored Games Galore can write posts. To make a post on Board Game Atlas, please check out their site <a href='https://www.boardgameatlas.com' target='_blank'>here</a>. For more information on this API, check out the docs <a href='https://www.boardgameatlas.com/api/docs' target='_blank'> here</a>.</p>
                         <Form onSubmit={handleSubmit} className='d-flex'>
                             <Label htmlFor='searchGames' style={{ fontSize: '20px', textAlign: 'center' }}>Search Forums</Label>
-                            <Input id='searchGames'></Input>
-                            <Button type='submit'>Search</Button>
+                            <Input id='searchGames' placeholder='e.g. Catan, Monopoly, Ark Nova, etc.'></Input>
+                            <Button type='submit' style={{ margin: '10px 10px 10px 20px' }}>Search</Button>
                         </Form>
                     </Col>
                 </Row>
                 <Row>
                     <Col style={{ textAlign: 'center', padding: '10px', fontSize: '20px' }}>
-                        {inputValue ? (
+                        {inputValue && (
                             <>
                                 <h5>Showing Results for: {inputValue}</h5>
-                                <Link to={`${window.location.protocol}//${window.location.hostname}:3000/browse/page/1`}
+                                <Link to={`/forums/page/1`}
                                     onClick={() => {
                                         setInputValue('');
                                         setPage(1);
@@ -48,10 +49,7 @@ const ForumSearch = ({ inputValue, setInputValue, setPage }) => {
                                     Clear Results
                                 </Link>
                             </>
-                        ) : (
-                            null
-                        )
-                        }
+                        )}
                     </Col>
                 </Row>
             </Container>
