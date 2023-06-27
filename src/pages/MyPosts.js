@@ -58,13 +58,16 @@ const MyPosts = () => {
                 </Row>
             </Container>
 
-            {/* <Container className='homepage-section'> */}
-            {/* <Row>
-                    <Col> */}
             {isLoading ? (
                 <>
-                    <LoadingIcon style={{ color: 'teal' }} />
-                    <h4>Loading...</h4>
+                    <Container className='homepage-section'>
+                        <Row>
+                            <Col>
+                                <LoadingIcon style={{ color: 'teal' }} />
+                                <h4>Loading...</h4>
+                            </Col>
+                        </Row>
+                    </Container>
                 </>
             ) : (
                 userPosts.length > 0 ? (
@@ -93,10 +96,6 @@ const MyPosts = () => {
 
                 )
             )}
-            {/* </Col>
-                </Row> */}
-            {/* <Row>
-                    <Col> */}
 
             {userPosts.length > 0 && (
                 <Container className='homepage-section'>
@@ -110,13 +109,6 @@ const MyPosts = () => {
                     </Row>
                 </Container>
             )}
-
-
-
-
-            {/* </Col>
-                </Row> */}
-            {/* </Container> */}
         </>
     )
 }
