@@ -79,21 +79,27 @@ const Forums = () => {
 
     const fetchDataDefault = async () => {
 
-        setIsLoading(true);
-        const recentForums = `https://api.boardgameatlas.com/api/forum?limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&client_id=${clientId}`;
-        // For the Url, we add skip in case we move on to the next page.
-        // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
+        try {
+            setIsLoading(true);
+            const recentForums = `https://api.boardgameatlas.com/api/forum?limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&client_id=${clientId}`;
+            // For the Url, we add skip in case we move on to the next page.
+            // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
 
-        const response = await fetch(recentForums);
-        const jsonData = await response.json();
+            const response = await fetch(recentForums);
+            const jsonData = await response.json();
 
-        setData(jsonData.posts);
+            setData(jsonData.posts);
+        }
+        catch (error) {
+            console.log('error', error);
+        } finally {
+            setIsLoading(false);
+            setIsLoadingPageNums(false);
+        }
         if (!page) {
             setPage(1);
         }
-        console.log(recentForums);
-        setIsLoading(false);
-        setIsLoadingPageNums(false);
+
     };
 
 

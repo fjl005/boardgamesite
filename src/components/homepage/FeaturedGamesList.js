@@ -68,55 +68,25 @@ const FeaturedGamesList = () => {
             <Container className='homepage-section container-fluid'>
                 <h1>Featured Games</h1>
 
-                <InfiniteScroll
-                    dataLength={data.length}
-                    next={fetchData}
-                    hasMore={hasMore}
-                    className='infinite-scroll-featured-games'
-                >
+                {data && (
+                    <InfiniteScroll
+                        dataLength={data.length}
+                        next={fetchData}
+                        hasMore={hasMore}
+                        className='infinite-scroll-featured-games'
+                    >
 
-                    {data && data.map((game, idx) => (
-                        <div key={idx} style={{ padding: '20px' }}>
-                            <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
-                                <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }} />
-                                <h5 className='text-center' style={{ paddingTop: '10px', color: 'teal' }}>{game.name}</h5>
-                            </a>
-                            {/* <p>{game.description_preview}</p> */}
-                        </div>
-                    ))}
-                </InfiniteScroll>
-
-                {/* <Row>
-                    <Carousel
-                    className='featured-games-carousel'
-                    activeIndex={activeIndex}
-                    next={next}
-                    previous={previous}>
-                        <CarouselIndicators items={data} activeIndex={activeIndex} onClickHandler={goToIndex} />
-                        {slides}
-                        <CarouselControl direction='prev' directionText='Previous' onClickHandler={previous} />
-                        <CarouselControl direction='next' directionText='Next' onClickHandler={next} />
-                    </Carousel>
-
-                </Row> */}
-
-                {/* <Row>
-                    {data && data.map((game, idx) => (
-                        <Card key={idx}>
-                            <CardImg src={game.image_url} />
-                            <CardTitle>
-                                <h2>{game.name}</h2>
-                            </CardTitle>
-
-                            <CardBody>
-                                <p>{game.description_preview}</p>
-                            </CardBody>
-
-                            <img src={game.image_url} />
-                        </Card>
-                    ))}
-                </Row> */}
-
+                        {data && data.map((game, idx) => (
+                            <div key={idx} style={{ padding: '20px' }}>
+                                <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
+                                    <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }} />
+                                    <h5 className='text-center' style={{ paddingTop: '10px', color: 'teal' }}>{game.name}</h5>
+                                </a>
+                                {/* <p>{game.description_preview}</p> */}
+                            </div>
+                        ))}
+                    </InfiniteScroll>
+                )}
             </Container>
 
         </>
