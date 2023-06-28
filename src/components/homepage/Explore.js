@@ -22,10 +22,15 @@ const Explore = () => {
                         {/* <img src={boardGames} style={{ width: '100%', height: '400px', objectFit: 'cover' }} /> */}
                         <div style={{ position: 'relative', width: '100%' }}>
                             <LazyLoadImage
+                                style={{ objectFit: 'cover' }}
                                 src={boardGames}
-                                // placeholderSrc={lazyGrayImage}
-                                // effect='blur'
-                                style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+                                width='100%'
+                                height='400px'
+                                placeholderSrc={lazyGrayImage}
+                                effect='blur'
+                            />
+
+
                         </div>
 
                         <h4>An Amateur's Collection</h4>
@@ -44,8 +49,9 @@ const Explore = () => {
                                         >
                                             {/* <img src={item.img} className='explore-items-img' /> */}
                                             <LazyLoadImage
+                                                key={idx}
                                                 src={item.img}
-                                                // placeholderSrc={lazyGrayImage}
+                                                placeholderSrc={lazyGrayImage}
                                                 effect='blur'
                                                 className='explore-items-img'
                                             />
