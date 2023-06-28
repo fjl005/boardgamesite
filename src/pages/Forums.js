@@ -6,12 +6,15 @@ import { useParams } from "react-router-dom";
 import ForumSearch from "../components/forumpage/ForumSearch";
 import { convertDate } from "../utils/dateConvert";
 import LoadingIcon from "../components/allpages/LoadingIcon";
+import { useNavigate } from 'react-router-dom';
+
 
 const Forums = () => {
     const clientId = 'f24B6m6kXF';
     const pageSize = 50;
     const { forum } = useParams();
     const { currentPage } = useParams();
+    const navigate = useNavigate();
 
     // States
     const [data, setData] = useState([]);
@@ -32,17 +35,21 @@ const Forums = () => {
     // Side Effect, when search is done or when page is changed. Basically, whenever we need to access the api.
     useEffect(() => {
 
-        console.log('prev input: ', prevInputValue);
-        console.log('current input: ', inputValue);
-
         if (inputValue) {
-            fetchInputData();
+            if (inputValue.trim().length === 0) {
+                setInputValue(null);
+                fetchDataDefault();
+                navigate('/forums'); // Change the link to "/forums"
+            } else {
+                fetchInputData();
 
-            if (prevInputValue !== inputValue) {
-                setIsLoadingPageNums(true);
-                findTotalDataLength(controller);
-                setPrevInputValue(inputValue);
+                if (prevInputValue !== inputValue) {
+                    setIsLoadingPageNums(true);
+                    findTotalDataLength(controller);
+                    setPrevInputValue(inputValue);
+                }
             }
+
         } else {
             fetchDataDefault();
         }

@@ -115,7 +115,7 @@ const Browse = () => {
     }, [page, inputValue, selectedCategoryId]);
 
 
-    // Run when input is reset.
+    // Run when INPUT is reset.
     useEffect(() => {
         // This doesn't apply at initial render. 
         if (!initialRenderState) {
@@ -131,7 +131,7 @@ const Browse = () => {
         }
     }, [inputValue]);
 
-    // Run when the category is reset.
+    // Run when the CATEGORY is reset.
     useEffect(() => {
         if (!initialRenderState) {
             if (categoryReset) {
@@ -193,7 +193,6 @@ const Browse = () => {
                 setLookingUpResults(false);
                 setIsLoadingPageNums(false);
             } else {
-                // Otherwise, there is no need to filter. Just set the data to the json data response we received from our fetch call.
                 setData(data.games);
                 findTotalDataLength(controller);
             }

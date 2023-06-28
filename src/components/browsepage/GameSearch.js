@@ -1,17 +1,24 @@
 import { Label, Input, Button, Form } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
 const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue }) => {
 
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const entry = event.target.elements.searchGames.value;
-        setInputValue(entry);
-        const searchUrl = `/browse/search/${entry}`;
-        window.history.pushState({ path: searchUrl }, '', searchUrl);
+
+        if (entry.trim().length === 0) {
+            setInputValue(null);
+            navigate(`/browse`)
+        } else {
+            setInputValue(entry);
+            navigate(`/browse/search/${entry}`);
+        }
+
         setPage(1);
 
         // To clarify what's happening above...
