@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const ForumSearch = ({ inputValue, setInputValue, setPage }) => {
+const ForumSearch = ({ inputValue, setInputValue, setPage, lookingUpResults, fullLengthData, setFullLengthData }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -40,10 +40,21 @@ const ForumSearch = ({ inputValue, setInputValue, setPage }) => {
                         {inputValue && (
                             <>
                                 <h5>Showing Results for: {inputValue}</h5>
+                                <p>
+                                    {lookingUpResults ? (
+                                        <i>Looking up total search, one second...</i>
+                                    ) : fullLengthData >= 1000 ? (
+                                        <i>At least 1000 games found.</i>
+                                    ) : (
+                                        <i>{fullLengthData} results found. </i>
+                                    )}
+                                </p>
+
                                 <Link to={`/forums/page/1`}
                                     onClick={() => {
                                         setInputValue('');
                                         setPage(1);
+                                        setFullLengthData(10000);
                                     }}
                                 >
                                     Clear Results

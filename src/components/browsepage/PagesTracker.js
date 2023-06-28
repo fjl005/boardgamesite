@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import LoadingIcon from "../allpages/LoadingIcon";
 
-const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLengthData }) => {
+const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLengthData, dataType }) => {
 
     const pageNum = Number(page);
     let maxPages = Math.ceil(fullLengthData / 50);
@@ -9,16 +9,21 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
     if (maxPages === 0) {
         maxPages = 1;
     }
-    // console.log('full length data is: ', fullLengthData);
-    // console.log('max pages is: ', maxPages);
-
 
     // If there is already an input value (aka, you searched 'Catan'), then this will include a search/inputValue in the Url.
-    let browseSearchUrl;
-    if (inputValue) {
-        browseSearchUrl = `browse/search/${inputValue}`;
-    } else {
-        browseSearchUrl = `browse`;
+    let urlQuery;
+    if (dataType === 'games') {
+        if (inputValue) {
+            urlQuery = `browse/search/${inputValue}`;
+        } else {
+            urlQuery = 'browse';
+        }
+    } else if (dataType === 'forum') {
+        if (inputValue) {
+            urlQuery = `forums/search/${inputValue}`;
+        } else {
+            urlQuery = 'forums';
+        }
     }
 
     let needPageOne = null;
@@ -67,7 +72,7 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                 <div style={{ fontSize: '18px' }}>
                     {needPageOne && (
                         <>
-                            <Link to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${needPageOne}`} onClick={() => setPage(needPageOne)}>First Page</Link>
+                            <Link to={`/${urlQuery}/page/${needPageOne}`} onClick={() => setPage(needPageOne)}>First Page</Link>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </>
                     )}
@@ -77,21 +82,16 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                         <>
                             <span>{firstPage}</span>
                             {(secondPage <= maxPages) && ', '}
-                            {console.log('secondPage is: ', secondPage)}
-                            {console.log('page num is, ', pageNum)}
                         </>
 
 
                     ) : (
                         <>
                             <Link
-                                to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${firstPage}`}
+                                to={`/${urlQuery}/page/${firstPage}`}
                                 onClick={() => setPage(firstPage)}
                             >
                                 {firstPage}
-                                {console.log('page num: ', pageNum)}
-                                {console.log('first page: ', firstPage)}
-                                {console.log('max pages: ', maxPages)}
                             </Link>
                             {(secondPage <= maxPages) && ', '}
                         </>
@@ -104,13 +104,12 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                             <>
                                 <span>{secondPage}</span>
                                 {(thirdPage <= maxPages) && ', '}
-                                {console.log('secondPage is ', secondPage)}
                             </>
 
                         ) : (
                             <>
                                 <Link
-                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${secondPage}`}
+                                    to={`/${urlQuery}/page/${secondPage}`}
                                     onClick={() => setPage(secondPage)}
                                 >
                                     {secondPage}
@@ -132,7 +131,7 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                         ) : (
                             <>
                                 <Link
-                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${thirdPage}`}
+                                    to={`/${urlQuery}/page/${thirdPage}`}
                                     onClick={() => setPage(thirdPage)}
                                 >
                                     {thirdPage}
@@ -154,7 +153,7 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                         ) : (
                             <>
                                 <Link
-                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${fourthPage}`}
+                                    to={`/${urlQuery}/page/${fourthPage}`}
                                     onClick={() => setPage(fourthPage)}
                                 >
                                     {fourthPage}
@@ -176,7 +175,7 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                         ) : (
                             <>
                                 <Link
-                                    to={`${window.location.protocol}//${window.location.hostname}:3000/${browseSearchUrl}/page/${fifthPage}`}
+                                    to={`/${urlQuery}/page/${fifthPage}`}
                                     onClick={() => setPage(fifthPage)}
                                 >
                                     {fifthPage}

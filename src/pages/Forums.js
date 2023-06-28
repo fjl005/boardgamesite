@@ -1,7 +1,7 @@
 import Header from "../components/allpages/Header";
 import { Container, Row, Col, Label, Input, Button, Table } from "reactstrap";
 import { useState, useEffect } from "react";
-import PagesTrackerForum from "../components/forumpage/PagesTrackerForum";
+import PagesTracker from "../components/browsepage/PagesTracker";
 import { useParams } from "react-router-dom";
 import ForumSearch from "../components/forumpage/ForumSearch";
 import { convertDate } from "../utils/dateConvert";
@@ -17,23 +17,42 @@ const Forums = () => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(currentPage);
     const [inputValue, setInputValue] = useState(forum);
+    const [prevInputValue, setPrevInputValue] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingPageNums, setIsLoadingPageNums] = useState(true);
+    const [fullLengthData, setFullLengthData] = useState(10000);
+    const [lookingUpResults, setLookingUpResults] = useState(false);
+
+
+    // Controller used for abort when clear search is used.
+    const controller = new AbortController();
+    const [initialRenderState, setInitialRenderState] = useState(true);
 
 
     // Side Effect, when search is done or when page is changed. Basically, whenever we need to access the api.
     useEffect(() => {
+
+        console.log('prev input: ', prevInputValue);
+        console.log('current input: ', inputValue);
+
         if (inputValue) {
             fetchInputData();
+
+            if (prevInputValue !== inputValue) {
+                setIsLoadingPageNums(true);
+                findTotalDataLength(controller);
+                setPrevInputValue(inputValue);
+            }
         } else {
-            fetchPageChangeData();
+            fetchDataDefault();
         }
+
     }, [page, inputValue]);
 
     const fetchInputData = async () => {
         try {
             setIsLoading(true);
-            const inputSearchUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+            const inputSearchUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&fuzzy_match=true&client_id=${clientId}`;
             console.log('forums search: ', inputSearchUrl);
             const response = await fetch(inputSearchUrl);
             const jsonData = await response.json();
@@ -51,38 +70,110 @@ const Forums = () => {
         }
     };
 
-    const fetchPageChangeData = async () => {
+    const fetchDataDefault = async () => {
 
         setIsLoading(true);
-
-        const topGamesUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
+        const recentForums = `https://api.boardgameatlas.com/api/forum?limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&client_id=${clientId}`;
         // For the Url, we add skip in case we move on to the next page.
         // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
 
-        const response = await fetch(topGamesUrl);
+        const response = await fetch(recentForums);
         const jsonData = await response.json();
 
         setData(jsonData.posts);
         if (!page) {
             setPage(1);
         }
+        console.log(recentForums);
         setIsLoading(false);
         setIsLoadingPageNums(false);
+    };
+
+
+    const findTotalDataLength = async (controller) => {
+
+        let allDataLength = 0;
+        let offset = 0;
+        const limit = 100;
+        const upperLimit = 1000;
+
+        try {
+            while (!controller.signal.aborted || initialRenderState) {
+                setLookingUpResults(true);
+
+                let url = '';
+                if (inputValue) {
+                    // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
+                    url = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                } else {
+                    url = `https://api.boardgameatlas.com/api/forum?client_id=${clientId}&limit=${limit}&skip=${offset}`;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const checkDataLength = () => {
+                    return new Promise((resolve, reject) => {
+
+                        if (offset >= upperLimit) {
+                            allDataLength = upperLimit;
+                            resolve(true);
+                        } else {
+                            if (data.posts.length < 100) {
+                                allDataLength += data.posts.length;
+                                console.log('done, current length is: ', allDataLength);
+                                resolve(true);
+                            } else {
+                                offset += limit;
+                                allDataLength += data.posts.length;
+                                console.log('checking... current length is: ', allDataLength);
+                                console.log('input value: ', inputValue);
+                                resolve(false);
+                            }
+                        }
+                    })
+                }
+
+                // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
+                if (await checkDataLength()) {
+                    setFullLengthData(allDataLength);
+                    console.log('all data length: ', allDataLength);
+                    break;
+                }
+            }
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                console.log("Error:", error);
+            }
+        } finally {
+            setInitialRenderState(false);
+            setIsLoadingPageNums(false);
+            setLookingUpResults(false);
+        }
     };
 
     return (
         <>
             <Header />
-            <ForumSearch inputValue={inputValue} setInputValue={setInputValue} setPage={setPage} />
+            <ForumSearch
+                inputValue={inputValue}
+                setInputValue={setInputValue}
+                setPage={setPage}
+                lookingUpResults={lookingUpResults}
+                fullLengthData={fullLengthData}
+                setFullLengthData={setFullLengthData}
+            />
 
             <Container className='homepage-section'>
                 <Row>
                     <Col>
-                        <PagesTrackerForum
-                            currentPage={page}
+                        <PagesTracker
+                            page={page}
                             setPage={setPage}
                             inputValue={inputValue}
                             isLoadingPageNums={isLoadingPageNums}
+                            fullLengthData={fullLengthData}
+                            dataType='forum'
                         />
 
                     </Col>
@@ -159,10 +250,8 @@ const Forums = () => {
                             </Table>
                         </div>
 
-                        {(data.length > 0) ? (
-                            null
-                        )
-                            : (
+                        {(data.length === 0) &&
+                            (
                                 !isLoading && (
                                     <h1 className='text-center'>Error: Forum Not Found.</h1>
                                 )
