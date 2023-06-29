@@ -1,25 +1,15 @@
 import Header from "../components/allpages/Header";
-import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { concatTitle } from "../utils/concatTitle";
-import { useState } from "react";
 import { galorePostsData } from "../components/galorepostspage/galorePostsData";
 import GalorePostPopular from "../components/galorepostspage/GalorePostPopular";
+// import { LazyLoadImage } from 'react-lazy-load-image-component';
+// import lazyGrayImage from '../img/lazyGrayImage.png';
+// import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const GalorePosts = () => {
     const [concordiaPost, wingspanPost, strategyPost] = galorePostsData;
-    const [showModal, setShowModal] = useState(false);
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('for submitted');
-    }
-
-    const handleOpenModal = () => {
-        setShowModal(true);
-        console.log('handle open modal');
-    }
-
 
     return (
         <>
@@ -29,92 +19,10 @@ const GalorePosts = () => {
                     <Col>
                         <div className='d-flex justify-content-between'>
                             <h1>Posts from Bored Games Galore</h1>
-                            {/* <Button className='bg-primary'
-                                onClick={handleOpenModal}>Add Post</Button> */}
                         </div>
                     </Col>
                 </Row>
             </Container>
-
-            <Modal isOpen={showModal} toggle={() => setShowModal(false)} size='lg'>
-                <ModalHeader closeButton>
-                    Create a Post for Board Games Galore
-                </ModalHeader>
-                <ModalBody>
-                    <Form onSubmit={handleSubmit}>
-                        <FormGroup>
-                            <h3>Title Info</h3>
-                            <Label
-                                htmlFor='title'
-                                style={{ marginTop: '10px' }}>
-                                Title
-                            </Label>
-                            <Input
-                                name='title'
-                                id='title'
-                                placeholder='e.g. The Best Two-Player Board Games For Couples or Friends'
-                            />
-
-                            <Label
-                                htmlFor='subTitle'
-                                style={{ marginTop: '10px' }}
-                            >
-                                Short Hook Sentence
-                            </Label>
-                            <Input
-                                name='subTitle'
-                                id='subTitle'
-                                placeholder='e.g. Discover the top-rated two-player board games for a fun and convenient way to connect with a partner, friend, or family member.'
-                            />
-
-                            <Label
-                                htmlFor='author'
-                                style={{ marginTop: '10px' }}
-                            >
-                                Author (aka you!)
-                            </Label>
-                            <Input
-                                name='author'
-                                id='author'
-                                placeholder='e.g. Alex Johnson'
-                            />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <h3>Article</h3>
-                            <Label
-                                htmlFor='paragraph'
-                                style={{ marginTop: '10px' }}>
-                                Write Your Article Here!
-                            </Label>
-                            <Input
-                                name='paragraph'
-                                id='paragraph'
-                                type='textarea'
-                                placeholder='e.g. Board games are a great way to connect with others, but finding time for game nights can be tough. Luckily, two-player board games offer a fun and convenient way to spend quality time with a partner, friend, or family member. ...'
-                                rows={20}
-                            />
-                        </FormGroup>
-
-                        <FormGroup>
-                            <h3>Image</h3>
-                            <Input
-                                name='img'
-                                id='img'
-                                type='file'
-                                accept="image/*"
-                            />
-                        </FormGroup>
-
-                        <Button type='submit' color='primary'>Submit</Button>
-                    </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Close
-                    </Button>
-                </ModalFooter>
-            </Modal>
 
             <Container className='homepage-section-no-border'>
                 <Row>
@@ -127,7 +35,10 @@ const GalorePosts = () => {
                         <Link to={`/galoreposts/${concatTitle(concordiaPost.title)}`}>
                             <div
                                 className="galore-posts-highlight-container">
-                                <img src={concordiaPost.img} alt="Concordia" />
+                                <img
+                                    src={concordiaPost.img}
+                                    alt="Concordia"
+                                />
                                 <div class="galore-posts-img-overlay"></div>
                                 <div className="image-text">
                                     <h2>Concordia</h2>

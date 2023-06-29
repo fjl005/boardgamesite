@@ -9,24 +9,20 @@ const MyPosts = () => {
 
     const [userPosts, setUserPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    // const [userId, setUserId] = useState('');
-    // const [author, setAuthor] = useState('');
-    // const [title, setTitle] = useState('');
-    // const [subTitle, setSubTitle] = useState('');
-    // const [submissionTime, setSubmissionTime] = useState('');
-    // const [date, setDate] = useState('');
-    // const [img, setImg] = useState('');
-    // const [paragraph, setParagraph] = useState('');
+    const [serverDown, setServerDown] = useState(false);
 
     const fetchApiData = async () => {
         try {
             // const response = await axios.get('https://boardgames-api-attempt2.onrender.com/api');
             const response = await axios.get('http://localhost:5000/api');
-
             setUserPosts(response.data);
-            setIsLoading(false);
+            // In case server was down, this shouldn't be the case anymore. But honestly, I'm not even sure if this code is really necessary. 
+            // setServerDown(false);
         } catch (error) {
             console.error('Error: ', error);
+            setServerDown(true);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -88,8 +84,12 @@ const MyPosts = () => {
                     <Container className='homepage-section'>
                         <Row>
                             <Col>
-                                <h2>No posts have been made by you. Go make some!</h2>
+                                {serverDown ? (
+                                    <h2>Sorry for the technical difficulties...please refresh and try again. <br />If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank! We promise we are working as quickly as we can to fix it.</h2>
+                                ) : (
+                                    <h2>No posts have been made by you. Go make some!</h2>
 
+                                )}
                             </Col>
                         </Row>
                     </Container>

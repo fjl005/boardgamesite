@@ -21,7 +21,6 @@ const GalorePostPopular = ({ post }) => {
                 </Row>
                 <Row>
                     <Col className='d-flex justify-content-center'>
-                        {/* <img src={post.img} alt={post.title} className='galore-post-img' /> */}
                         <LazyLoadImage
                             src={post.img}
                             alt={post.title}

@@ -19,11 +19,11 @@ const Explore = () => {
                 </Row>
                 <Row>
                     <Col sm='12' xl='6'>
-                        {/* <img src={boardGames} style={{ width: '100%', height: '400px', objectFit: 'cover' }} /> */}
                         <div style={{ position: 'relative', width: '100%' }}>
                             <LazyLoadImage
                                 style={{ objectFit: 'cover' }}
                                 src={boardGames}
+                                alt=''
                                 width='100%'
                                 height='400px'
                                 placeholderSrc={lazyGrayImage}
@@ -47,10 +47,10 @@ const Explore = () => {
                                             to={`/galoreposts/${concatTitle(item.title)}`}
                                             style={{ textDecoration: 'none', color: 'black' }}
                                         >
-                                            {/* <img src={item.img} className='explore-items-img' /> */}
                                             <LazyLoadImage
                                                 key={idx}
                                                 src={item.img}
+                                                alt=''
                                                 placeholderSrc={lazyGrayImage}
                                                 effect='blur'
                                                 className='explore-items-img'
@@ -71,7 +71,6 @@ const Explore = () => {
                                 </li>
                             )
                             )}
-
                         </ul>
                     </Col>
                 </Row>

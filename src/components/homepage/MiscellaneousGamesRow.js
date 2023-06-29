@@ -5,6 +5,9 @@ import alone from '../../img/alone.jpg';
 import { Link } from "react-router-dom";
 import { concatTitle } from "../../utils/concatTitle";
 import { galorePostsData } from "../galorepostspage/galorePostsData";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import lazyGrayImage from '../../img/lazyGrayImage.png';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 
 const MiscellaneousGamesRow = () => {
@@ -24,7 +27,13 @@ const MiscellaneousGamesRow = () => {
                                 style={{ textDecoration: 'none', color: 'black' }}
                             >
                                 <h3>Coming Soon: Wingspan Antarctica {' '}</h3>
-                                <img src={penguins} width='100%' alt='cute penguins!' />
+                                <LazyLoadImage
+                                    src={penguins}
+                                    width='100%'
+                                    alt='Cute Penguins!'
+                                    placeholderSrc={lazyGrayImage}
+                                    effect='blur'
+                                />
                                 <p>"Well waddle you know, we're famous!"</p>
                             </Link>
                         </Col>
@@ -37,7 +46,13 @@ const MiscellaneousGamesRow = () => {
                                 style={{ textDecoration: 'none', color: 'black' }}
                             >
                                 <h3>Honest Review: The Best Game Ever?</h3>
-                                <img src={genericMeeples} width='100%' alt='generic board game image' />
+                                <LazyLoadImage
+                                    src={genericMeeples}
+                                    width='100%'
+                                    alt='Board Game Meeples'
+                                    placeholderSrc={lazyGrayImage}
+                                    effect='blur'
+                                />
                                 <p>Hint: it's not Monopoly.</p>
                             </Link>
                         </Col>
@@ -53,7 +68,14 @@ const MiscellaneousGamesRow = () => {
                             style={{ textDecoration: 'none', color: 'black' }}
                         >
                             <h3>Solo Games vs. with Friends?</h3>
-                            <img src={alone} alt='alone' width='100%' style={{ height: '330px' }} />
+                            <LazyLoadImage
+                                src={alone}
+                                alt='Alone Man'
+                                width='100%'
+                                style={{ height: '330px' }}
+                                placeholderSrc={lazyGrayImage}
+                                effect='blur'
+                            />
                         </Link>
                     </Col>
 

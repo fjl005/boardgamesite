@@ -5,6 +5,7 @@ import axios from 'axios';
 import cardsAndTrinkets from '../img/makePostImg/cardsAndTrinkets.jpg';
 import diceOnMap from '../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../img/makePostImg/foozballGame.jpg'
+import ReactTooltiop from 'react-tooltip';
 
 const MakePost = () => {
 
@@ -109,8 +110,6 @@ const MakePost = () => {
             // const response = await axios.post('https://boardgames-api-attempt2.onrender.com/api', formData);
             const response = await axios.post('http://localhost:5000/api', formData);
 
-
-            setIsSubmitting(false);
             if (response.data.error === 'title already exists') {
                 alert('Sorry, you must make a post with a different title name. That title name already exists in a previous post you made.');
             } else if (response.data.error === 'incomplete form') {
@@ -122,7 +121,10 @@ const MakePost = () => {
             }
 
         } catch (error) {
+            alert(`Sorry, there was a problem submitting your form. Please refresh and try again. If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank!`);
             console.log('Error: ', error);
+        } finally {
+            setIsSubmitting(false);
         }
     }
 
@@ -301,22 +303,34 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                     }}
                                 >
                                     {imagesSelection.map((img, idx) => (
-                                        <img
+                                        <div
                                             key={idx}
-                                            src={img}
-                                            alt='selection image'
                                             style={{
+                                                position: 'relative',
+                                                display: 'inline-block',
                                                 width: '30%',
-                                                border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none',
-                                                height: '250px',
-                                                objectFit: 'cover'
+                                                height: '250px'
                                             }}
-                                            onClick={() => handleImageClick(idx)}
-                                        />
+                                        >
+                                            <img
+                                                src={img}
+                                                alt='selection image'
+                                                style={{
+                                                    position: 'asbolute',
+                                                    width: '100%',
+                                                    border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none',
+                                                    height: '250px',
+                                                    objectFit: 'cover',
+                                                }}
+                                                onClick={() => handleImageClick(idx)}
+                                            />
+
+                                            {imageFile && (<div
+                                                class="galore-posts-img-overlay"
+                                                onClick={() => alert('You already have an image uploaded. Please remove that file if you want to use one of the default images here.')}></div>)}
+                                        </div>
                                     ))}
-
                                 </div>
-
 
                                 <Input
                                     name='img'
