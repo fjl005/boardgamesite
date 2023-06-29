@@ -17,9 +17,8 @@ const GalorePosts = () => {
             <Container className='homepage-section'>
                 <Row>
                     <Col>
-                        <div className='d-flex justify-content-between'>
-                            <h1>Posts from Bored Games Galore</h1>
-                        </div>
+                        <h1>Posts from Bored Games Galore</h1>
+                        <p>Welcome to the Galore Posts Section! <strong>This part of the site does NOT use the Board Game Atlas API.</strong> Instead, this is all data made by Frank. Trending and popular posts are shown here. If you want to contribute, then feel free to make a post in the "Make a Post" section. Your posts will be shown in the "My Posts" section. After careful review, your post may be eligible to the Trending and/or Popular Section!</p>
                     </Col>
                 </Row>
             </Container>

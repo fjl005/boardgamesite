@@ -5,17 +5,21 @@ import axios from 'axios';
 import cardsAndTrinkets from '../img/makePostImg/cardsAndTrinkets.jpg';
 import diceOnMap from '../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../img/makePostImg/foozballGame.jpg'
-import ReactTooltiop from 'react-tooltip';
+import { Tooltip } from 'react-tooltip';
+// import cloudinary from 'cloudinary';
+
 
 const MakePost = () => {
 
-    const [userPost, setUserPost] = useState([]);
-    const [userId, setUserId] = useState('');
+    // cloudinary.config({
+    //     cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
+    //     api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
+    //     api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
+    // });
+
     const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');
     const [subTitle, setSubTitle] = useState('');
-    const [submissionTime, setSubmissionTime] = useState('');
-    const [date, setDate] = useState('');
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1); // For storing the index of the selected image
@@ -51,7 +55,6 @@ const MakePost = () => {
             }
         } else {
             setSelectedImageIdx(-1);
-            alert('You already have an image uploaded. Please remove that file if you want to use one of the default images here.');
         }
     };
 
@@ -79,7 +82,6 @@ const MakePost = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);
-
         try {
             // Create a formData object to append the text-based form fields and the image file together.
             const formData = new FormData();
@@ -104,7 +106,10 @@ const MakePost = () => {
                         formData.append('publicId', data.public_id);
                         formData.append('img', data.url);
                     })
-                    .catch(error => console.log('error when posting: ', error));
+                    .catch(error => {
+                        console.log('error when posting to cloudinary: ', error);
+                        alert('There was an error uploading your image. Please try again. If the problem persists, then it may be due to a server error. Please contact Frank if that is the case');
+                    });
             }
 
             // const response = await axios.post('https://boardgames-api-attempt2.onrender.com/api', formData);
@@ -127,6 +132,15 @@ const MakePost = () => {
             setIsSubmitting(false);
         }
     }
+
+    // const deleteImageCloudinary = async (e) => {
+    //     e.preventDefault();
+    //     cloudinary.v2.uploader.destroy(imageData.public_id, function (error, result) {
+    //         console.log(result, error)
+    //     })
+    //         .then(resp => console.log(resp))
+    //         .catch(_err => console.log("Something went wrong, please try again later."));
+    // }
 
     const autofillCorrect = () => {
         setTitle('AdventureQuest: Unleash Your Imagination and Conquer Epic Quests');
@@ -171,16 +185,13 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
         setParagraph('');
     }
 
-
     return (
         <>
             <Header />
             <Container className='homepage-section'>
                 <Row>
                     <Col>
-                        <div className='d-flex justify-content-between'>
-                            <h1>Make a Post on Bored Games Galore</h1>
-                        </div>
+                        <h1>Make a Post on Bored Games Galore</h1>
                     </Col>
                 </Row>
             </Container>
@@ -219,7 +230,6 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                 <Row>
                     <Col>
                         <h4>A partially completed form should NOT work.</h4>
-
                         <Button onClick={autofillPartial}>4</Button>
                         <p>Autofills partially. After clicking the '4' button, hit submit down below the page. The form should NOT work because all written entries are required.. </p>
                     </Col>
@@ -326,20 +336,47 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                             />
 
                                             {imageFile && (<div
-                                                class="galore-posts-img-overlay"
-                                                onClick={() => alert('You already have an image uploaded. Please remove that file if you want to use one of the default images here.')}></div>)}
+                                                className="galore-posts-img-overlay"
+                                                data-tooltip-id='image-upload-exists'
+                                                data-tooltip-content='You already have an image uploaded. Please remove it if you want to select a default image here.'
+                                            >
+                                            </div>)}
+
+                                            <Tooltip id='image-upload-exists' />
                                         </div>
                                     ))}
                                 </div>
 
-                                <Input
-                                    name='img'
-                                    id='img'
-                                    type='file'
-                                    accept="image/*"
-                                    onChange={handleImageChange}
-                                    disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
-                                />
+                                <div>
+                                    {selectedImageIdx > -1 ? (
+                                        <>
+                                            {/* Show tooltip of image upload being disabled if an image is selected */}
+                                            <div
+                                                data-tooltip-id='image-selection-exists'
+                                                data-tooltip-content='You already have an image uploaded. Please remove it if you want to select a default image above.'
+                                            >
+                                                <Input
+                                                    name='img'
+                                                    id='img'
+                                                    type='file'
+                                                    accept="image/*"
+                                                    onChange={handleImageChange}
+                                                    disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
+                                                />
+                                            </div>
+                                            <Tooltip id='image-selection-exists' place='bottom' />
+                                        </>
+                                    ) : (
+                                        <Input
+                                            name='img'
+                                            id='img'
+                                            type='file'
+                                            accept="image/*"
+                                            onChange={handleImageChange}
+                                            disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
+                                        />
+                                    )}
+                                </div>
 
                                 <div className='d-flex flex-column'>
                                     {imageFile && (
@@ -369,11 +406,11 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                             </FormGroup>
 
                             <Button type='submit' color='primary'>Submit</Button>
-                            {isSubmitting ? (
-                                <>
-                                    <span style={{ marginLeft: '5px' }}>Submitting, this will take a few seconds...</span>
-                                </>
-                            ) : null}
+                            {isSubmitting && (
+                                <span style={{ marginLeft: '5px' }}>
+                                    Submitting, this will take a few seconds...
+                                </span>
+                            )}
                         </Form>
                     </Col>
                 </Row>
@@ -382,4 +419,4 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
     )
 }
 
-export default MakePost
+export default MakePost;
