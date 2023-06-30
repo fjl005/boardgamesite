@@ -4,11 +4,14 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import MyPostFormat from '../components/mypostspage/MyPostFormat';
 import LoadingIcon from '../components/allpages/LoadingIcon';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 
 const MyPosts = () => {
 
     const [userPosts, setUserPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [serverDown, setServerDown] = useState(false);
 
     const fetchApiData = async () => {
@@ -32,12 +35,17 @@ const MyPosts = () => {
 
     const deleteAllPosts = async () => {
         try {
+            setIsDeleting(true);
             // await axios.delete('https://boardgames-api-attempt2.onrender.com/api');
+            // I need to do a get request instead of a delete in order to retrieve all the user posts data.
+            // await axios.delete('http://localhost:5000/cloudinary');
             await axios.delete('http://localhost:5000/api');
             alert('All of your posts have been deleted!')
             fetchApiData();
         } catch (error) {
             console.log(error)
+        } finally {
+            setIsDeleting(false);
         }
     }
 
@@ -101,10 +109,27 @@ const MyPosts = () => {
                 <Container className='homepage-section'>
                     <Row>
                         <Col>
-                            <Button
-                                onClick={deleteAllPosts}
-                                className='bg-danger'
-                            >Delete All Articles</Button>
+                            <div className='d-flex'>
+                                <Button
+                                    onClick={deleteAllPosts}
+                                    className='bg-danger'
+                                >Delete All Articles</Button>
+
+                                {isDeleting && (
+                                    <div>
+                                        <span style={{ marginLeft: '5px' }}>
+                                            Deleting all posts, this may take a few seconds...
+                                        </span>
+                                        <FontAwesomeIcon
+
+                                            icon={faSpinner}
+                                            spin size='2x'
+                                            color='red'
+                                            style={{ marginLeft: '10px', display: 'inline' }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
                         </Col>
                     </Row>
                 </Container>

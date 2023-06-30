@@ -6,16 +6,22 @@ import cardsAndTrinkets from '../img/makePostImg/cardsAndTrinkets.jpg';
 import diceOnMap from '../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../img/makePostImg/foozballGame.jpg'
 import { Tooltip } from 'react-tooltip';
+import { Cloudinary } from 'cloudinary-core';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+
 // import cloudinary from 'cloudinary';
 
 
 const MakePost = () => {
 
-    // cloudinary.config({
-    //     cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME,
-    //     api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
-    //     api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
-    // });
+    const cloudinary = Cloudinary.new({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME });
+
+
+    cloudinary.config({
+        api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
+        api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
+    });
 
     const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');
@@ -82,10 +88,11 @@ const MakePost = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);
+        // Create a formData object to append the text-based form fields and the image file together.
+        const formData = new FormData();
+        const formDataImg = new FormData();
+
         try {
-            // Create a formData object to append the text-based form fields and the image file together.
-            const formData = new FormData();
-            const formDataImg = new FormData();
             formData.append('title', title);
             formData.append('subTitle', subTitle);
             formData.append('author', author);
@@ -97,22 +104,17 @@ const MakePost = () => {
             } else if (imageFile) {
                 formDataImg.append('file', imageFile);
                 formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-                // Just wanted to try fetching without axios, so that I know what axios is doing and the code it's saving me to write!
-                const imgData = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-                    method: 'POST',
-                    body: formDataImg
-                }).then(response => response.json())
+
+                const imgData = await axios.post('http://localhost:5000/cloudinary')
+                    .then(() => axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg))
+                    .then(response => response.data)
                     .then(data => {
                         formData.append('publicId', data.public_id);
                         formData.append('img', data.url);
                     })
-                    .catch(error => {
-                        console.log('error when posting to cloudinary: ', error);
-                        alert('There was an error uploading your image. Please try again. If the problem persists, then it may be due to a server error. Please contact Frank if that is the case');
-                    });
+                    .catch(error => console.log('Error when posting to Cloudinary: ', error));
             }
 
-            // const response = await axios.post('https://boardgames-api-attempt2.onrender.com/api', formData);
             const response = await axios.post('http://localhost:5000/api', formData);
 
             if (response.data.error === 'title already exists') {
@@ -128,19 +130,20 @@ const MakePost = () => {
         } catch (error) {
             alert(`Sorry, there was a problem submitting your form. Please refresh and try again. If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank!`);
             console.log('Error: ', error);
+            const deleteImgCloudinary = await axios.delete(`http:/localhost:5000/cloudinary/${formData.get('publicId')}`);
+
+            // console.log('formData public Id: ', formData.get('publicId'));
+
+            // // Delete image posted on cloudinary.
+            // cloudinary.uploader
+            //     .destroy(formData.get('publicId'))
+            //     .then(result => console.log(result))
+            //     .catch(err => console.log(err));
         } finally {
             setIsSubmitting(false);
         }
     }
 
-    // const deleteImageCloudinary = async (e) => {
-    //     e.preventDefault();
-    //     cloudinary.v2.uploader.destroy(imageData.public_id, function (error, result) {
-    //         console.log(result, error)
-    //     })
-    //         .then(resp => console.log(resp))
-    //         .catch(_err => console.log("Something went wrong, please try again later."));
-    // }
 
     const autofillCorrect = () => {
         setTitle('AdventureQuest: Unleash Your Imagination and Conquer Epic Quests');
@@ -405,12 +408,23 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
 
                             </FormGroup>
 
-                            <Button type='submit' color='primary'>Submit</Button>
-                            {isSubmitting && (
-                                <span style={{ marginLeft: '5px' }}>
-                                    Submitting, this will take a few seconds...
-                                </span>
-                            )}
+                            <div className='d-flex'>
+                                <Button type='submit' color='primary'>Submit</Button>
+                                {isSubmitting && (
+                                    <div>
+                                        <span style={{ marginLeft: '5px' }}>
+                                            Submitting, this may take a few seconds...
+                                        </span>
+                                        <FontAwesomeIcon
+                                            icon={faSpinner}
+                                            spin size='2x'
+                                            color='teal'
+                                            style={{ marginLeft: '10px' }}
+                                        />
+                                    </div>
+                                )}
+                            </div>
+
                         </Form>
                     </Col>
                 </Row>

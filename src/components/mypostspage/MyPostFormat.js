@@ -23,6 +23,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     const deleteSinglePost = async (uniqueId) => {
         try {
             // await axios.delete(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
+            await axios.delete(`http://localhost:5000/cloudinary/${uniqueId}`);
             await axios.delete(`http://localhost:5000/api/${uniqueId}`);
             console.log('post deleted');
             setUserPosts(userPosts.filter(post => post._id !== uniqueId));
