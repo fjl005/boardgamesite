@@ -1,22 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSpinner } from "@fortawesome/free-solid-svg-icons"
 
-const LoadingIcon = () => {
+const LoadingIconPost = ({ color, marginLeft }) => {
     return (
         <div style={{
-            display: 'flex',
-            // display: 'inline',
-            justifyContent: 'center',
-            alignItems: 'center'
+            display: 'inline',
+            marginLeft: marginLeft
         }}>
             <FontAwesomeIcon
                 icon={faSpinner}
                 spin size='2x'
-                marginTop='100px'
-                color='teal'
+                color={color}
             />
         </div>
     )
 }
 
-export default LoadingIcon;
+export default LoadingIconPost;

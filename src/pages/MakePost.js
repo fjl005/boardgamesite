@@ -7,11 +7,7 @@ import diceOnMap from '../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../img/makePostImg/foozballGame.jpg'
 import { Tooltip } from 'react-tooltip';
 import { Cloudinary } from 'cloudinary-core';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSpinner } from "@fortawesome/free-solid-svg-icons"
-
-// import cloudinary from 'cloudinary';
-
+import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
 
 const MakePost = () => {
 
@@ -412,15 +408,14 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                 <Button type='submit' color='primary'>Submit</Button>
                                 {isSubmitting && (
                                     <div>
-                                        <span style={{ marginLeft: '5px' }}>
+                                        <LoadingIconPost
+                                            color='teal'
+                                            marginLeft='10px'
+                                        />
+                                        <span style={{ marginLeft: '10px' }}>
                                             Submitting, this may take a few seconds...
                                         </span>
-                                        <FontAwesomeIcon
-                                            icon={faSpinner}
-                                            spin size='2x'
-                                            color='teal'
-                                            style={{ marginLeft: '10px' }}
-                                        />
+
                                     </div>
                                 )}
                             </div>

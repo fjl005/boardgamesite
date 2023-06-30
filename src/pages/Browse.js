@@ -359,7 +359,7 @@ const Browse = () => {
                                     color: 'teal'
                                 }}
                                 >
-                                    <LoadingIcon style={{ color: 'teal' }} />
+                                    <LoadingIcon />
                                     <h3 style={{ marginLeft: '0.5rem' }}>Searching Pages
                                         {selectedCategory ? ` for "${selectedCategory}"` : null}, this may take a moment...</h3>
                                 </div>
@@ -457,7 +457,6 @@ const Browse = () => {
                                                 <td>{(game.average_user_rating).toFixed(2)}</td>
                                                 <td>{game.num_user_ratings}</td>
                                                 <td>{game.price}</td>
-
                                             </tr>
                                         ))
                                     )}

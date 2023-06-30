@@ -5,20 +5,24 @@ import { Link, useLocation } from "react-router-dom";
 import cardsAndTrinkets from '../../img/makePostImg/cardsAndTrinkets.jpg';
 import diceOnMap from '../../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../../img/makePostImg/foozballGame.jpg'
+import LoadingIconPost from './LoadingIconPost';
+import { Tooltip } from 'react-tooltip';
 
 
-const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts, setUserPosts, img }) => {
+const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts, setUserPosts, img, publicId }) => {
 
     const [newTitle, setNewTitle] = useState(title);
     const [newSubTitle, setNewSubTitle] = useState(subTitle);
     const [newAuthor, setNewAuthor] = useState(author);
     const [newParagraph, setNewParagraph] = useState(paragraph);
+    const [currentImage, setCurrentImage] = useState(img);
     const [imageFile, setImageFile] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1);
     const [savingPost, setSavingPost] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
+    const [removedCurrentImg, setRemovedCurrentImg] = useState(false);
 
-    const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app/';
+    // const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app/';
 
     const deleteSinglePost = async (uniqueId) => {
         try {
@@ -45,6 +49,8 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
         setNewSubTitle(subTitle);
         setNewAuthor(author);
         setNewParagraph(paragraph);
+        setRemovedCurrentImg(false);
+        imageResetNoChange();
     }
 
     const viewArticle = () => {
@@ -60,32 +66,45 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             const formDataImg = new FormData();
 
             // This will be used later, when we try to display the new image on the browser after edit is saved.
-            let newImg;
+            let newImg = 'null';
 
             // If an image was selected from the selection, set the new image to that image.
             if (selectedImageIdx !== -1) {
+                console.log('selected image idx: ', selectedImageIdx);
+                console.log('is this it?')
+                // Delete the original image on file, if it was an uploaded image to Cloudinary.
+                deleteCurrentImgCloudinary();
+
                 newImg = imagesSelection[selectedImageIdx];
                 formData.append('img', newImg);
             }
             // Otherwise, check if there is an image file. That will be the new image, and we will also post this to Cloudinary. 
             else if (imageFile) {
+                console.log('hello?')
+                // Delete the original image on file, if it was an uploaded image to Cloudinary.
+                deleteCurrentImgCloudinary();
+
                 formDataImg.append('file', imageFile);
                 formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
-                // Just wanted to try fetching without axios, so that I know what axios is doing and the code it's saving me to write!
-                const imgData = await fetch(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, {
-                    method: 'POST',
-                    body: formDataImg
-                }).then(response => response.json())
+
+                const imgData = await axios.post('http://localhost:5000/cloudinary')
+                    .then(() => axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg))
+                    .then(response => response.data)
                     .then(data => {
                         formData.append('publicId', data.public_id);
+                        formData.append('img', data.url);
                         newImg = data.url;
-                        formData.append('img', newImg);
                     })
-                    .catch(error => console.log('error when posting: ', error));
+                    .catch(error => console.log('Error when posting to Cloudinary: ', error));
             }
-            // Lastly, check if nothing was changed and if an image was there from the start. If so, then the new image will remain as the current image
-            else if (img) {
+            // We also need to check if there was already an image, and the current image was not removed. Aka, we did nothing to our image. 
+            else if (img && !removedCurrentImg) {
+                console.log('waddup')
                 newImg = img;
+                formData.append('img', newImg);
+            } else {
+                // Otherwise, the image was probably removed, or there was no image from the start. 
+                deleteCurrentImgCloudinary();
                 formData.append('img', newImg);
             }
 
@@ -93,7 +112,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             formData.append('subTitle', newSubTitle);
             formData.append('author', newAuthor);
             formData.append('paragraph', newParagraph);
-
 
             const response = await axios.put(`http://localhost:5000/api/${uniqueId}`, formData);
 
@@ -121,12 +139,12 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                 togglePost();
                 alert('Post has been updated!!');
             }
+            imageResetNoChange();
             setSavingPost(false);
 
         } catch (error) {
             console.log('Error: ', error);
             setSavingPost(false);
-
         }
     }
 
@@ -135,6 +153,19 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
         foozballGame,
         diceOnMap
     ];
+
+    const imageResetNoChange = () => {
+        setRemovedCurrentImg(false);
+        setImageFile(null);
+        setSelectedImageIdx(-1);
+    }
+
+    const deleteCurrentImgCloudinary = async () => {
+        console.log('public Id: ', publicId);
+        if (publicId) {
+            await axios.delete(`http://localhost:5000/cloudinary/${uniqueId}`);
+        }
+    }
 
     const handleImageChange = (event) => {
         if (selectedImageIdx > -1) {
@@ -183,6 +214,10 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             fileInput.value = ''; // Clear the file input value to remove the selected file
         }
     };
+
+    const removeCurrentImage = () => {
+        setRemovedCurrentImg(true);
+    }
 
 
     return (
@@ -253,21 +288,44 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                 </FormGroup>
 
                                 <FormGroup>
-                                    {img && (
-                                        <div className='text-center'>
-                                            <h3>Current Image Shown Below</h3>
-                                            <img
-                                                src={img}
-                                                alt='Uploaded Image'
-                                                style={{
-                                                    width: '40%',
-                                                    height: 'auto',
-                                                    objectFit: 'cover'
-                                                }}
-                                            />
+                                    {img !== 'null' && (
+                                        <div>
+                                            <div className='text-center'>
+
+                                                {img !== 'null' && (
+                                                    <>
+                                                        <h2>Original Image Shown Below</h2>
+                                                        {removedCurrentImg ? (
+                                                            <h4>Current Image Absent or Deleted</h4>
+                                                        ) : (
+                                                            <>
+                                                                <img
+                                                                    src={img}
+                                                                    alt='Current Image'
+                                                                    style={{
+                                                                        width: '40%',
+                                                                        height: 'auto',
+                                                                        objectFit: 'cover'
+                                                                    }}
+                                                                />
+                                                                <p className='text-center'
+                                                                    style={{
+                                                                        color: 'blue',
+                                                                        textDecoration: 'underline',
+                                                                        marginTop: '10px',
+                                                                        cursor: 'pointer'
+                                                                    }}
+                                                                    onClick={removeCurrentImage}
+                                                                >Remove Curret Image</p>
+                                                            </>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
                                         </div>
                                     )}
-                                    <h3 style={{ marginTop: '15px' }}>Change Image (this currently doesn't work. Am still working on it!)</h3>
+
+                                    <h3 style={{ marginTop: '15px' }}>Change Image</h3>
                                     <h5>Either select an image below, or upload your own image!</h5>
                                     <div className='d-flex'
                                         style={{
@@ -276,6 +334,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                             marginBottom: '10px'
                                         }}
                                     >
+
                                         {imagesSelection.map((img, idx) => (
                                             <img
                                                 key={idx}
@@ -290,7 +349,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                                 onClick={() => handleImageClick(idx)}
                                             />
                                         ))}
-
                                     </div>
 
                                     <Input
@@ -329,8 +387,17 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                 </FormGroup>
 
                                 <Button onClick={cancelClick}>Cancel</Button>
-                                <Button type='submit' color='primary' style={{ margin: '10px' }}>Save</Button>
-                                {savingPost && (<span>Saving, this will take a few seconds...</span>)}
+                                <div style={{ display: 'inline-flex', alignItems: 'center' }}>
+                                    <Button type='submit' color='primary' style={{ margin: '10px' }}>Save</Button>
+                                    {savingPost && (
+                                        <>
+                                            <LoadingIconPost color='teal' marginLeft='0' />
+                                            <span style={{ marginLeft: '10px' }}>Saving, this will take a few seconds...</span>
+                                        </>
+                                    )}
+                                </div>
+
+
                             </Form>
                         </Col>
                     </Row>
@@ -350,18 +417,19 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                         </Col>
                     </Row>
 
-                    {img &&
+                    {img !== 'null' && (
                         <Row>
                             <Col>
+                                {console.log('img: ', img)}
+                                {console.log('type of img: ', typeof (img))}
                                 <img
                                     src={`${img}`}
                                     alt={`image for ${title}`}
                                     className='galore-post-img'
                                 />
-                                {console.log('imgUrl is: ', img)}
                             </Col>
                         </Row>
-                    }
+                    )}
 
                     <Row>
                         <Col>

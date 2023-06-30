@@ -60,7 +60,7 @@ const MyPostArticle = () => {
                 {articleData.imgUrl != 'https://boardgames-api-attempt2.onrender.com/undefined' ? (
                     <Row>
                         <Col>
-                            {articleData.img && (<img
+                            {articleData.img !== 'null' && (<img
                                 src={articleData.img}
                                 alt={`image for ${articleData.title}`}
                                 className='galore-post-img' />

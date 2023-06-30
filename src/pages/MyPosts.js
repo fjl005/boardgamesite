@@ -3,9 +3,9 @@ import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reac
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import MyPostFormat from '../components/mypostspage/MyPostFormat';
-import LoadingIcon from '../components/allpages/LoadingIcon';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faSpinner } from "@fortawesome/free-solid-svg-icons"
+import LoadingIcon from "../components/allpages/LoadingIcon";
+import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
+
 
 const MyPosts = () => {
 
@@ -86,6 +86,7 @@ const MyPosts = () => {
                             userPosts={userPosts}
                             setUserPosts={setUserPosts}
                             img={post.img}
+                            publicId={post.publicId}
                         />
                     ))
                 ) : (
@@ -117,16 +118,10 @@ const MyPosts = () => {
 
                                 {isDeleting && (
                                     <div>
-                                        <span style={{ marginLeft: '5px' }}>
+                                        <LoadingIconPost color='red' marginLeft='10px' />
+                                        <span style={{ marginLeft: '10px' }}>
                                             Deleting all posts, this may take a few seconds...
                                         </span>
-                                        <FontAwesomeIcon
-
-                                            icon={faSpinner}
-                                            spin size='2x'
-                                            color='red'
-                                            style={{ marginLeft: '10px', display: 'inline' }}
-                                        />
                                     </div>
                                 )}
                             </div>
