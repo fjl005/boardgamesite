@@ -57,27 +57,38 @@ const Forums = () => {
     }, [page, inputValue]);
 
     const fetchInputData = async () => {
+
+
         try {
+
             setIsLoading(true);
+
+            if (!page) {
+                setPage(1);
+            }
+
             const inputSearchUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&fuzzy_match=true&client_id=${clientId}`;
             console.log('forums search: ', inputSearchUrl);
             const response = await fetch(inputSearchUrl);
             const jsonData = await response.json();
             setData(jsonData.posts);
+
+            setIsLoading(false);
+            setIsLoadingPageNums(false);
         } catch (error) {
             console.log('error', error);
         } finally {
-            setIsLoading(false);
-            setIsLoadingPageNums(false);
+
         }
 
         // So again, the pattern is: (1) set up a use effect since all api calls are side effects. Then we will fetch the data by creating an async function. In the async function, we fetch the url and await the promise (which would be the response). Once we receive the response, we need to convert it to JSON. 
-        if (!page) {
-            setPage(1);
-        }
+
     };
 
     const fetchDataDefault = async () => {
+        if (!page) {
+            setPage(1);
+        }
 
         try {
             setIsLoading(true);
@@ -89,17 +100,13 @@ const Forums = () => {
             const jsonData = await response.json();
 
             setData(jsonData.posts);
-        }
-        catch (error) {
-            console.log('error', error);
-        } finally {
+
             setIsLoading(false);
             setIsLoadingPageNums(false);
         }
-        if (!page) {
-            setPage(1);
+        catch (error) {
+            console.log('error', error);
         }
-
     };
 
 
@@ -263,13 +270,11 @@ const Forums = () => {
                             </Table>
                         </div>
 
-                        {(data.length === 0) &&
-                            (
-                                !isLoading && (
-                                    <h1 className='text-center'>Error: Forum Not Found.</h1>
-                                )
-                            )
-                        }
+                        {isLoading ? (
+                            <h1 className='text-center'>Loading...</h1>
+                        ) : (data.length === 0 && (
+                            <h1 className='text-center'>Error: Forum Not Found.</h1>
+                        ))}
                     </Col>
                 </Row>
 

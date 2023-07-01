@@ -288,11 +288,11 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                 </FormGroup>
 
                                 <FormGroup>
-                                    {img !== 'null' && (
+                                    {(img !== 'null' && img !== undefined) && (
                                         <div>
                                             <div className='text-center'>
 
-                                                {img !== 'null' && (
+                                                {(img !== 'null' && img !== undefined) && (
                                                     <>
                                                         <h2>Original Image Shown Below</h2>
                                                         {removedCurrentImg ? (
@@ -316,7 +316,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                                                         cursor: 'pointer'
                                                                     }}
                                                                     onClick={removeCurrentImage}
-                                                                >Remove Curret Image</p>
+                                                                >Remove Current Image</p>
                                                             </>
                                                         )}
                                                     </>
@@ -336,29 +336,70 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                     >
 
                                         {imagesSelection.map((img, idx) => (
-                                            <img
+                                            <div
                                                 key={idx}
-                                                src={img}
-                                                alt='selection image'
                                                 style={{
+                                                    position: 'relative',
+                                                    display: 'inline-block',
                                                     width: '30%',
-                                                    border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none',
-                                                    height: '250px',
-                                                    objectFit: 'cover'
+                                                    height: '250px'
                                                 }}
-                                                onClick={() => handleImageClick(idx)}
-                                            />
+                                            >
+                                                <img
+                                                    src={img}
+                                                    alt='selection image'
+                                                    style={{
+                                                        position: 'asbolute',
+                                                        width: '100%',
+                                                        border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none',
+                                                        height: '250px',
+                                                        objectFit: 'cover',
+                                                    }}
+                                                    onClick={() => handleImageClick(idx)}
+                                                />
+
+                                                {imageFile && (<div
+                                                    className="galore-posts-img-overlay"
+                                                    data-tooltip-id='image-upload-exists'
+                                                    data-tooltip-content='You already have an image uploaded. Please remove it if you want to select a default image here.'
+                                                >
+                                                </div>)}
+
+                                                <Tooltip id='image-upload-exists' />
+                                            </div>
                                         ))}
                                     </div>
 
-                                    <Input
-                                        name='img'
-                                        id='img'
-                                        type='file'
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                        disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
-                                    />
+                                    <div>
+                                        {selectedImageIdx > -1 ? (
+                                            <>
+                                                {/* Show tooltip of image upload being disabled if an image is selected */}
+                                                <div
+                                                    data-tooltip-id='image-selection-exists'
+                                                    data-tooltip-content='You already have an image selected. Please unselect it if you want to select a default image above.'
+                                                >
+                                                    <Input
+                                                        name='img'
+                                                        id='img'
+                                                        type='file'
+                                                        accept="image/*"
+                                                        onChange={handleImageChange}
+                                                        disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
+                                                    />
+                                                </div>
+                                                <Tooltip id='image-selection-exists' place='bottom' />
+                                            </>
+                                        ) : (
+                                            <Input
+                                                name='img'
+                                                id='img'
+                                                type='file'
+                                                accept="image/*"
+                                                onChange={handleImageChange}
+                                                disabled={selectedImageIdx > -1} // Disable the file input if a selected image exists
+                                            />
+                                        )}
+                                    </div>
 
                                     <div className='d-flex flex-column'>
                                         {imageFile && (
@@ -417,7 +458,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                         </Col>
                     </Row>
 
-                    {img !== 'null' && (
+                    {(img !== 'null' && img !== undefined) && (
                         <Row>
                             <Col>
                                 {console.log('img: ', img)}

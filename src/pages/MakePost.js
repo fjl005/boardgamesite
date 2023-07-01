@@ -352,7 +352,7 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                             {/* Show tooltip of image upload being disabled if an image is selected */}
                                             <div
                                                 data-tooltip-id='image-selection-exists'
-                                                data-tooltip-content='You already have an image uploaded. Please remove it if you want to select a default image above.'
+                                                data-tooltip-content='You already have an image selected. Please unselect it if you want to select a default image above.'
                                             >
                                                 <Input
                                                     name='img'

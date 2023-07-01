@@ -60,7 +60,7 @@ const MyPostArticle = () => {
                 {articleData.imgUrl != 'https://boardgames-api-attempt2.onrender.com/undefined' ? (
                     <Row>
                         <Col>
-                            {articleData.img !== 'null' && (<img
+                            {(articleData.img !== 'null' && articleData.img !== undefined) && (<img
                                 src={articleData.img}
                                 alt={`image for ${articleData.title}`}
                                 className='galore-post-img' />
@@ -72,13 +72,6 @@ const MyPostArticle = () => {
 
                 <Row>
                     <Col>
-                        {/* {articleData.paragraph && articleData.paragraph.map((paragraph, idx) => {
-                            return paragraph.length < 50 ? (
-                                <h4 key={idx}>{paragraph}</h4>
-                            ) : (
-                                <p key={idx}>{paragraph}</p>
-                            )
-                        })} */}
                         <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', fontSize: '16px' }}>
                             {articleData.paragraph}
                         </pre>
