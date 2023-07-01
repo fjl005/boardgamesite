@@ -9,6 +9,7 @@ import GalorePostTemplate from './components/galorepostspage/GalorePostTemplate'
 import MakePost from './pages/MakePost';
 import MyPosts from './pages/MyPosts';
 import MyPostArticle from './components/mypostspage/MyPostArticle';
+import About from './pages/About';
 
 function App() {
     return (
@@ -30,6 +31,7 @@ function App() {
                 <Route path="/makeapost" element={<MakePost />} />
                 <Route path="/myposts/:uniqueId" element={<MyPostArticle />} />
                 <Route path="/myposts" element={<MyPosts />} />
+                <Route path="/about" element={<About />} />
             </Routes>
         </div>
     );

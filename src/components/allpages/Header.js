@@ -4,16 +4,27 @@ import boredGamesGaloreDice from '../../img/boredGamesGaloreDice.png';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
-
     const toggle = () => setIsOpen(!isOpen);
-
 
     return (
         <>
-            <Navbar className="header-navbar" bg="light" expand="lg" variant="light">
+            <Navbar className="header-navbar" expand="lg">
                 <NavbarBrand href="/" style={{ color: 'white' }} >
-                    <img src={boredGamesGaloreDice} alt='Board Games Galore' width='50px' height='50px' />
-                    Bored Games Galore
+                    <div className='d-flex'>
+                        <img
+                            src={boredGamesGaloreDice}
+                            alt='Board Games Galore'
+                            width='50px'
+                            height='50px' />
+                        <span
+                            style={{
+                                fontSize: '30px',
+                                fontFamily: 'Arial, sans-serif',
+                                marginLeft: '5px'
+                            }}
+                        >Bored Games Galore</span>
+                    </div>
+
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} style={{ backgroundColor: 'white' }} />
 
@@ -39,6 +50,9 @@ const Header = () => {
                         </NavItem>
                         <NavItem>
                             <NavLink href="/help" className="nav-link">Help</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink href="/about" className="nav-link">About</NavLink>
                         </NavItem>
                     </Nav>
                 </Collapse>

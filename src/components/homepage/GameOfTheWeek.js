@@ -29,7 +29,7 @@ const GameOfTheWeek = () => {
                             src={concordia.img}
                             alt='A Game of Concordia'
                             width='100%'
-                            height='700px'
+                            height='600px'
                             style={{ objectFit: 'cover', objectPosition: 'center' }}
                             placeholderSrc={lazyGrayImage}
                             effect='blur'

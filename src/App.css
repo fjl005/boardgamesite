@@ -9,14 +9,14 @@
 
 .nav-link:hover {
     border-radius: 2px;
-    background-color: rgb(70, 0, 127);
+    background-color: rgb(50, 0, 91);
     color: white !important;
 }
 
-.navbar-toggler-custom {
+/* .navbar-toggler-custom {
     color: white;
     background-color: white;
-}
+} */
 
 .search-bar {
     width: 400px;
@@ -35,10 +35,14 @@ body {
 .homepage-section h2,
 .homepage-section h3,
 .homepage-section h4,
+.homepage-section h5,
+.homepage-section h6,
 .homepage-card h1,
 .homepage-card h2,
 .homepage-card h3,
-.homepage-card h4 {
+.homepage-card h4,
+.homepage-card h5,
+.homepage-card h6 {
     color: teal;
 }
 
@@ -79,44 +83,9 @@ body {
     object-position: center;
 }
 
-@media (min-width: 992px) {
-    .no-left-padding {
-        padding-left: 0 !important;
-    }
-
-    .no-right-padding {
-        padding-right: 0 !important;
-    }
-}
-
-
-@media (max-width: 992px) {
-    .no-left-padding {
-        padding: 0px 0px 25px 0px !important;
-    }
-
-    .no-right-padding {
-        padding: 0 !important;
-    }
-
-    .search-table {
-        overflow-x: auto;
-    }
-}
-
-@media (max-width: 1200px) {
-    .top-rated-center-align {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .top-rated-text {
-        margin-bottom: 10px;
-    }
-
-    .top-rated-img {
-        margin: 10px auto !important;
-    }
+.link-no-decor-black {
+    text-decoration: none;
+    color: black;
 }
 
 .explore-items-img,
@@ -126,6 +95,7 @@ body {
     object-fit: contain;
     object-position: center;
     margin: 10px;
+    color: black;
 }
 
 .homepage-explore-list-items {
@@ -196,11 +166,55 @@ td {
     vertical-align: middle;
 }
 
-
-
 /* For Infinite Scroll */
 .infinite-scroll-featured-games {
     display: flex;
+}
+
+/* Viewport Sizes */
+@media (min-width: 992px) {
+    .no-left-padding {
+        padding-left: 0 !important;
+    }
+
+    .no-right-padding {
+        padding-right: 0 !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .no-left-padding {
+        padding: 0px 0px 25px 0px !important;
+    }
+
+    .no-right-padding {
+        padding: 0 !important;
+    }
+
+    .search-table {
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 1200px) {
+    .top-rated-center-align {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .top-rated-text {
+        margin-bottom: 10px;
+    }
+
+    .top-rated-img {
+        margin: 10px auto !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .top-rated-xs-marginbottom {
+        margin-bottom: 25px;
+    }
 }
 
 /* Saving this code for when I do want to use the carousel */

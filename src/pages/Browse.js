@@ -427,15 +427,18 @@ const Browse = () => {
 
                                     {isLoading ? (
                                         <>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
-                                            <td> <LoadingIcon /> </td>
+                                            <tr>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                            </tr>
+
                                         </>
                                     ) : (
                                         data && data.map((game, idx) => (

@@ -1,32 +1,28 @@
 import { Container, Row, Col } from "reactstrap";
-import penguins from '../../img/penguins.jpg';
-import genericMeeples from '../../img/genericMeeples.jpg';
-import alone from '../../img/alone.jpg';
 import { Link } from "react-router-dom";
 import { concatTitle } from "../../utils/concatTitle";
 import { galorePostsData } from "../galorepostspage/galorePostsData";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import lazyGrayImage from '../../img/lazyGrayImage.png';
+import penguins from '../../img/penguins.jpg';
+import genericMeeples from '../../img/genericMeeples.jpg';
+import alone from '../../img/alone.jpg';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
-
 const MiscellaneousGamesRow = () => {
-    const wingspan = galorePostsData[1];
-    const honestReview = galorePostsData[6];
-    const aloneGames = galorePostsData[7];
+    const [, wingspan, , , , , honestReview, aloneGames] = galorePostsData;
 
     return (
         <>
             <Container className='homepage-section-no-border'>
                 <Row>
-
                     <Col sm='12' lg='6' className='no-left-padding'>
                         <Col className='homepage-card'>
                             <Link
                                 to={`/galoreposts/${concatTitle(wingspan.title)}`}
-                                style={{ textDecoration: 'none', color: 'black' }}
+                                className="link-no-decor-black"
                             >
-                                <h3>Coming Soon: Wingspan Antarctica {' '}</h3>
+                                <h3>Coming Soon... Wingspan Antarctica!</h3>
                                 <LazyLoadImage
                                     src={penguins}
                                     width='100%'
@@ -65,7 +61,7 @@ const MiscellaneousGamesRow = () => {
                     <Col className='homepage-card'>
                         <Link
                             to={`/galoreposts/${concatTitle(aloneGames.title)}`}
-                            style={{ textDecoration: 'none', color: 'black' }}
+                            className="link-no-decor-black"
                         >
                             <h3>Solo Games vs. with Friends?</h3>
                             <LazyLoadImage
@@ -78,12 +74,10 @@ const MiscellaneousGamesRow = () => {
                             />
                         </Link>
                     </Col>
-
-
                 </Row>
             </Container>
         </>
     )
 }
 
-export default MiscellaneousGamesRow
+export default MiscellaneousGamesRow;

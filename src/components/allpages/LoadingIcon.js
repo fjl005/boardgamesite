@@ -5,7 +5,6 @@ const LoadingIcon = () => {
     return (
         <div style={{
             display: 'flex',
-            // display: 'inline',
             justifyContent: 'center',
             alignItems: 'center'
         }}>

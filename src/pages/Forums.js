@@ -26,15 +26,12 @@ const Forums = () => {
     const [fullLengthData, setFullLengthData] = useState(10000);
     const [lookingUpResults, setLookingUpResults] = useState(false);
 
-
     // Controller used for abort when clear search is used.
     const controller = new AbortController();
     const [initialRenderState, setInitialRenderState] = useState(true);
 
-
     // Side Effect, when search is done or when page is changed. Basically, whenever we need to access the api.
     useEffect(() => {
-
         if (inputValue) {
             if (inputValue.trim().length === 0) {
                 setInputValue(null);
@@ -49,7 +46,6 @@ const Forums = () => {
                     setPrevInputValue(inputValue);
                 }
             }
-
         } else {
             fetchDataDefault();
         }
@@ -57,50 +53,31 @@ const Forums = () => {
     }, [page, inputValue]);
 
     const fetchInputData = async () => {
-
-
+        if (!page) { setPage(1); }
         try {
-
             setIsLoading(true);
-
-            if (!page) {
-                setPage(1);
-            }
-
             const inputSearchUrl = `https://api.boardgameatlas.com/api/forum?search=${inputValue}&limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&fuzzy_match=true&client_id=${clientId}`;
             console.log('forums search: ', inputSearchUrl);
             const response = await fetch(inputSearchUrl);
             const jsonData = await response.json();
             setData(jsonData.posts);
-
             setIsLoading(false);
             setIsLoadingPageNums(false);
         } catch (error) {
             console.log('error', error);
-        } finally {
-
         }
-
-        // So again, the pattern is: (1) set up a use effect since all api calls are side effects. Then we will fetch the data by creating an async function. In the async function, we fetch the url and await the promise (which would be the response). Once we receive the response, we need to convert it to JSON. 
-
     };
 
     const fetchDataDefault = async () => {
-        if (!page) {
-            setPage(1);
-        }
-
+        if (!page) { setPage(1); }
         try {
             setIsLoading(true);
             const recentForums = `https://api.boardgameatlas.com/api/forum?limit=${pageSize}&skip=${(page - 1) * pageSize}&order_by=new&client_id=${clientId}`;
             // For the Url, we add skip in case we move on to the next page.
             // Page 2: (2-1) * 50 = 50, so skip 50 then start the next one at 51.
-
             const response = await fetch(recentForums);
             const jsonData = await response.json();
-
             setData(jsonData.posts);
-
             setIsLoading(false);
             setIsLoadingPageNums(false);
         }
@@ -109,9 +86,7 @@ const Forums = () => {
         }
     };
 
-
     const findTotalDataLength = async (controller) => {
-
         let allDataLength = 0;
         let offset = 0;
         const limit = 100;
@@ -120,7 +95,6 @@ const Forums = () => {
         try {
             while (!controller.signal.aborted || initialRenderState) {
                 setLookingUpResults(true);
-
                 let url = '';
                 if (inputValue) {
                     // If there is a selected category, and the selected category has an input value, then the url has to reflect both the input and the category. 
@@ -233,13 +207,17 @@ const Forums = () => {
 
                                     {isLoading ? (
                                         <>
-                                            <td><LoadingIcon /></td>
-                                            <td><LoadingIcon /></td>
-                                            <td><LoadingIcon /></td>
-                                            <td><LoadingIcon /></td>
-                                            <td><LoadingIcon /></td>
-                                            <td><LoadingIcon /></td>
-                                            <td><LoadingIcon /></td>
+                                            <tr>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                                <td> <LoadingIcon /> </td>
+                                            </tr>
                                         </>
                                     ) : (
                                         data && data.map((forum, idx) => (
@@ -264,9 +242,7 @@ const Forums = () => {
                                             </tr>
                                         ))
                                     )}
-
                                 </tbody>
-
                             </Table>
                         </div>
 
@@ -277,7 +253,6 @@ const Forums = () => {
                         ))}
                     </Col>
                 </Row>
-
             </Container>
         </>
     )

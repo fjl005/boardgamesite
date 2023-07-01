@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import LoadingIcon from "../allpages/LoadingIcon";
+import React from "react";
 
 const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLengthData, dataType }) => {
 
@@ -34,7 +35,6 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
     let fifthPage;
 
     switch (pageNum) {
-
         case 1:
         case 2:
         case 3: {
@@ -57,34 +57,34 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
         }
     }
 
-
+    const pagesTwotoFive = [secondPage, thirdPage, fourthPage, fifthPage];
 
     return (
         <div>
-            <h5>Page Tracker</h5>
+            <h4>Page Tracker</h4>
             {isLoadingPageNums ? (
                 <div style={{ display: 'flex', alignItems: 'center', color: 'teal' }}>
                     <LoadingIcon />
-                    <h4 style={{ marginLeft: '0.5rem' }}>Loading Pages...</h4>
+                    <h5 style={{ marginLeft: '0.5rem' }}>Loading Pages...</h5>
                 </div>
 
             ) : (
                 <div style={{ fontSize: '18px' }}>
                     {needPageOne && (
                         <>
-                            <Link to={`/${urlQuery}/page/${needPageOne}`} onClick={() => setPage(needPageOne)}>First Page</Link>
+                            <Link
+                                to={`/${urlQuery}/page/${needPageOne}`}
+                                onClick={() => setPage(needPageOne)}
+                            >First Page</Link>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </>
                     )}
-
 
                     {(((pageNum === firstPage) && (firstPage <= maxPages)) || maxPages === 'NaN' ? (
                         <>
                             <span>{firstPage}</span>
                             {(secondPage <= maxPages) && ', '}
                         </>
-
-
                     ) : (
                         <>
                             <Link
@@ -95,100 +95,38 @@ const PagesTracker = ({ page, setPage, inputValue, isLoadingPageNums, fullLength
                             </Link>
                             {(secondPage <= maxPages) && ', '}
                         </>
-
                     ))}
 
+                    {/* Check if the array of pages two to five exists. */}
+                    {/* If the page is less than the maxPages, then we can proceed to list the page number on the screen. But if the current page number is that page, then we want it to be a span text that cannot be clicked. */}
 
-                    {secondPage <= maxPages && (
-                        pageNum === secondPage ? (
-                            <>
-                                <span>{secondPage}</span>
-                                {(thirdPage <= maxPages) && ', '}
-                            </>
-
-                        ) : (
-                            <>
-                                <Link
-                                    to={`/${urlQuery}/page/${secondPage}`}
-                                    onClick={() => setPage(secondPage)}
-                                >
-                                    {secondPage}
-                                </Link>
-                                {(thirdPage <= maxPages) && ', '}
-                            </>
-
-                        )
+                    {pagesTwotoFive.length > 0 && (
+                        <>
+                            {pagesTwotoFive.map((pageInArr, idx) => (
+                                <React.Fragment key={idx}>
+                                    {pageInArr <= maxPages && (
+                                        pageNum === pageInArr ? (
+                                            <span>{pageInArr}</span>
+                                        ) : (
+                                            <Link
+                                                to={`/${urlQuery}/page/${pageInArr}`}
+                                                onClick={() => setPage(pageInArr)}
+                                            >
+                                                {pageInArr}
+                                            </Link>
+                                        )
+                                    )}
+                                    {idx < pagesTwotoFive.length - 1 && pageInArr < maxPages && (
+                                        ', '
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </>
                     )}
-
-
-                    {thirdPage <= maxPages && (
-                        pageNum === thirdPage ? (
-                            <>
-                                <span>{thirdPage}</span>
-                                {(fourthPage <= maxPages) && ', '}
-                            </>
-
-                        ) : (
-                            <>
-                                <Link
-                                    to={`/${urlQuery}/page/${thirdPage}`}
-                                    onClick={() => setPage(thirdPage)}
-                                >
-                                    {thirdPage}
-                                </Link>
-                                {(fourthPage <= maxPages) && ', '}
-                            </>
-
-                        )
-                    )}
-
-
-                    {fourthPage <= maxPages && (
-                        pageNum === fourthPage ? (
-                            <>
-                                <span>{fourthPage}</span>
-                                {(fifthPage <= maxPages) && ', '}
-                            </>
-
-                        ) : (
-                            <>
-                                <Link
-                                    to={`/${urlQuery}/page/${fourthPage}`}
-                                    onClick={() => setPage(fourthPage)}
-                                >
-                                    {fourthPage}
-                                </Link>
-                                {(fifthPage <= maxPages) && ', '}
-                            </>
-
-                        )
-                    )}
-
-
-                    {fifthPage <= maxPages && (
-                        pageNum === fifthPage ? (
-                            <>
-                                <span>{fifthPage}</span>
-                                {(fifthPage <= maxPages) && ', '}
-                            </>
-
-                        ) : (
-                            <>
-                                <Link
-                                    to={`/${urlQuery}/page/${fifthPage}`}
-                                    onClick={() => setPage(fifthPage)}
-                                >
-                                    {fifthPage}
-                                </Link>
-                            </>
-
-                        )
-                    )}
-
                 </div>
             )}
         </div>
     )
 }
 
-export default PagesTracker
+export default PagesTracker;

@@ -1,92 +1,61 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { Card, CardImg, CardTitle, CardBody, Container, Row, Col, Carousel, CarouselCaption, CarouselItem, CarouselIndicators, CarouselControl } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import LoadingIcon from '../allpages/LoadingIcon';
 
 
 const FeaturedGamesList = () => {
+    const clientId = 'f24B6m6kXF';
 
     // For infinite scroll, we need a component state to track a flag to determine whether or not more data can be loaded.
     const [data, setData] = useState([]);
-    const [hasMore, setHasMore] = useState(true);
-
-    // ----------------  CAROUSEL CODE!!! ----------------
-    // Initialize the data from the api as an empty array, as it will become an array with data over time.
-    // Initialize the active index to 0, regarding the carousel
-    // Initialize the animating to false.
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [animating, setAnimating] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         fetchData();
+        setIsLoading(false);
     }, []);
 
     const fetchData = async () => {
-        const clientId = 'f24B6m6kXF';
         const topFeaturedUrl = `https://api.boardgameatlas.com/api/search?order_by=popularity&ascending=false&pretty=true&client_id=${clientId}`;
-
         const response = await fetch(topFeaturedUrl);
         const jsonData = await response.json();
         setData(jsonData.games);
     };
 
-    // ----------------  CAROUSEL CODE!!! ----------------
-    // const next = () => {
-    //     if (animating) return;
-    //     // If the activeIndex is the last item, the next carousel item will be 0. Otherwise, we increase by 1.
-    //     const nextIndex = (activeIndex === data.length - 1) ? (0) : (activeIndex + 1);
-    //     setActiveIndex(nextIndex);
-    // }
-
-    // const previous = () => {
-    //     if (animating) return;
-    //     // If the active index is the first item, the previous item will be the last item. Otherwise, we decrease by 1.
-    //     const nextIndex = (activeIndex === 0) ? (data.length - 1) : (activeIndex - 1);
-    //     setActiveIndex(nextIndex);
-    // }
-
-    // const goToIndex = (newIndex) => {
-    //     if (animating) return;
-    //     setActiveIndex(newIndex);
-    // }
-
-    // const slides = data ? (
-    //     data.map((game, idx) => (
-    //         <CarouselItem key={idx}>
-    //             <img src={game.image_url} alt={`image of ${game.name}`} />
-    //             {console.log('hello')}
-    //             <CarouselCaption>
-    //                 <h2>{game.name}</h2>
-    //                 <p>{game.description_preview}</p>
-    //             </CarouselCaption>
-    //         </CarouselItem>
-    //     ))
-    // ) : null;
-
     return (
         <>
-            <Container className='homepage-section container-fluid'>
+            <Container className='homepage-section'>
                 <h1>Featured Games</h1>
-
-                {data && (
-                    <InfiniteScroll
-                        dataLength={data.length}
-                        next={fetchData}
-                        hasMore={hasMore}
-                        className='infinite-scroll-featured-games'
-                    >
-
-                        {data && data.map((game, idx) => (
-                            <div key={idx} style={{ padding: '20px' }}>
-                                <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
-                                    <img src={game.image_url} alt={`image of ${game.name}`} style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }} />
-                                    <h5 className='text-center' style={{ paddingTop: '10px', color: 'teal' }}>{game.name}</h5>
-                                </a>
-                                {/* <p>{game.description_preview}</p> */}
-                            </div>
-                        ))}
-                    </InfiniteScroll>
+                {isLoading ? (
+                    <>
+                        <h2>Loading...</h2>
+                        <LoadingIcon />
+                    </>
+                ) : (
+                    data && (
+                        <InfiniteScroll
+                            dataLength={data.length}
+                            className='infinite-scroll-featured-games'
+                        >
+                            {data.map((game, idx) => (
+                                <div key={idx} style={{ padding: '20px' }}>
+                                    <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
+                                        <img
+                                            src={game.image_url}
+                                            alt={`image of ${game.name}`}
+                                            style={{ width: '200px', height: '200px', objectFit: 'cover', objectPosition: 'center' }}
+                                        />
+                                        <h5 className='text-center' style={{ paddingTop: '10px', color: 'teal' }}>{game.name}</h5>
+                                    </a>
+                                </div>
+                            ))}
+                        </InfiniteScroll>
+                    )
                 )}
+
+
             </Container>
 
         </>
