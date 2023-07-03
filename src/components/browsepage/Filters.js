@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, FormGroup, Label, Input, Container, Row, Col } from "reactstrap";
 
-const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCategoryId, setCategoryReset, lookingUpResults }) => {
+const Filters = ({ setPage, selectedCategory, setSelectedCategory, setPrevCategory, setSelectedCategoryId, setCategoryReset, lookingUpResults, fullLengthData, isLoadingPageNums }) => {
 
     // States are defined here.
     const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +11,7 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
     const [tempCategorySelection, setTempCategorySelection] = useState(null);
 
     // When the results are being looked up, check to see if there is a category selected. If so, then showCategory is true
-    useEffect(()=>{
+    useEffect(() => {
         if (selectedCategory) {
             setShowCategory(true);
         } else {
@@ -40,6 +40,12 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
         setCategoryReset(true);
         setShowCategory(false);
         setSelectedCategory(null);
+        setPrevCategory(null);
+        /* I need to set the category and the prev category to null. The reason why is because of the following order:
+        (1) 'Aliens' category is selected -- selectedCategory: Aliens, prevCategory: null
+        (2) Category is cleared -- selectedCategory: null, prevCategory: null (NOT Aliens) 
+        (3) 'Aliens' category is selected AGAIN -- selectedCategory: Aliens, prevCategory: null (NOT Aliens). If the prevCategory remained as Aliens, then the site would not have detected a category change. The category change is triggered because of the category clearing. 
+        */
         setSelectedCategoryId(null);
     }
 
@@ -89,35 +95,35 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
                                         </Col>
 
                                         <Col sm='4'>
-                                            {categories[idx+1] ? (
+                                            {categories[idx + 1] ? (
                                                 <FormGroup check>
-                                                <Label check>
-                                                    <Input
-                                                        type='radio'
-                                                        name='category'
-                                                        value={categories[idx + 1]}
-                                                        onChange={handleCategoryChange}
-                                                    />
-                                                    {categories[idx + 1]}
-                                                </Label>
-                                            </FormGroup>
+                                                    <Label check>
+                                                        <Input
+                                                            type='radio'
+                                                            name='category'
+                                                            value={categories[idx + 1]}
+                                                            onChange={handleCategoryChange}
+                                                        />
+                                                        {categories[idx + 1]}
+                                                    </Label>
+                                                </FormGroup>
                                             ) : null}
                                         </Col>
 
                                         <Col sm='4'>
-                                        {categories[idx+2] ? (
-                                            <FormGroup check>
-                                                <Label check>
-                                                    <Input
-                                                        type='radio'
-                                                        name='category'
-                                                        value={categories[idx + 2]}
-                                                        onChange={handleCategoryChange}
-                                                    />
-                                                    {categories[idx + 2]}
-                                                </Label>
-                                            </FormGroup>
-                                        ) : null}
+                                            {categories[idx + 2] ? (
+                                                <FormGroup check>
+                                                    <Label check>
+                                                        <Input
+                                                            type='radio'
+                                                            name='category'
+                                                            value={categories[idx + 2]}
+                                                            onChange={handleCategoryChange}
+                                                        />
+                                                        {categories[idx + 2]}
+                                                    </Label>
+                                                </FormGroup>
+                                            ) : null}
                                         </Col>
                                     </Row>
                                 ) : null
@@ -134,12 +140,16 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setSelectedCa
             {showCategory && (
                 <>
                     <h4>Selected Category: {selectedCategory}</h4>
-                    <span 
-                        style={{ 
-                            textDecoration: 'underline', 
+                    {!isLoadingPageNums && (
+                        <p>{fullLengthData} results found. </p>
+                    )}
+                    <span
+                        style={{
+                            textDecoration: 'underline',
                             color: 'blue',
-                            cursor: 'pointer'}}
-                        onClick={()=>clearCategory()}
+                            cursor: 'pointer'
+                        }}
+                        onClick={() => clearCategory()}
                     >Clear Category</span>
                 </>
             )}

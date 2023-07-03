@@ -20,9 +20,7 @@ const Browse = () => {
     /*
         -------------------
         -------------------
-
         STATES DEFINED HERE
-
         -------------------
         -------------------
     */
@@ -39,14 +37,14 @@ const Browse = () => {
 
     // States regarding the input value
     const [inputValue, setInputValue] = useState(boardGameName);
-    const [prevInputValue, setPrevInputValue] = useState('');
+    const [prevInputValue, setPrevInputValue] = useState(undefined);
+    const [inputReset, setInputReset] = useState(false);
 
     // States regarding the category
     const [prevCategory, setPrevCategory] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [categoryReset, setCategoryReset] = useState(false);
-
 
     /* Initial render: "signal abort" is set to TRUE at initial render. 
     
@@ -58,94 +56,62 @@ const Browse = () => {
     */
     const [initialRenderState, setInitialRenderState] = useState(true);
 
-
     /*
         ------------------------
         ------------------------
-
-        USE-EFFECTS DEFINED HERE
-
+        USE-EFFECT DEFINED HERE
         ------------------------
         ------------------------
     */
 
     // SIDE EFFECT: WHEN SEARCH IS PERFORMED, CATEGORY IS CHANGED, OR WHEN PAGE IS CHANGED
-    // THIS SIDE EFFECT WILL GUIDE THE FETCH CALLS TO BE PERFORMED AND SETLOOKINGUPRESULTS.
+    // THIS SIDE EFFECT WILL GUIDE THE FETCH CALLS TO BE PERFORMED.
     useEffect(() => {
-        let fetchCriteria = '';
-
-        if (selectedCategory || inputValue) {
-            // If the selected category is new (different than what was previously selected), then we need to set setLookingUpResults as true (since we're looking up).
-            if (selectedCategory !== prevCategory) {
-                setLookingUpResults(true);
-                setIsLoadingPageNums(true);
-                setPrevCategory(selectedCategory);
-                fetchCriteria = 'categoryChange';
-            }
-            // If the category didn't change, then let's see if the input value changed.
-            else if (inputValue !== prevInputValue) {
-                setLookingUpResults(true);
-                setIsLoadingPageNums(true);
-                setPrevInputValue(inputValue);
-                fetchCriteria = 'inputChange';
+        // If input is reset, see if there is a category. If there isn't, then set to true default settings (clearedAndSetDefault()). Otherwise, the category still exists, in which case we need to search by the param fetch. In either scenario, set the inputReset to false when completed.
+        if (inputReset) {
+            if (!selectedCategory) {
+                console.log('input reset, no category either')
+                clearedAndSetDefault();
             } else {
-                // Otherwise, the input or category didn't change (but one of them is still truthy, hence the reason why we're in this loop). No need to look up results or load page numbers.
-                fetchCriteria = 'propExistsNoChange';
-            }
-        } else {
-            // Otherwise, there is nothing changed. No input, no category, nothing!
-            setLookingUpResults(false);
-            // controller.abort();
-            fetchCriteria = 'default';
-        }
-
-        switch (fetchCriteria) {
-            case 'categoryChange':
-            case 'inputChange':
+                console.log('input reset, but category exists')
                 fetchParamChangedData();
-                break;
-            case 'propExistsNoChange':
-            case 'default':
-                fetchDefaultData();
-                break;
+            }
+            console.log('hello?');
+            setInputReset(false);
+            return;
         }
 
-        // The return in the useEffect is used for cleanup or for cancelling any side effects before unmounting or before re-running this useEffect again.
+        // If category is reset, see if there is an input. If there isn't, then set to true default settings (clearedAndSetDefault()). Otherwise, the input still exists, in which case we need to search by the param fetch. In either scenario, set the category to false when completed.
+        if (categoryReset) {
+            if (!inputValue) {
+                console.log('category reset, no input either')
+                clearedAndSetDefault();
+            } else {
+                console.log('category reset, but input exists')
+                fetchParamChangedData();
+            }
+            setCategoryReset(false);
+            return;
+        }
+
+        // If the selected category is new (different than what was previously selected), then we need to set setLookingUpResults as true (since we're looking up).
+        if (selectedCategory !== prevCategory) {
+            setPrevCategory(selectedCategory);
+            fetchParamChangedData();
+        }
+        // If the category didn't change, then let's see if the input value changed.
+        else if (inputValue !== prevInputValue) {
+            setPrevInputValue(inputValue);
+            fetchParamChangedData();
+        }
+
+        // Otherwise, if there is no changed parameter but the parameter still exists, then we will fetch data normally.
+        else {
+            fetchDefaultData();
+        }
         return () => controller.abort();
     }, [page, inputValue, selectedCategoryId]);
 
-
-    // Run when INPUT is reset.
-    useEffect(() => {
-        // This doesn't apply at initial render. 
-        if (!initialRenderState) {
-            if (!inputValue) {
-                if (!selectedCategory) {
-                    clearedAndSetDefault();
-                } else {
-                    // Otherwise, there is no input but there is still a category.
-                    setIsLoadingPageNums(true);
-                    fetchParamChangedData();
-                }
-            }
-        }
-    }, [inputValue]);
-
-    // Run when the CATEGORY is reset.
-    useEffect(() => {
-        if (!initialRenderState) {
-            if (categoryReset) {
-                if (!inputValue) {
-                    clearedAndSetDefault();
-                    setCategoryReset(false);
-                } else {
-                    // Otherwise, there is no category but there is still an input.
-                    setIsLoadingPageNums(true);
-                    fetchParamChangedData();
-                }
-            }
-        }
-    }, [selectedCategory]);
 
     const clearedAndSetDefault = () => {
         setPage(1);
@@ -153,22 +119,23 @@ const Browse = () => {
         fetchDefaultData();
     }
 
-
     /*
         ---------------------
         ---------------------
-
         ASYNC FETCH FUNCTIONS
-
         ---------------------
         ---------------------
     */
 
-    // Run this fetch call when there is an input and/or a category, and whether it changed.
+    // Run this fetch call when there is a changed input or category.
     const fetchParamChangedData = async () => {
         setIsLoading(true);
         setLookingUpResults(true);
         setIsLoadingPageNums(true);
+
+        if (!page) {
+            setPage(1);
+        }
 
         let url;
         if (selectedCategoryId) {
@@ -193,6 +160,7 @@ const Browse = () => {
                 setLookingUpResults(false);
                 setIsLoadingPageNums(false);
             } else {
+                // Otherwise, only one had changed, either category or the input. There is no need to filter through the data since there is only one search parameter.
                 setData(data.games);
                 findTotalDataLength(controller);
             }
@@ -200,28 +168,26 @@ const Browse = () => {
             console.log('Error: ', error)
         } finally {
             setIsLoading(false);
-            if (!page) {
-                setPage(1);
-            }
+
         }
     }
 
-    // This will be run as default.
+    // This will be run otherwise as the fetch. The main difference is that in this one, we don't need to look up the length of the data. 
     const fetchDefaultData = async () => {
         setIsLoading(true);
-
         const url = determineUrl(pageSize, false);
 
         try {
             const response = await fetch(url);
             const data = await response.json();
             setData(data.games);
-        } catch (error) {
-            console.log('Error: ', error)
-        } finally {
             setIsLoading(false);
             setLookingUpResults(false);
             setIsLoadingPageNums(false);
+        } catch (error) {
+            console.log('Error: ', error)
+        } finally {
+
         }
         if (!page) {
             setPage(1);
@@ -229,9 +195,7 @@ const Browse = () => {
     };
 
     const determineUrl = (pageLimit, lengthSearchTrue) => {
-
         let updatedUrl = '';
-
         // First, create an object of parameters for all search related fields, such as input value and selected category id (basically things we would include in the URL during a given fetch call). The keys have to reflect the same convention as in the API calls.
         // I created this with the hopes of the process becoming more scalable when more parameters come into play. However, given that the fetch calls don't incorporate multiple parameters at once anyway, I don't know how scalable this API will be.
         const fetchParameters = {
@@ -260,13 +224,10 @@ const Browse = () => {
         }
     }
 
-
     /*
         -----------------
         -----------------
-
         TOTAL DATA LENGTH
-
         -----------------
         -----------------
     */
@@ -326,7 +287,8 @@ const Browse = () => {
             if (error.name !== "AbortError") {
                 console.log("Error:", error);
             }
-        } finally {
+        }
+        finally {
             setInitialRenderState(false);
             setLookingUpResults(false);
             setIsLoadingPageNums(false);
@@ -346,6 +308,7 @@ const Browse = () => {
                 lookingUpResults={lookingUpResults}
                 setLookingUpResults={setLookingUpResults}
                 setPrevInputValue={setPrevInputValue}
+                setInputReset={setInputReset}
             />
 
             <Container className='homepage-section'>
@@ -380,8 +343,11 @@ const Browse = () => {
                                     setSelectedCategory={setSelectedCategory}
                                     setSelectedCategoryId={setSelectedCategoryId}
                                     setCategoryReset={setCategoryReset}
+                                    setPrevCategory={setPrevCategory}
                                     setPage={setPage}
                                     lookingUpResults={lookingUpResults}
+                                    fullLengthData={fullLengthData}
+                                    isLoadingPageNums={isLoadingPageNums}
                                 />
                             </>
                         )}

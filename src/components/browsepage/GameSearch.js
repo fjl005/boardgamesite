@@ -1,9 +1,8 @@
 import { Label, Input, Button, Form } from 'reactstrap';
-import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue }) => {
+const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue, setInputReset }) => {
 
     const navigate = useNavigate();
 
@@ -12,7 +11,7 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
         const entry = event.target.elements.searchGames.value;
 
         if (entry.trim().length === 0) {
-            setInputValue(null);
+            setInputValue(undefined);
             navigate(`/browse`)
         } else {
             setInputValue(entry);
@@ -20,12 +19,6 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
         }
 
         setPage(1);
-
-        // To clarify what's happening above...
-        // Window: global object in JS representing the current browser. Importantly, it gives us access to the history object.
-        // History: an interface to the browser's history, containing the URL's visited by the user. It provides methods for navigating through the history, as well as changing the URL without triggering a page reload.
-        // pushState: used to add a new entry to the browser's history.
-        // It takes three arguments: (1) State, (2) Title, (3) URL. 
     }
 
     return (
@@ -59,9 +52,10 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
 
                                 <Link to={`/browse/page/1`}
                                     onClick={() => {
-                                        setInputValue('');
+                                        setInputReset(true);
+                                        setInputValue(undefined);
                                         // setPrevInputValue is used because if we search up the same game twice between clearing, it will not process the change that had occurred when the input was cleared. The effect of this will be that the total results found will continue to reflect that of the general home page (which will be 'at least 1000 games found').
-                                        setPrevInputValue('');
+                                        setPrevInputValue(undefined);
                                         setPage(1);
                                     }}
                                 >
