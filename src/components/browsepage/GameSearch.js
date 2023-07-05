@@ -2,7 +2,7 @@ import { Label, Input, Button, Form } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue, setInputReset }) => {
+const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue, setInputReset, lengthError}) => {
 
     const navigate = useNavigate();
 
@@ -43,6 +43,8 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
                                 <p>
                                     {lookingUpResults ? (
                                         <i>Looking up total search, one second...</i>
+                                    ) : lengthError ? (
+                                        <h3>Sorry, there was an error finding the length of search. </h3>
                                     ) : fullLengthData >= 1000 ? (
                                         <i>At least 1000 games found.</i>
                                     ) : (

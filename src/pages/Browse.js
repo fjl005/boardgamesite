@@ -46,6 +46,10 @@ const Browse = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState('');
     const [categoryReset, setCategoryReset] = useState(false);
 
+    // State regarding fetch errors
+    const [fetchError, setFetchError] = useState(false);
+    const [lengthError, setLengthError] = useState(false);
+
     /* Initial render: "signal abort" is set to TRUE at initial render. 
     
     Briefly, signal abort is set to true when you end a fetch call while it's still loading. This is used later on in the code so that we can handle these situations (for example, if you're searching for Monopoly and you're frustrated that it's taking so long, you may just clear the search, which is where signal abort comes in).
@@ -94,21 +98,17 @@ const Browse = () => {
             return;
         }
 
-        // If the selected category is new (different than what was previously selected), then we need to set setLookingUpResults as true (since we're looking up).
+        // At this point, there was no reset. So, we will see if the category or input value changed. 
         if (selectedCategory !== prevCategory) {
             setPrevCategory(selectedCategory);
             fetchParamChangedData();
-        }
-        // If the category didn't change, then let's see if the input value changed.
-        else if (inputValue !== prevInputValue) {
+        } else if (inputValue !== prevInputValue) {
             setPrevInputValue(inputValue);
             fetchParamChangedData();
-        }
-
-        // Otherwise, if there is no changed parameter but the parameter still exists, then we will fetch data normally.
-        else {
+        } else {
             fetchDefaultData();
         }
+
         return () => controller.abort();
     }, [page, inputValue, selectedCategoryId]);
 
@@ -145,6 +145,8 @@ const Browse = () => {
             url = determineUrl(pageSize, false);
         }
 
+        // const url = 'triggerFetchError';
+
         try {
             const response = await fetch(url);
             const data = await response.json();
@@ -152,8 +154,6 @@ const Browse = () => {
             // For some reason, there is no way to perform a fetch API call with both the category and an input value. So, my way around this is to use an array filter to search by the category first, and select titles in this category that contain the name for your search. 
             if (selectedCategoryId && inputValue) {
                 const filteredData = data.games.filter((game) => game.name.toLowerCase().includes(inputValue.toLowerCase()));
-                console.log('url is: ', url);
-                console.log('filtered data is: ', filteredData);
                 setData(filteredData);
                 // Usually when the category and name are both used, the search volume is small. This is my current working solution for the full length data, but this is something I need to figure out in the future.
                 setFullLengthData(filteredData.length);
@@ -165,10 +165,13 @@ const Browse = () => {
                 findTotalDataLength(controller);
             }
         } catch (error) {
-            console.log('Error: ', error)
+            console.log('Error: ', error);
+            setFetchError(true);
+            setFullLengthData(0);
+            setLookingUpResults(false);
+            setIsLoadingPageNums(false);
         } finally {
             setIsLoading(false);
-
         }
     }
 
@@ -176,18 +179,22 @@ const Browse = () => {
     const fetchDefaultData = async () => {
         setIsLoading(true);
         const url = determineUrl(pageSize, false);
+        // const url = 'triggerFetchError';
 
         try {
             const response = await fetch(url);
             const data = await response.json();
             setData(data.games);
+            setFullLengthData(10000);
+            setFetchError(false);
+        } catch (error) {
+            console.log('Error: ', error);
+            setFetchError(true);
+            setFullLengthData(0);
+        } finally {
             setIsLoading(false);
             setLookingUpResults(false);
             setIsLoadingPageNums(false);
-        } catch (error) {
-            console.log('Error: ', error)
-        } finally {
-
         }
         if (!page) {
             setPage(1);
@@ -196,8 +203,9 @@ const Browse = () => {
 
     const determineUrl = (pageLimit, lengthSearchTrue) => {
         let updatedUrl = '';
-        // First, create an object of parameters for all search related fields, such as input value and selected category id (basically things we would include in the URL during a given fetch call). The keys have to reflect the same convention as in the API calls.
-        // I created this with the hopes of the process becoming more scalable when more parameters come into play. However, given that the fetch calls don't incorporate multiple parameters at once anyway, I don't know how scalable this API will be.
+        /* First, create an object of parameters for all search related fields, such as input value and selected category id (basically things we would include in the URL during a given fetch call). The keys have to reflect the same convention as in the API calls.
+
+        I created this with the hopes of the process becoming more scalable when more parameters come into play. However, given that the fetch calls don't incorporate multiple parameters at once anyway, I don't know how scalable this API will be. */
         const fetchParameters = {
             name: inputValue,
             categories: selectedCategoryId
@@ -217,7 +225,7 @@ const Browse = () => {
         }
 
         if (lengthSearchTrue) {
-            // This URL will be used when using findTotalLengthData, which has its own skip level upgraded to 100 to allow faster searches for the total length.
+            // This URL will be used when using findTotalLengthData, which has its own "skip" parameter
             return `https://api.boardgameatlas.com/api/search?${updatedUrl}order_by=rank&ascending=false&limit=${pageLimit}&fuzzy_match=true&client_id=${clientId}`;
         } else {
             return `https://api.boardgameatlas.com/api/search?${updatedUrl}order_by=rank&ascending=false&limit=${pageLimit}&skip=${(page - 1) * pageSize}&fuzzy_match=true&client_id=${clientId}`;
@@ -241,6 +249,7 @@ const Browse = () => {
 
         try {
             while (!controller.signal.aborted || initialRenderState) {
+                // const url = 'triggerLengthError';
                 let url;
                 if (selectedCategoryId) {
                     url = `https://api.boardgameatlas.com/api/search?categories=${selectedCategoryId}&order_by=rank&ascending=false&limit=${100}&fuzzy_match=true&client_id=${clientId}`;
@@ -263,12 +272,8 @@ const Browse = () => {
                         } else {
                             if (data.games.length < 100) {
                                 allDataLength += data.games.length;
-                                console.log('finished! total length is: ', allDataLength);
-                                console.log('url is: ', url);
                                 resolve(true);
                             } else {
-                                console.log('still working, the current length is: ', allDataLength);
-                                console.log('url is: ', url);
                                 offset += limit;
                                 allDataLength += data.games.length;
                                 resolve(false);
@@ -280,11 +285,14 @@ const Browse = () => {
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
+                    setLengthError(false);
                     break;
                 }
             }
         } catch (error) {
             if (error.name !== "AbortError") {
+                setFullLengthData(0);
+                setLengthError(true);
                 console.log("Error:", error);
             }
         }
@@ -309,6 +317,7 @@ const Browse = () => {
                 setLookingUpResults={setLookingUpResults}
                 setPrevInputValue={setPrevInputValue}
                 setInputReset={setInputReset}
+                lengthError={lengthError}
             />
 
             <Container className='homepage-section'>
@@ -438,9 +447,13 @@ const Browse = () => {
                         {/* If the page is still loading, show that it's still loading. But if it's done loading, check the data length. If it's 0 (meaning there's nothing) then show the error that no game was found */}
                         {isLoading ? (
                             <h1 className='text-center'>Loading...</h1>
-                        ) : (data.length === 0 && (
-                            <h1 className='text-center'>Error: Game Not Found.</h1>
-                        ))}
+                        ) : fetchError ? (
+                            <h2 className='text-center' > Sorry, there was an error loading the games. Please refresh and try again. If the problem persists, then it may be an issue with the Board Game Atlas API. If this is the case, then please contact Frank!</h2>
+                        ) :
+                            data.length === 0 && (
+                                <h1 className='text-center'>Error: Game Not Found.</h1>
+                            )
+                        }
                     </Col>
                 </Row>
             </Container>
