@@ -87,7 +87,6 @@ const Filters = ({ setPage, selectedCategory, setSelectedCategory, setPrevCatego
                                                         name='category'
                                                         value={category}
                                                         onChange={handleCategoryChange}
-
                                                     />
                                                     {category}
                                                 </Label>

@@ -2,7 +2,7 @@ import { Label, Input, Button, Form } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 
-const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue, setInputReset, lengthError}) => {
+const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookingUpResults, setPrevInputValue, setInputReset, lengthError }) => {
 
     const navigate = useNavigate();
 
@@ -68,9 +68,6 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
                     </Col>
                 </Row>
             </Container>
-
-
-
         </>
     )
 }

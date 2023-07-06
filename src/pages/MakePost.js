@@ -11,13 +11,12 @@ import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
 
 const MakePost = () => {
 
-    const cloudinary = Cloudinary.new({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME });
+    // const cloudinary = Cloudinary.new({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME });
 
-
-    cloudinary.config({
-        api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
-        api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
-    });
+    // cloudinary.config({
+    //     api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
+    //     api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
+    // });
 
     const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');

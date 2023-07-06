@@ -31,7 +31,7 @@ const Browse = () => {
 
     // States regarding the page and loading the page
     const [page, setPage] = useState(currentPage);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingData, setIsLoadingData] = useState(true);
     const [isLoadingPageNums, setIsLoadingPageNums] = useState(true);
     const [lookingUpResults, setLookingUpResults] = useState(false);
 
@@ -129,7 +129,7 @@ const Browse = () => {
 
     // Run this fetch call when there is a changed input or category.
     const fetchParamChangedData = async () => {
-        setIsLoading(true);
+        setIsLoadingData(true);
         setLookingUpResults(true);
         setIsLoadingPageNums(true);
 
@@ -171,13 +171,13 @@ const Browse = () => {
             setLookingUpResults(false);
             setIsLoadingPageNums(false);
         } finally {
-            setIsLoading(false);
+            setIsLoadingData(false);
         }
     }
 
     // This will be run otherwise as the fetch. The main difference is that in this one, we don't need to look up the length of the data. 
     const fetchDefaultData = async () => {
-        setIsLoading(true);
+        setIsLoadingData(true);
         const url = determineUrl(pageSize, false);
         // const url = 'triggerFetchError';
 
@@ -192,7 +192,7 @@ const Browse = () => {
             setFetchError(true);
             setFullLengthData(0);
         } finally {
-            setIsLoading(false);
+            setIsLoadingData(false);
             setLookingUpResults(false);
             setIsLoadingPageNums(false);
         }
@@ -248,6 +248,7 @@ const Browse = () => {
         const upperLimit = 1000;
 
         try {
+            setLengthError(false);
             while (!controller.signal.aborted || initialRenderState) {
                 // const url = 'triggerLengthError';
                 let url;
@@ -285,7 +286,6 @@ const Browse = () => {
                 // We will wait for the checkDataLength with 'await'. If the resolve is true then that means we found the entire data length.
                 if (await checkDataLength()) {
                     setFullLengthData(allDataLength);
-                    setLengthError(false);
                     break;
                 }
             }
@@ -400,7 +400,7 @@ const Browse = () => {
                                 </thead>
                                 <tbody>
 
-                                    {isLoading ? (
+                                    {isLoadingData ? (
                                         <>
                                             <tr>
                                                 <td> <LoadingIcon /> </td>
@@ -413,7 +413,6 @@ const Browse = () => {
                                                 <td> <LoadingIcon /> </td>
                                                 <td> <LoadingIcon /> </td>
                                             </tr>
-
                                         </>
                                     ) : (
                                         data && data.map((game, idx) => (
@@ -445,7 +444,7 @@ const Browse = () => {
                         </div>
 
                         {/* If the page is still loading, show that it's still loading. But if it's done loading, check the data length. If it's 0 (meaning there's nothing) then show the error that no game was found */}
-                        {isLoading ? (
+                        {isLoadingData ? (
                             <h1 className='text-center'>Loading...</h1>
                         ) : fetchError ? (
                             <h2 className='text-center' > Sorry, there was an error loading the games. Please refresh and try again. If the problem persists, then it may be an issue with the Board Game Atlas API. If this is the case, then please contact Frank!</h2>
