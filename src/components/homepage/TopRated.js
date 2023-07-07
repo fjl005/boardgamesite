@@ -8,6 +8,10 @@ const TopRated = () => {
     const [forumData, setForumData] = useState([]);
     const [catanTopFour, setCatanTopFour] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [gameFetchError, setGameFetchError] = useState(false);
+    const [forumFetchError, setForumFetchError] = useState(false);
+    const [catanFetchError, setCatanFetchError] = useState(false);
+
 
     // Then, use useEffect as all api calls are side effects
     useEffect(() => {
@@ -19,44 +23,66 @@ const TopRated = () => {
 
     // Now, define fetchgameData with an async function
     const fetchGameData = async () => {
-        // This api requires the client id in order to fetch the gameData.
-        const topGameUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=true&limit=5&client_id=${clientId}`;
+        try {
+            // const topGameUrl = `triggerFetchError`;
+            // This api requires the client id in order to fetch the gameData.
+            const topGameUrl = `https://api.boardgameatlas.com/api/search?order_by=rank&ascending=true&limit=5&client_id=${clientId}`;
 
-        // With the URL set, let's fetch the gameData from the URL which will return a promise.
-        const response = await fetch(topGameUrl);
+            // With the URL set, let's fetch the gameData from the URL which will return a promise.
+            const response = await fetch(topGameUrl);
 
-        // Once promise is received, we will convert to JSON
-        const jsonGameData = await response.json();
+            // Once promise is received, we will convert to JSON
+            const jsonGameData = await response.json();
 
-        // Lastly, update gameData state. The gameData we need is in the games property. 
-        setGameData(jsonGameData.games);
+            // Lastly, update gameData state. The gameData we need is in the games property. 
+            setGameData(jsonGameData.games);
+            setGameFetchError(false);
+        } catch (error) {
+            console.log('Error: ', error);
+            setGameFetchError(true);
+        }
+
     }
 
 
     //  FORUMS
     const fetchForumData = async () => {
-        const topForumUrl = `https://api.boardgameatlas.com/api/forum?limit=5&order_by=popularity&client_id=${clientId}`;
-        // forum_posts: we're searching for forum posts instead of games
-        // limit=5: specifies the maximum number of results to return, which is 5
-        // order_by=popularity: order by popularity, most popular first
-        // type=thread: we're looking for forum posts
+        try {
+            // const topForumUrl = `triggerFetchError`;
+            const topForumUrl = `https://api.boardgameatlas.com/api/forum?limit=5&order_by=popularity&client_id=${clientId}`;
+            // forum_posts: we're searching for forum posts instead of games
+            // limit=5: specifies the maximum number of results to return, which is 5
+            // order_by=popularity: order by popularity, most popular first
+            // type=thread: we're looking for forum posts
 
-        // With the URL set, let's fetch the gameData from the URL which will return a promise.
-        const response = await fetch(topForumUrl);
+            // With the URL set, let's fetch the gameData from the URL which will return a promise.
+            const response = await fetch(topForumUrl);
 
-        // Once promise is received, we will convert to JSON
-        const jsonForumData = await response.json();
+            // Once promise is received, we will convert to JSON
+            const jsonForumData = await response.json();
 
-        // Lastly, update gameData state. The gameData we need is in the games property. 
-        setForumData(jsonForumData.posts);
+            // Lastly, update gameData state. The gameData we need is in the games property. 
+            setForumData(jsonForumData.posts);
+            setForumFetchError(false);
+        } catch (error) {
+            console.log('Error: ', error);
+            setForumFetchError(true);
+        }
     }
 
 
     const fetchCatanData = async () => {
-        const catanTopFourUrl = `https://api.boardgameatlas.com/api/search?name=Catan&order_by=popularity&ascending=false&skip=1&limit=4&client_id=${clientId}`;
-        const response = await fetch(catanTopFourUrl);
-        const jsonCatanData = await response.json();
-        setCatanTopFour(jsonCatanData.games);
+        try {
+            // const catanTopFourUrl = `triggerFetchError`;
+            const catanTopFourUrl = `https://api.boardgameatlas.com/api/search?name=Catan&order_by=popularity&ascending=false&skip=1&limit=4&client_id=${clientId}`;
+            const response = await fetch(catanTopFourUrl);
+            const jsonCatanData = await response.json();
+            setCatanTopFour(jsonCatanData.games);
+            setCatanFetchError(false);
+        } catch (error) {
+            console.log('Error: ', error);
+            setCatanFetchError(true);
+        }
     }
 
     return (
@@ -69,8 +95,12 @@ const TopRated = () => {
                             <h2>Loading...</h2>
                             <LoadingIcon />
                         </>
+                    ) : gameFetchError ? (
+                        <>
+                            <h4>Sorry, there was an error fetching the data.</h4>
+                            <p>Please refresh and try again. If the problem persists, then the BGA API might be down. </p>
+                        </>
                     ) : (
-
                         <ul style={{ paddingLeft: '0', flex: '1', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                             {/* Flex: 1 allows us to ul element to grow and take up the available vertical space within the container.  */}
                             {gameData && gameData.map((game, idx) => (
@@ -102,6 +132,11 @@ const TopRated = () => {
                                 <>
                                     <h2>Loading...</h2>
                                     <LoadingIcon />
+                                </>
+                            ) : catanFetchError ? (
+                                <>
+                                    <h4>Sorry, there was an error fetching the data.</h4>
+                                    <p>Please refresh and try again. If the problem persists, then the BGA API might be down. </p>
                                 </>
                             ) : (
                                 <>
@@ -142,6 +177,11 @@ const TopRated = () => {
                             <>
                                 <h2>Loading...</h2>
                                 <LoadingIcon />
+                            </>
+                        ) : forumFetchError ? (
+                            <>
+                                <h4>Sorry, there was an error fetching the data.</h4>
+                                <p>Please refresh and try again. If the problem persists, then the BGA API might be down. </p>
                             </>
                         ) : (
                             <>
