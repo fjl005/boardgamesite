@@ -4,12 +4,26 @@ import { Link } from "react-router-dom";
 import { concatTitle } from "../utils/concatTitle";
 import { galorePostsData } from "../components/galorepostspage/galorePostsData";
 import GalorePostPopular from "../components/galorepostspage/GalorePostPopular";
-// import { LazyLoadImage } from 'react-lazy-load-image-component';
-// import lazyGrayImage from '../img/lazyGrayImage.png';
-// import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const GalorePosts = () => {
     const [concordiaPost, wingspanPost, strategyPost] = galorePostsData;
+    const trendingToday = [
+        {
+            galoreData: concordiaPost,
+            title: 'Concordia',
+            pText: 'Why do people put this as their top game of 2023?'
+        },
+        {
+            galoreData: wingspanPost,
+            title: 'Wingspan, Antartica',
+            pText: 'Learn more about the new, icy cool Antarctica edition.'
+        },
+        {
+            galoreData: strategyPost,
+            title: 'Secret Strategies',
+            pText: 'Beat your friends and never lose with these nuanced strategies for any classic game!'
+        }
+    ]
 
     return (
         <>
@@ -30,49 +44,25 @@ const GalorePosts = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col sm='12' lg='6' xl='4'>
-                        <Link to={`/galoreposts/${concatTitle(concordiaPost.title)}`}>
-                            <div
-                                className="galore-posts-highlight-container">
-                                <img
-                                    src={concordiaPost.img}
-                                    alt="Concordia"
-                                />
-                                <div class="galore-posts-img-overlay"></div>
-                                <div className="image-text">
-                                    <h2>Concordia</h2>
-                                    <p style={{ fontSize: '20px' }}>Why do people put this as their top game of 2023?</p>
-                                </div>
-                            </div>
-                        </Link>
 
-                    </Col>
-
-                    <Col sm='12' lg='6' xl='4'>
-                        <Link to={`/galoreposts/${concatTitle(wingspanPost.title)}`}>
-                            <div className="galore-posts-highlight-container">
-                                <img src={wingspanPost.img} alt="penguins" />
-                                <div class="galore-posts-img-overlay"></div>
-                                <div className="image-text">
-                                    <h2>Wingspan, Antartica</h2>
-                                    <p style={{ fontSize: '20px' }}>Learn more about the new, icy cool Antarctica edition.</p>
+                    {trendingToday.map((post, idx) => (
+                        <Col sm='12' lg='6' xl='4' key={idx}>
+                            <Link to={`/galoreposts/${concatTitle(post.galoreData.title)}`}>
+                                <div
+                                    className="galore-posts-highlight-container">
+                                    <img
+                                        src={post.galoreData.img}
+                                        alt={post.title}
+                                    />
+                                    <div class="galore-posts-img-overlay"></div>
+                                    <div className="image-text">
+                                        <h2>{post.title}</h2>
+                                        <p style={{ fontSize: '20px' }}>{post.pText}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                    </Col>
-
-                    <Col sm='12' lg='6' xl='4'>
-                        <Link to={`/galoreposts/${concatTitle(strategyPost.title)}`}>
-                            <div className="galore-posts-highlight-container">
-                                <img src={strategyPost.img} alt="board game collection" />
-                                <div class="galore-posts-img-overlay"></div>
-                                <div className="image-text">
-                                    <h2>Secret Strategies</h2>
-                                    <p style={{ fontSize: '20px' }}>Beat your friends and never lose with these nuanced strategies for any classic game!</p>
-                                </div>
-                            </div>
-                        </Link>
-                    </Col>
+                            </Link>
+                        </Col>
+                    ))}
                 </Row>
 
                 <Row>
@@ -85,8 +75,6 @@ const GalorePosts = () => {
             {galorePostsData.map((post, idx) => (
                 <GalorePostPopular post={post} key={idx} />
             ))}
-
-
         </>
     )
 }

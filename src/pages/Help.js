@@ -1,4 +1,3 @@
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 import Header from "../components/allpages/Header";
 import { helpData } from "../components/help/helpData";
 
@@ -17,7 +16,7 @@ const Help = () => {
                 <Row>
                     <Col>
                         <h4 style={{ color: 'black' }}>
-                            You might be a little lost or confused. The FAQs below should answer your questions. If you have any further questions, please reach out to Frank at j.franklee22@gmail.com.
+                            You might be a little lost or confused. The FAQs below should answer your questions. If you have any further questions, then please reach out to Frank at j.franklee22@gmail.com.
                         </h4>
                     </Col>
                 </Row>
