@@ -30,13 +30,14 @@ const GalorePostPopular = ({ post }) => {
 
                     </Col>
                 </Row>
-            </Link>
-            <Row>
-                <Col className='d-flex justify-content-center'>
-                    <h5 style={{ width: '60%', margin: '20px' }}>{post.paragraph[0]}</h5>
 
-                </Col>
-            </Row>
+                <Row>
+                    <Col className='d-flex justify-content-center'>
+                        <h5 style={{ width: '60%', margin: '20px' }}>{post.paragraph[0]}</h5>
+
+                    </Col>
+                </Row>
+            </Link>
         </Container>
     )
 }

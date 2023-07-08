@@ -1,9 +1,12 @@
 import Header from "../components/allpages/Header";
 import { aboutData } from "../components/about/aboutData";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import LoadingIconPost from "../components/mypostspage/LoadingIconPost";
+import { useState } from "react";
 
 const About = () => {
+    const [showIcon, setShowIcon] = useState(true);
+
     return (
         <>
             <Header />
@@ -31,17 +34,38 @@ const About = () => {
                                 section.concepts.map((concept, idx) => (
                                     <div key={idx}>
                                         <h4>{concept}</h4>
-                                        <p>{section.explanation[idx]}</p>
+                                        <pre
+                                            className='App'
+                                            style={{
+                                                whiteSpace: 'pre-wrap',
+                                                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                                                fontSize: '16px'
+                                            }}
+                                        >
+                                            <p style={{ marginBottom: '2px' }}>{section.explanation[idx]}</p>
+                                        </pre>
                                         {section.section === 'General'
                                             && concept === 'API Fetch Calls'
-                                            && (
-                                                <>
+                                            && showIcon && (
+                                                <div
+                                                    className='d-flex align-items-center'
+                                                    style={{ margin: '10px auto' }}
+                                                >
                                                     <LoadingIconPost
                                                         color={'teal'}
                                                         marginLeft={0}
                                                     />
-                                                    <p>Okay, the icon above is a joke. </p>
-                                                </>
+                                                    <span style={{ marginLeft: '15px' }}>Okay, the loading icon is a joke. Nothing is actually loading...but if it bugs you, though, then you can disable it here. </span>
+                                                    <Button
+                                                        style={{
+                                                            marginLeft: '5px',
+                                                            padding: '0px 5px',
+                                                            backgroundColor: 'teal',
+                                                            border: 'teal'
+                                                        }}
+                                                        onClick={() => setShowIcon(false)}
+                                                    >Stop</Button>
+                                                </div>
                                             )
                                         }
                                     </div>
