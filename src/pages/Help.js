@@ -1,5 +1,6 @@
 import Header from "../components/allpages/Header";
 import { helpData } from "../components/help/helpData";
+import { Link } from "react-router-dom";
 
 import { Container, Row, Col } from "reactstrap";
 

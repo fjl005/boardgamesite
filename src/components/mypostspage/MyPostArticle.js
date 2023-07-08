@@ -17,6 +17,7 @@ const MyPostArticle = () => {
             setArticleData(response.data);
         } catch (error) {
             console.error('Error: ', error);
+            alert('Sorry, there was an error loading the individual article for some reason. Please refresh the page and try again. If the problem persists, then please contact Frank!');
         }
     }
 
@@ -53,7 +54,6 @@ const MyPostArticle = () => {
                     <Col>
                         <p>By {articleData.author}</p>
                         <p>Posted {articleData.submissionTime}, {articleData.date}</p>
-                        {console.log('article data: ', articleData)}
                     </Col>
                 </Row>
 

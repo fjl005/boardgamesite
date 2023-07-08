@@ -11,13 +11,6 @@ import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
 
 const MakePost = () => {
 
-    // const cloudinary = Cloudinary.new({ cloud_name: process.env.REACT_APP_CLOUDINARY_CLOUD_NAME });
-
-    // cloudinary.config({
-    //     api_key: process.env.REACT_APP_CLOUDINARY_API_KEY,
-    //     api_secret: process.env.REACT_APP_CLOUDINARY_API_SECRET
-    // });
-
     const [author, setAuthor] = useState('');
     const [title, setTitle] = useState('');
     const [subTitle, setSubTitle] = useState('');
@@ -83,57 +76,54 @@ const MakePost = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsSubmitting(true);
-        // Create a formData object to append the text-based form fields and the image file together.
-        const formData = new FormData();
+
+        // Create a formData object to append image file when posting to Cloudinary.
         const formDataImg = new FormData();
 
-        try {
-            formData.append('title', title);
-            formData.append('subTitle', subTitle);
-            formData.append('author', author);
-            formData.append('paragraph', paragraph);
+        // dataObj will be what's eventually sent to the server to be stored in MongoDB Database.
+        const dataObj = {
+            title,
+            subTitle,
+            author,
+            paragraph
+        }
 
+        try {
             // This would mean that the image is one of the selected. If it wasn't, the index would be -1 and it'd instead possibly be an image upload, tested in the next else if.
             if (selectedImageIdx !== -1) {
-                formData.append('img', imagesSelection[selectedImageIdx]);
+                dataObj.img = imagesSelection[selectedImageIdx];
             } else if (imageFile) {
                 formDataImg.append('file', imageFile);
                 formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
+                // I want to first post to the server before cloudinary. If the server is down, then we shouldn't post onto cloudinary.
                 const imgData = await axios.post('http://localhost:5000/cloudinary')
                     .then(() => axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg))
                     .then(response => response.data)
                     .then(data => {
-                        formData.append('publicId', data.public_id);
-                        formData.append('img', data.url);
+                        dataObj.publicId = data.public_id;
+                        dataObj.img = data.url;
                     })
-                    .catch(error => console.log('Error when posting to Cloudinary: ', error));
+                    .catch(error => {
+                        console.log('Error when posting to Cloudinary: ', error);
+                        alert(`Sorry, there was an error posting the image to our server. Please try again. If the error persists, then please contact Frank. Let's see if we can still proceed to post your article though since the image is technically optional.`);
+                    });
             }
 
-            const response = await axios.post('http://localhost:5000/api', formData);
+            const response = await axios.post('http://localhost:5000/api', dataObj);
 
             if (response.data.error === 'title already exists') {
                 alert('Sorry, you must make a post with a different title name. That title name already exists in a previous post you made.');
             } else if (response.data.error === 'incomplete form') {
                 alert('You must complete all entries on the form.');
-                console.log(response.data);
             } else {
-                console.log('form submitted');
                 alert('Post submitted!');
             }
 
         } catch (error) {
             alert(`Sorry, there was a problem submitting your form. Please refresh and try again. If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank!`);
             console.log('Error: ', error);
-            const deleteImgCloudinary = await axios.delete(`http:/localhost:5000/cloudinary/${formData.get('publicId')}`);
-
-            // console.log('formData public Id: ', formData.get('publicId'));
-
-            // // Delete image posted on cloudinary.
-            // cloudinary.uploader
-            //     .destroy(formData.get('publicId'))
-            //     .then(result => console.log(result))
-            //     .catch(err => console.log(err));
+            const deleteImgCloudinary = await axios.delete(`http:/localhost:5000/cloudinary/${dataObj.publicId}`);
         } finally {
             setIsSubmitting(false);
         }

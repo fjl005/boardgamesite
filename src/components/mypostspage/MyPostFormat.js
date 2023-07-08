@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import cardsAndTrinkets from '../../img/makePostImg/cardsAndTrinkets.jpg';
 import diceOnMap from '../../img/makePostImg/diceOnMap.jpg';
 import foozballGame from '../../img/makePostImg/foozballGame.jpg'
@@ -15,7 +15,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     const [newSubTitle, setNewSubTitle] = useState(subTitle);
     const [newAuthor, setNewAuthor] = useState(author);
     const [newParagraph, setNewParagraph] = useState(paragraph);
-    const [currentImage, setCurrentImage] = useState(img);
     const [imageFile, setImageFile] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1);
     const [savingPost, setSavingPost] = useState(false);
@@ -29,11 +28,11 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
             // await axios.delete(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
             await axios.delete(`http://localhost:5000/cloudinary/${uniqueId}`);
             await axios.delete(`http://localhost:5000/api/${uniqueId}`);
-            console.log('post deleted');
             setUserPosts(userPosts.filter(post => post._id !== uniqueId));
             alert('Single Post Deleted');
         } catch (error) {
             console.log('Error: ', error);
+            alert('Sorry, there was an error when deleting your post. Please try again. If the problem persists, then please contact Frank.');
         }
     }
 
@@ -53,37 +52,35 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
         imageResetNoChange();
     }
 
-    const viewArticle = () => {
-        console.log('this does nothing right now');
-    }
 
     const updatePost = async (event) => {
         event.preventDefault();
         setSavingPost(true);
 
+        const dataObj = {
+            title: newTitle,
+            subTitle: newSubTitle,
+            author: newAuthor,
+            paragraph: newParagraph
+        }
+
         try {
-            const formData = new FormData();
+            // Formdata is used here to handle image file posts to the Cloudinary API.
             const formDataImg = new FormData();
 
-            // This will be used later, when we try to display the new image on the browser after edit is saved.
+            // This will be used later, when we try to display the new image on the browser after edit is saved. I have to use null as a string because of how the Schema was designed (as it can only take string inputs).
             let newImg = 'null';
 
             // If an image was selected from the selection, set the new image to that image.
             if (selectedImageIdx !== -1) {
-                console.log('selected image idx: ', selectedImageIdx);
-                console.log('is this it?')
-                // Delete the original image on file, if it was an uploaded image to Cloudinary.
+                // Delete the original image on file, if it was an uploaded image to Cloudinary. This will need to be done in some other conditions too because we don't want to hold a million files on Cloudinary if it's not the updated image anymore.
                 deleteCurrentImgCloudinary();
-
                 newImg = imagesSelection[selectedImageIdx];
-                formData.append('img', newImg);
+                dataObj.img = newImg;
             }
             // Otherwise, check if there is an image file. That will be the new image, and we will also post this to Cloudinary. 
             else if (imageFile) {
-                console.log('hello?')
-                // Delete the original image on file, if it was an uploaded image to Cloudinary.
                 deleteCurrentImgCloudinary();
-
                 formDataImg.append('file', imageFile);
                 formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
@@ -91,29 +88,25 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                     .then(() => axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg))
                     .then(response => response.data)
                     .then(data => {
-                        formData.append('publicId', data.public_id);
-                        formData.append('img', data.url);
                         newImg = data.url;
+                        dataObj.img = newImg;
+                        dataObj.publicId = data.public_id;
                     })
-                    .catch(error => console.log('Error when posting to Cloudinary: ', error));
+                    .catch(error => {
+                        console.log('Error when posting to Cloudinary: ', error);
+                        alert('Sorry, there was an error posting the image to our server. Please try again. If the error persists, then please contact Frank.');
+                    });
             }
             // We also need to check if there was already an image, and the current image was not removed. Aka, we did nothing to our image. 
             else if (img && !removedCurrentImg) {
-                console.log('waddup')
                 newImg = img;
-                formData.append('img', newImg);
-            } else {
-                // Otherwise, the image was probably removed, or there was no image from the start. 
+            }
+            // Otherwise, the image was removed, or there was no image from the start. 
+            else {
                 deleteCurrentImgCloudinary();
-                formData.append('img', newImg);
             }
 
-            formData.append('title', newTitle);
-            formData.append('subTitle', newSubTitle);
-            formData.append('author', newAuthor);
-            formData.append('paragraph', newParagraph);
-
-            const response = await axios.put(`http://localhost:5000/api/${uniqueId}`, formData);
+            const response = await axios.put(`http://localhost:5000/api/${uniqueId}`, dataObj);
 
             if (response.data.error === 'no changes') {
                 alert("Doesn't seem like anything changed!");
@@ -144,6 +137,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
 
         } catch (error) {
             console.log('Error: ', error);
+            alert('Sorry, there was an error in saving your post. Please try again. If the problem persists, then please contact Frank.');
             setSavingPost(false);
         }
     }
@@ -161,7 +155,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     }
 
     const deleteCurrentImgCloudinary = async () => {
-        console.log('public Id: ', publicId);
         if (publicId) {
             await axios.delete(`http://localhost:5000/cloudinary/${uniqueId}`);
         }
@@ -218,7 +211,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     const removeCurrentImage = () => {
         setRemovedCurrentImg(true);
     }
-
 
     return (
         <Container className='homepage-section'>
@@ -437,8 +429,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                         </>
                                     )}
                                 </div>
-
-
                             </Form>
                         </Col>
                     </Row>
@@ -454,15 +444,12 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                     <Row>
                         <Col>
                             <p>By {author}</p>
-                            {/* <p>Posted {articleJson.submissionTime}, {articleJson.date}</p> */}
                         </Col>
                     </Row>
 
                     {(img !== 'null' && img !== undefined) && (
                         <Row>
                             <Col>
-                                {console.log('img: ', img)}
-                                {console.log('type of img: ', typeof (img))}
                                 <img
                                     src={`${img}`}
                                     alt={`image for ${title}`}
@@ -479,13 +466,6 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                                     {paragraph}
                                 </pre>
                             </p>
-                            {/* {paragraph && paragraph.map((paragraph, idx) => {
-                        return paragraph.length < 50 ? (
-                            <h4 key={idx}>{paragraph}</h4>
-                        ) : (
-                            <p key={idx}>{paragraph}</p>
-                        )
-                    })} */}
                         </Col>
                     </Row>
 
@@ -498,13 +478,9 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                             <Button
                                 style={{ margin: '10px' }}
                                 onClick={() => { deleteSinglePost(uniqueId) }}
-                            // className='bg-danger'
                             >Delete</Button>
-                            {/* <Link to={`${window.location.protocol}//${window.location.hostname}:3000/myposts/${uniqueId}`}> */}
-                            {/* <Link to={`${pathname}/${uniqueId}`}> */}
                             <Link to={`/myposts/${uniqueId}`}>
                                 <Button
-                                    onClick={() => { viewArticle(uniqueId) }}
                                     className='bg-primary'
                                 >View Article</Button>
                             </Link>
