@@ -28,7 +28,33 @@ const Help = () => {
                     <Row>
                         <Col>
                             <h2>{qAndA.question}</h2>
-                            <p style={{ whiteSpace: 'pre-wrap' }}>{qAndA.answer}</p>
+                            {idx === 3 ? (
+                                <>
+                                    {qAndA.answer.split('here').map((entry, index) => (
+                                        index === 0 ? (
+                                            <>
+                                                <span style={{ whiteSpace: 'pre-wrap' }}>{entry}</span>
+                                                <a
+                                                    href='https://github.com/fjl005/boardgamesite/tree/master'
+                                                    target='_blank'
+                                                    style={{ color: 'teal' }}>here</a>
+                                            </>
+                                        ) : index === 1 ? (
+                                            <>
+                                                <span style={{ whiteSpace: 'pre-wrap' }}>{entry}</span>
+                                                <a
+                                                    href='https://github.com/fjl005/boardgamesite-backend/tree/master'
+                                                    target='_blank'
+                                                    style={{ color: 'teal' }}>here</a>
+                                            </>
+                                        ) : (
+                                            <span style={{ whiteSpace: 'pre-wrap' }}>{entry}</span>
+                                        )
+                                    ))}
+                                </>
+                            ) : (
+                                <p style={{ whiteSpace: 'pre-wrap' }}>{qAndA.answer}</p>
+                            )}
                         </Col>
                     </Row>
                 </Container>
