@@ -15,7 +15,7 @@ export const aboutData = [
 
                 `The header and navbar are created once and imported for each page, enabling navigation to different pages. The navbar also includes a toggle function for smaller viewport sizes.`,
 
-                `Links function similarly to anchor tags in HTML, allowing users to navigate to corresponding paths. Routes are defined in the App.js file, and additional functionality like useParams allows further traversal within a given page (e.g., /browse/search/catan/page/2).`,
+                `Links function similarly to anchor tags in HTML, allowing users to navigate to corresponding client-side paths. Routes are defined in the App.js file, and additional functionality like useParams allows further traversal within a given page (e.g., /browse/search/catan/page/2).`,
 
                 `The site is designed to be responsive across all viewport sizes, ranging from xs to xl. You can try it out yourself!`
             ]
@@ -45,13 +45,13 @@ Now let's say someone searches Monopoly (which, based on my experience, has a LO
 
 With all that said, I incorporated abort controller to detect if someone stops the asynchronous calls midway through. If aborted, then the findTotalDataLength function will automatically stop for the current term. Overall, abort controller comes in handy when I want to simply stop the set of asynchronous calls and to move on to the next request.`,
 
-                `Just as fetch calls themselves return Promises through the received response, I created my own Promise in the "checkDataLength" function, which is nested inside the "findTotalDataLength" function. This Promise resolves once the total data length is determined, either when the search for a given call returns fewer than 100 games or when we reach the upper limit of 1000 games. If the call returns exactly 100 games, it suggests that there are more games in the search as we are limited by our search query of 100. In this Promise, I increment the search by 100 and continue adding to the total data length until we meet the end criteria. In these cases, the resolve value is set to false to keep the checkDataLength function running. Once we reach the end, the resolve value is set to true, and the Promise is returned.`,
+                `Just as fetch calls themselves return Promises through the received response, I created my own Promise in the "checkDataLength" function, which is nested inside the "findTotalDataLength" function. This Promise resolves once the total data length is determined, either when the search for a given call returns fewer than 100 games or when we reach the upper limit of 1000 games. If the call returns exactly 100 games, it suggests that there are more games in the search as we are limited by our search query of 100. In this Promise, I increment the search by 100 and continue adding to the total data length until we meet the end criteria. In these cases, the resolve value is set to false to keep the checkDataLength function running. Once we reach the end, the resolve value is set to true, and the Promise is returned with the total length successfully calculated by that point.`,
 
                 `Array filter is used when both a category and an input value were present. Interestingly, the BGA API does not allow us to search by both category and input simultaneously. As a workaround, I first searched by the category and then applied the Array.filter method to display games that have the input value in their names.`,
 
                 `The modal is utilized to show a list of categories when the Categories button is clicked. This concept was inspired by Yelp. Considering the abundance of categories, it is preferable to hide them initially and reveal them through a modal upon clicking.`,
 
-                `Input handling is performed in the GameSearch.js (and ForumSearch.js for forums) file. Upon submission, I check if there is no entry, in which case the input value is set as undefined, and the default set of games is loaded. However, if there is an input, I update the input state and update the page navigation accordingly. This triggers the useEffect function to run the fetch calls, as the input is listed as a dependency.`
+                `Input handling is performed in the GameSearch.js (and ForumSearch.js for forums) file. Upon submission, I check if there is no entry, in which case the input value is set as undefined, and the default set of games (top ranked by BGA) is loaded. However, if there is an input, I update the input state and page navigation accordingly. This triggers the useEffect function to run the fetch calls, as the input is listed as a dependency.`
             ]
     },
     {
@@ -66,9 +66,9 @@ With all that said, I incorporated abort controller to detect if someone stops t
             ['Relative / Absolute Positioning', 'Z-Index'],
         explanation:
             [
-                `To create a grayed image overlay, I incorporate relative and absolute positioning. In the outer div, I set its positioning as relative, enabling the inner div to have absolute positioning. With absolute positioning, the inner div's position is relative to its closest parent that has the "position: relative" property (in this case, the outer div). In my code, I utilize two absolute positionings: one for the text displayed over the image and another for the grayed background.`,
+                `To create a grayed image overlay, I incorporate relative and absolute positioning. In the outer div, I set its positioning as relative and set the inner div as absolute positioning. With absolute positioning, the inner div's position is relative to its closest parent that has the "position: relative" property (in this case, the outer div). In my code, I utilize two absolute positionings: one for the text displayed over the image and another for the grayed background. These two were the 'inner div', and the 'outer div' encaptured the image itself.`,
 
-                `The Z-Index represents an axis, distinct from the x and y axes, that introduces a 3D element by utilizing the z-axis (depth). It allows specific elements to stack on top of one another. In the case of my "Trending Today" images, I prioritize the text by assigning it the highest Z-Index. This ensures that the text is positioned "on top" and not obstructed by other elements.`
+                `The Z-Index represents the z-axis (depth into the page), distinct from the x and y axes, that introduces a 3D element. It allows specific elements to stack on top of one another. In the case of my "Trending Today" images, I prioritize the text by assigning it the highest Z-Index. This ensures that the text is positioned "on top" and not obstructed by other elements.`
             ]
     },
     {
@@ -100,11 +100,11 @@ To clarify the order of steps:
 
                 `Axios is a popular JavaScript library that simplifies making asynchronous HTTP requests from the browser, providing a convenient way to interact with APIs and fetch data from servers.`,
 
-                `Error handling is important both for developers and users, involving console.log to identify and debug errors, and displaying error messages on the browser to inform users about issues. Overall, this provides a better user and debugging experience.`,
+                `Error handling is important both for developers and users. This involves console.log to identify and debug errors and displaying error messages on the browser to inform users about issues. Overall, this provides a better user and debugging experience.`,
 
-                `Create: In the "Make a Post" section, there is a form you can fill out where, upon submission, will be posted to the backend server. If an image is uploaded, the image will first be stored onto Cloudinary. If an image is selected from the selection, then there is no need to upload an image to Cloudinary. Each form will have data stored in a state variable that will be sent to the backend server via Axios as a 'POST' request. The backend server will first check to see if a post with the same title already exists. If it doesn't, then it will use the data from the request body to create a user post via Mongoose into the MongoDB Database. 
+                `Create: In the "Make a Post" section, there is a form you can fill out where, upon submission, will be posted to the backend server. If an image is uploaded, the image will first be stored onto Cloudinary. If an image is selected from the selection, then there is no need to upload an image to Cloudinary. Each form will have data stored in a state variable (to display onto the browser), but the data itself will be sent as an Object to the backend server via Axios as a 'POST' request. The backend server will first check to see if a post with the same title already exists. If it doesn't, then it will use the data from the request body to create a user post via Mongoose into the MongoDB Database. 
 
-Read: In the "My Posts" section, all the posts will be gathered with a 'GET' request. If an individual article is selected, then there will be a 'GET' request for that specific article.
+Read: In the "My Posts" section, all the posts will be gathered with a 'GET' request. If an individual article is selected, then there will be a 'GET' request for that specific article via its unique ID.
 
 Update: In the "My Posts" section, you can edit an individual article. This will result in a pre-filled form containing the already existing data for the article. You can also remove or choose a new image. If a new image is selected, then the previous image will be deleted from Cloudinary (assuming it was uploaded there). Once you click 'Save', then this will send a 'PUT' request to the backend server, updating the already existent post.
 
@@ -116,6 +116,6 @@ Delete: In the "My Posts" section, you can either delete an individual article o
         concepts:
             ["Common Sense"],
         explanation:
-            ["Just kidding. Mainly Array.map and rendering data stored locally onto the screen. Pretty simple!"]
+            ["Just kidding. Mainly Array.map and rendering data stored locally onto the browser. Pretty simple!"]
     }
 ]

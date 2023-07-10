@@ -3,12 +3,12 @@ import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from 'axios'
+import axios from 'axios';
 
 const MyPostArticle = () => {
     const { uniqueId } = useParams();
     const [articleData, setArticleData] = useState({});
-    const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app';
+    // const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app';
 
     const fetchApiData = async () => {
         try {
@@ -28,21 +28,6 @@ const MyPostArticle = () => {
     return (
         <>
             <Header />
-
-            <Container className='homepage-section-no-border'>
-                <div className='d-flex justify-content-between'>
-                    <Link to={`/myposts`}>
-                        Back to My Posts
-                    </Link>
-                    <Link to={`/galoreposts`}>
-                        Back to Galore Posts
-                    </Link>
-                    <Link to={`/`}>
-                        Back to Home Page
-                    </Link>
-                </div>
-            </Container>
-
             <Container className='homepage-section'>
                 <Row>
                     <Col>
@@ -57,18 +42,15 @@ const MyPostArticle = () => {
                     </Col>
                 </Row>
 
-                {articleData.imgUrl != 'https://boardgames-api-attempt2.onrender.com/undefined' ? (
-                    <Row>
-                        <Col>
-                            {(articleData.img !== 'null' && articleData.img !== undefined) && (<img
-                                src={articleData.img}
-                                alt={`image for ${articleData.title}`}
-                                className='galore-post-img' />
-                            )}
-                        </Col>
-                    </Row>
-                ) : null}
-
+                <Row>
+                    <Col>
+                        {(articleData.img !== 'null' && articleData.img !== undefined) && (<img
+                            src={articleData.img}
+                            alt={`image for ${articleData.title}`}
+                            className='galore-post-img' />
+                        )}
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col>
@@ -91,11 +73,7 @@ const MyPostArticle = () => {
                         Back to Home Page
                     </Link>
                 </div>
-
-
-            </Container>
-        </>
-
+            </Container>        </>
     )
 }
 

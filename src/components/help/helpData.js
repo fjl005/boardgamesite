@@ -4,15 +4,15 @@ export const helpData = [
         answer:
             `This is a site created by Frank that originally started as a front end React project but eventually developed into a full stack MERN (MongoDB / Express / React / Node.JS) project. The goals of this project are:
 
-        (1) to utilize a free online API that was of interest to him (since he loves board games, he decided to use the Board Game Atlas (BGA) API), 
+(1) to utilize a free online API that was of interest to him (since he loves board games, he decided to use the Board Game Atlas (BGA) API), 
 
-        (2) to master the fundamentals of HTML / CSS / JavaScript / React (conditional rendering, useState, useEffect, and API fetch calls are used throughout the entire project, for example),
+(2) to master the fundamentals of HTML / CSS / JavaScript / React / Asynchronous Coding,
 
-        (3) to develop a working backend server that can handle CRUD (Create / Read / Update / Delete) http requests,
+(3) to develop a working backend server that can handle CRUD (Create / Read / Update / Delete) http requests,
 
-        (4) to store data in MongoDB and images on a third party server (such as Cloudinary), and
+(4) to store data in MongoDB and images on a third party server (such as Cloudinary), and
 
-        (5) to avoid DRY (Don't-Repeat-Yourself) code and maximize efficiency.`
+(5) to avoid DRY (Don't-Repeat-Yourself) code and maximize efficiency.`
     },
     {
         question: 'Can you explain what each section does?',
@@ -32,7 +32,7 @@ And lastly, the Home Page models that of any popular website, with various secti
     },
     {
         question: "When did you start on this project?",
-        answer: "I started working on this project when he ended his React course during his Nucamp Bootcamp (~mid-late April of 2023)."
+        answer: "I started working on this project when I ended the React course during my Nucamp Bootcamp (~mid-late April of 2023)."
     },
     {
         question: "Where can I see the code?",
@@ -40,6 +40,6 @@ And lastly, the Home Page models that of any popular website, with various secti
     },
     {
         question: "I have some suggestions and feedback for your site...",
-        answer: `Great! Please contact me and let me know how I can improve the site. I am open to any constructive criticism and feedback. I am constantly learning, growing, and striving to be better and I know that my work can always improve. But honestly, this is the case for any website, even the big ones like Google and Amazon! Their sites are always growing and aren't left at a state of "perfection"`
+        answer: `Great! Please contact me and let me know how I can improve the site. I am open to any constructive criticism and feedback. I am constantly learning, growing, and striving to be better and I know that my work can always improve. And honestly, this is the case for any website, even the big ones like Google and Amazon!`
     }
 ]

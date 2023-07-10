@@ -11,18 +11,6 @@ const GalorePostTemplate = () => {
     return (
         <>
             <Header />
-
-            <Container className='homepage-section-no-border'>
-                <div className='d-flex justify-content-between'>
-                    <Link to={`/galoreposts`}>
-                        Back to Galore Posts
-                    </Link>
-                    <Link to={`/`}>
-                        Back to Home Page
-                    </Link>
-                </div>
-            </Container>
-
             <Container className='homepage-section'>
                 <Row>
                     <Col>
@@ -68,8 +56,6 @@ const GalorePostTemplate = () => {
                         Back to Home Page
                     </Link>
                 </div>
-
-
             </Container>
         </>
 

@@ -15,7 +15,6 @@ function App() {
     return (
         <div className="App">
             <Routes>
-                {/* <ScrollToTop /> */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/browse/search/:boardGameName/page/:currentPage" element={<Browse />} />
                 <Route path="/browse/search/:boardGameName" element={<Browse />} />

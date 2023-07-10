@@ -306,8 +306,7 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                             style={{
                                                 position: 'relative',
                                                 display: 'inline-block',
-                                                width: '30%',
-                                                height: '250px'
+                                                width: '30%'
                                             }}
                                         >
                                             <img
@@ -318,7 +317,7 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                                     width: '100%',
                                                     border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none',
                                                     height: '250px',
-                                                    objectFit: 'cover',
+                                                    objectFit: 'cover'
                                                 }}
                                                 onClick={() => handleImageClick(idx)}
                                             />
@@ -341,7 +340,7 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                             {/* Show tooltip of image upload being disabled if an image is selected */}
                                             <div
                                                 data-tooltip-id='image-selection-exists'
-                                                data-tooltip-content='You already have an image selected. Please unselect it if you want to select a default image above.'
+                                                data-tooltip-content='You already have an image selected. Please unselect it if you want to upload your own image.'
                                             >
                                                 <Input
                                                     name='img'
@@ -384,7 +383,7 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
                                         src={imagePreview}
                                         alt='Uploaded Image'
                                         style={{
-                                            width: '40%',
+                                            width: '25%',
                                             height: 'auto',
                                             objectFit: 'cover'
                                         }}

@@ -19,7 +19,7 @@ const About = () => {
                 <Row>
                     <Col>
                         <h4 style={{ color: 'black' }}>
-                            Frank created this full stack website with React (Create-React-App) and Node-JS. In the backend, the following technologies were also utilized: Express, MongoDB, Mongoose, Multer. For image storage, Cloudinary was used. In the front end, http requests were made either with fetch calls or Axios. Each section with their respective concepts/technologies are explained below.
+                            Frank created this full stack website with React (Create-React-App) and Node.JS. In the backend, the following technologies were also utilized: Express, MongoDB, and Mongoose. For image storage, Cloudinary was used. In the front end, http requests were made either with fetch calls, sometimes with the aid of Axios. Each section with their respective concepts/technologies are explained below.
                         </h4>
                     </Col>
                 </Row>

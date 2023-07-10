@@ -41,6 +41,7 @@ const MyPosts = () => {
             fetchApiData();
         } catch (error) {
             console.log(error)
+            alert('Sorry, there was an error in deleting your files. Please try again. If the problem persists, then please contact Frank!');
         } finally {
             setIsDeleting(false);
         }
@@ -74,7 +75,6 @@ const MyPosts = () => {
                 userPosts.length > 0 ? (
                     userPosts.map(post => (
                         <MyPostFormat
-                            key={post._id}
                             uniqueId={post._id}
                             title={post.title}
                             subTitle={post.subTitle}
@@ -99,7 +99,6 @@ const MyPosts = () => {
                             </Col>
                         </Row>
                     </Container>
-
                 )
             )}
 
@@ -112,7 +111,6 @@ const MyPosts = () => {
                                     onClick={deleteAllPosts}
                                     className='bg-danger'
                                 >Delete All Articles</Button>
-
                                 {isDeleting && (
                                     <div>
                                         <LoadingIconPost color='red' marginLeft='10px' />
@@ -130,4 +128,4 @@ const MyPosts = () => {
     )
 }
 
-export default MyPosts
+export default MyPosts;
