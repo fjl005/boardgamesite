@@ -1,10 +1,11 @@
-import Header from '../components/allpages/Header';
+import NavbarApp from '../components/allpages/NavbarApp';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import MyPostFormat from '../components/mypostspage/MyPostFormat';
 import LoadingIcon from "../components/allpages/LoadingIcon";
 import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
+import { NAVBAR_HEADERS } from '../components/allpages/navbarHeaders';
 
 
 const MyPosts = () => {
@@ -49,7 +50,7 @@ const MyPosts = () => {
 
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.myPosts} />
             <Container className='homepage-section'>
                 <Row>
                     <Col>

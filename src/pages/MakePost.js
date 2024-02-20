@@ -1,4 +1,4 @@
-import Header from '../components/allpages/Header'
+import NavbarApp from '../components/allpages/NavbarApp'
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap'
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import foozballGame from '../img/makePostImg/foozballGame.jpg'
 import { Tooltip } from 'react-tooltip';
 import { Cloudinary } from 'cloudinary-core';
 import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
+import { NAVBAR_HEADERS } from '../components/allpages/navbarHeaders';
 
 const MakePost = () => {
 
@@ -175,7 +176,7 @@ Step into the world of AdventureQuest, unleash your imagination, and conquer epi
 
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.makePost} />
             <Container className='homepage-section'>
                 <Row>
                     <Col>

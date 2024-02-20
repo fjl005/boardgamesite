@@ -1,11 +1,12 @@
-import Header from "../components/allpages/Header";
+import NavbarApp from "../components/allpages/NavbarApp";
 import { helpData } from "../components/help/helpData";
 import { Container, Row, Col } from "reactstrap";
+import { NAVBAR_HEADERS } from "../components/allpages/navbarHeaders";
 
 const Help = () => {
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.help} />
             <Container className='homepage-section'>
                 <Row>
                     <Col>

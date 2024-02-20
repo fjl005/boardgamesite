@@ -1,4 +1,4 @@
-import Header from "../allpages/Header";
+import NavbarApp from "../allpages/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { galorePostsData } from "./galorePostsData";
@@ -10,7 +10,7 @@ const GalorePostTemplate = () => {
 
     return (
         <>
-            <Header />
+            <NavbarApp />
             <Container className='homepage-section'>
                 <Row>
                     <Col>

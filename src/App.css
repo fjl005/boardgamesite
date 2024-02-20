@@ -1,34 +1,28 @@
-/* Navbar Stuff */
-.header-navbar {
-    background-color: rgb(97, 38, 144);
+/* General App */
+html {
+    font-size: 12px;
 }
 
-.header-navbar .nav-link {
-    color: white;
-}
+html body {
+    background-color: rgb(240, 240, 240);
+    padding-bottom: 1rem;
 
-.nav-link:hover {
-    border-radius: 2px;
-    background-color: rgb(50, 0, 91);
-    color: white !important;
-}
-
-/* .navbar-toggler-custom {
-    color: white;
-    background-color: white;
-} */
-
-.search-bar {
-    width: 400px;
-}
-
-/* Body, namely setting the background */
-body {
-    background-color: rgb(240, 240, 240) !important;
 }
 
 .App {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+.galore-purple-bg,
+.homepage-section.galore-purple-bg {
+    background-color: rgb(97, 38, 144);
+}
+
+.white-text,
+.white-text .h3-white-text {
+    color: white;
+    text-decoration: none;
 }
 
 .homepage-section h1,
@@ -47,34 +41,113 @@ body {
 }
 
 
-/* For sections in the home page */
-.homepage-section {
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 15px;
+
+/* Navbar */
+.navbar-brand-img {
+    width: 2rem;
+    height: 2rem;
+}
+
+
+.nav-item-selected {
+    background-color: rgb(233, 190, 253);
+}
+
+.galore-purple-bg .nav-item-selected .nav-link-text-selected {
+    color: black;
+}
+
+.galore-purple-bg .nav-item-outer .nav-link-text {
+    color: white;
+}
+
+.nav-item-outer:hover {
+    background-color: rgb(50, 0, 91);
+}
+
+.galore-purple-bg .nav-link-text:hover {
+    color: white;
+}
+
+.galore-purple-bg .navbar-toggler-background {
     background-color: white;
-    width: 90%;
-    max-width: 1000px;
+}
+
+
+
+/* Home Page */
+.homepage-section {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+    background-color: white;
 }
 
 .homepage-section-no-border {
-    padding: 10px;
-    margin: 15px;
-    width: 90%;
-    max-width: 1000px;
+    padding: 1rem;
 }
 
 .homepage-card {
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     background-color: white;
-    padding: 10px;
+    padding: 1rem;
 
     word-wrap: break-word;
     /* break words that are too long to fit */
     overflow-wrap: anywhere;
     /* allow words to break at any character */
+}
+
+.homepage-section-no-border .homepage-card-pl-0 {
+    padding: 0 1rem 0 0;
+    display: flex;
+    justify-content: start;
+}
+
+.homepage-section-no-border .homepage-card-pr-0 {
+    padding: 0 0 0 1rem;
+    display: flex;
+    justify-content: end;
+}
+
+.homepage-section-no-border .homepage-card-px-0 {
+    padding: 0;
+}
+
+.homepage-card-pr-0 .homepage-card,
+.homepage-card-pl-0 .homepage-card {
+    width: 95%;
+}
+
+.homepage-card-px-0 .homepage-card {
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .homepage-section-no-border .homepage-card-pl-0 {
+        padding: 0 1rem 0 0;
+        display: flex;
+        justify-content: start;
+    }
+
+    .homepage-section-no-border .homepage-card-pr-0 {
+        padding: 0 0 0 1rem;
+        display: flex;
+        justify-content: end;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .homepage-section-no-border .homepage-card-pl-0 {
+        padding: 0 0 1rem 0;
+    }
+
+    .homepage-section-no-border .homepage-card-pr-0 {
+        padding: 1rem 0 0 0;
+    }
 }
 
 .homepage-card img {
@@ -103,11 +176,14 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
+
+
+/* Galore Posts */
 .galore-posts-highlight-container {
     position: relative;
     width: 100%;
-    height: 300px;
-    margin: 10px;
+    height: 20rem;
+    /* margin: 0 2rem; */
 }
 
 .galore-posts-highlight-container img {
@@ -160,6 +236,12 @@ body {
     font-size: '20px';
 }
 
+@media (max-width: 992px) {
+    .search-table {
+        overflow-x: auto;
+    }
+}
+
 td {
     vertical-align: middle;
 }
@@ -170,29 +252,7 @@ td {
 }
 
 /* Viewport Sizes */
-@media (min-width: 992px) {
-    .no-left-padding {
-        padding-left: 0 !important;
-    }
 
-    .no-right-padding {
-        padding-right: 0 !important;
-    }
-}
-
-@media (max-width: 992px) {
-    .no-left-padding {
-        padding: 0px 0px 25px 0px !important;
-    }
-
-    .no-right-padding {
-        padding: 0 !important;
-    }
-
-    .search-table {
-        overflow-x: auto;
-    }
-}
 
 @media (max-width: 1200px) {
     .top-rated-center-align {

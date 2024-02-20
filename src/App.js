@@ -10,12 +10,15 @@ import MakePost from './pages/MakePost';
 import MyPosts from './pages/MyPosts';
 import MyPostArticle from './components/mypostspage/MyPostArticle';
 import About from './pages/About';
+import BrowseUpdated from './pages/BrowseUpdated';
+import ForumsUpdated from './pages/ForumsUpdated';
 
 function App() {
     return (
         <div className="App">
             <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/browse" element={<BrowseUpdated />} />
                 <Route path="/browse/search/:boardGameName/page/:currentPage" element={<Browse />} />
                 <Route path="/browse/search/:boardGameName" element={<Browse />} />
                 <Route path="/browse/page/:currentPage" element={<Browse />} />
@@ -23,7 +26,7 @@ function App() {
                 <Route path="/forums/search/:forum/page/:currentPage" element={<Forums />} />
                 <Route path="/forums/search/:forum" element={<Forums />} />
                 <Route path="/forums/page/:currentPage" element={<Forums />} />
-                <Route path="/forums" element={<Forums />} />
+                <Route path="/forums" element={<ForumsUpdated />} />
                 <Route path="/galoreposts/:title" element={<GalorePostTemplate />} />
                 <Route path="/galoreposts" element={<GalorePosts />} />
                 <Route path="/help" element={<Help />} />

@@ -27,11 +27,10 @@ const GameSearch = ({ inputValue, setInputValue, setPage, fullLengthData, lookin
                 <Row>
                     <Col>
                         <h1>Browse</h1>
-                        <p style={{ fontSize: '18px' }}>Search for games via the Board Game Atlas API. The games will show useful information down below such as player count, average rating, and current price based on the BGA API. There is also the option to search by game category; only one game category can be selected at a time. Games displayed in the table will automatically be sorted by rank as determined by BGA. If interested in a game, you can click on it down below and it will take you to its page from the BGA site. For more information on this API, check out the docs <a href='https://www.boardgameatlas.com/api/docs' target='_blank'> here</a>.</p>
-                        <Form onSubmit={handleSubmit} className='d-flex justify-content-center'>
-                            <Label htmlFor='searchGames' style={{ fontSize: '20px', textAlign: 'center' }}>Search Games</Label>
-                            <Input id='searchGames' placeholder='e.g. Catan, Monopoly, Ark Nova, etc.'></Input>
-                            <Button type='submit' style={{ margin: '10px 10px 10px 20px' }}>Search</Button>
+                        <p>Search for games via the Board Game Atlas API. The games will show useful information down below such as player count, average rating, and current price based on the BGA API. There is also the option to search by game category; only one game category can be selected at a time. Games displayed in the table will automatically be sorted by rank as determined by BGA. If interested in a game, you can click on it down below and it will take you to its page from the BGA site. For more information on this API, check out the docs <a href='https://www.boardgameatlas.com/api/docs' target='_blank'> here</a>.</p>
+                        <Form onSubmit={handleSubmit} className='d-flex'>
+                            <Input id='searchGames' placeholder='e.g. Catan, Monopoly, Ark Nova, etc.' style={{ width: '90%' }} />
+                            <Button type='submit' style={{ marginLeft: '3rem' }}>Search</Button>
                         </Form>
                     </Col>
                 </Row>

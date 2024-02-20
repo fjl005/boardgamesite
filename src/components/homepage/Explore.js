@@ -3,8 +3,6 @@ import { galorePostsData } from "../galorepostspage/galorePostsData";
 import { concatTitle } from "../../utils/concatTitle";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import lazyGrayImage from '../../img/lazyGrayImage.png';
-import boardGames from '../../img/boardGames.jpg';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 
@@ -15,18 +13,20 @@ const Explore = () => {
         <>
             <Container className='homepage-section'>
                 <Row>
-                    <h1>Explore</h1>
+                    <Col>
+                        <h1>Explore</h1>
+                    </Col>
                 </Row>
                 <Row>
-                    <Col sm='12' xl='6'>
+                    <Col sm='12' md='6'>
                         <div style={{ position: 'relative', width: '100%' }}>
                             <LazyLoadImage
                                 style={{ objectFit: 'cover' }}
-                                src={boardGames}
+                                src='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/boardGames_q9ee5v.jpg'
                                 alt="Frank's Board Game Collection"
                                 width='100%'
                                 height='400px'
-                                placeholderSrc={lazyGrayImage}
+                                placeholderSrc={'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'}
                                 effect='blur'
                             />
                         </div>
@@ -35,7 +35,7 @@ const Explore = () => {
                         <p>This is Frank's collection of board games. Not included here is his recent obsession, Ark Nova! But weirdly, included are <i>The Bogleheads Guide to Investing</i> and Korean reading material (if you can see them that is!). It seems like Frank enjoys learning about investments and improving his Korean speaking skills in addition to playing board games with his girlfriend!</p>
                     </Col>
 
-                    <Col xl='6' className='d-flex flex-column justify-content-center'>
+                    <Col sm='12' md='6' className='d-flex flex-column justify-content-center'>
                         <ul>
                             {exploreListItems.map((item, idx) => (
                                 <li className='homepage-explore-list-items' key={idx}>
@@ -46,8 +46,8 @@ const Explore = () => {
                                             <LazyLoadImage
                                                 key={idx}
                                                 src={item.img}
-                                                alt={'Image from Galore Posts'}
-                                                placeholderSrc={lazyGrayImage}
+                                                alt='Image from Galore Posts'
+                                                placeholderSrc='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'
                                                 effect='blur'
                                                 className='explore-items-img'
                                             />
@@ -63,8 +63,7 @@ const Explore = () => {
                                         </Link>
                                     </div>
                                 </li>
-                            )
-                            )}
+                            ))}
                         </ul>
                     </Col>
                 </Row>

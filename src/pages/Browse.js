@@ -1,4 +1,4 @@
-import Header from "../components/allpages/Header";
+import NavbarApp from "../components/allpages/NavbarApp";
 import { Container, Row, Col, Label, Input, Button, Table } from "reactstrap";
 import { useState, useEffect } from "react";
 import PagesTracker from "../components/browsepage/PagesTracker";
@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import GameSearch from "../components/browsepage/GameSearch";
 import Filters from "../components/browsepage/Filters";
 import LoadingIcon from "../components/allpages/LoadingIcon";
+import { NAVBAR_HEADERS } from "../components/allpages/navbarHeaders";
 
 const Browse = () => {
     // Define basic variables. 
@@ -144,8 +145,6 @@ const Browse = () => {
             // See function defined down below, determineUrl.
             url = determineUrl(pageSize, false);
         }
-
-        // const url = 'triggerFetchError';
 
         try {
             const response = await fetch(url);
@@ -306,7 +305,7 @@ const Browse = () => {
 
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.browseGames} />
             <GameSearch
                 inputValue={inputValue}
                 setInputValue={setInputValue}

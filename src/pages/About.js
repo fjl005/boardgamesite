@@ -1,15 +1,16 @@
-import Header from "../components/allpages/Header";
+import NavbarApp from "../components/allpages/NavbarApp";
 import { aboutData } from "../components/about/aboutData";
 import { Container, Row, Col, Button } from "reactstrap";
 import LoadingIconPost from "../components/mypostspage/LoadingIconPost";
 import { useState } from "react";
+import { NAVBAR_HEADERS } from "../components/allpages/navbarHeaders";
 
 const About = () => {
     const [showIcon, setShowIcon] = useState(true);
 
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.about} />
             <Container className='homepage-section'>
                 <Row>
                     <Col>

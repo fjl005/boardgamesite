@@ -1,9 +1,10 @@
-import Header from "../components/allpages/Header";
+import NavbarApp from "../components/allpages/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { concatTitle } from "../utils/concatTitle";
 import { galorePostsData } from "../components/galorepostspage/galorePostsData";
 import GalorePostPopular from "../components/galorepostspage/GalorePostPopular";
+import { NAVBAR_HEADERS } from "../components/allpages/navbarHeaders";
 
 const GalorePosts = () => {
     const [concordiaPost, wingspanPost, strategyPost] = galorePostsData;
@@ -27,7 +28,7 @@ const GalorePosts = () => {
 
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.galorePosts} />
             <Container className='homepage-section'>
                 <Row>
                     <Col>
@@ -46,7 +47,7 @@ const GalorePosts = () => {
                 <Row>
 
                     {trendingToday.map((post, idx) => (
-                        <Col sm='12' lg='6' xl='4' key={idx}>
+                        <Col sm='12' lg='4' key={idx} className='mt-3'>
                             <Link to={`/galoreposts/${concatTitle(post.galoreData.title)}`}>
                                 <div
                                     className="galore-posts-highlight-container">
@@ -57,7 +58,7 @@ const GalorePosts = () => {
                                     <div class="galore-posts-img-overlay"></div>
                                     <div className="image-text">
                                         <h2>{post.title}</h2>
-                                        <p style={{ fontSize: '20px' }}>{post.pText}</p>
+                                        <p style={{ fontSize: '1.2rem' }}>{post.pText}</p>
                                     </div>
                                 </div>
                             </Link>
@@ -65,9 +66,9 @@ const GalorePosts = () => {
                     ))}
                 </Row>
 
-                <Row>
+                <Row style={{ margin: '3rem auto 0 auto' }}>
                     <Col>
-                        <h4 style={{ marginTop: '30px' }}>Popular</h4>
+                        <h4 className='mb-0'>Popular</h4>
                     </Col>
                 </Row>
             </Container>

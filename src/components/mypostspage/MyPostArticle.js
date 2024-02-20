@@ -1,4 +1,4 @@
-import Header from "../allpages/Header";
+import NavbarApp from "../allpages/NavbarApp";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -27,7 +27,7 @@ const MyPostArticle = () => {
 
     return (
         <>
-            <Header />
+            <NavbarApp />
             <Container className='homepage-section'>
                 <Row>
                     <Col>

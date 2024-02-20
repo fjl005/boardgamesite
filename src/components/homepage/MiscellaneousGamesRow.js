@@ -3,79 +3,48 @@ import { Link } from "react-router-dom";
 import { concatTitle } from "../../utils/concatTitle";
 import { galorePostsData } from "../galorepostspage/galorePostsData";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import lazyGrayImage from '../../img/lazyGrayImage.png';
-import penguins from '../../img/penguins.jpg';
-import genericMeeples from '../../img/genericMeeples.jpg';
-import alone from '../../img/alone.jpg';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 const MiscellaneousGamesRow = () => {
-    const [, wingspan, , , , , honestReview, aloneGames] = galorePostsData;
+    const gameIdsOfInterest = [1, 6, 7];
+    const outerCol = [['homepage-card-pl-0', 'homepage-card-pr-0'], ['homepage-card-px-0']];
+    const selectGamesData = galorePostsData.filter((gameData => gameIdsOfInterest.includes(gameData.id)));
+    const updatedSelection = [selectGamesData.slice(0, 2), selectGamesData.slice(2)];
 
     return (
         <>
-            <Container className='homepage-section-no-border'>
-                <Row>
-                    <Col sm='12' lg='6' className='no-left-padding'>
-                        <Col className='homepage-card'>
-                            <Link
-                                to={`/galoreposts/${concatTitle(wingspan.title)}`}
-                                className="link-no-decor-black"
+            {updatedSelection.map((selectionArr, index) => (
+                <Container key={index} className='homepage-section-no-border'>
+                    <Row>
+                        {selectionArr.map((articleInfo, idx) => (
+                            <Col
+                                key={idx}
+                                sm='12'
+                                lg={index === 0 ? '6' : null}
+                                className={outerCol[index][idx]}
                             >
-                                <h3>Coming Soon... Wingspan Antarctica!</h3>
-                                <LazyLoadImage
-                                    src={penguins}
-                                    width='100%'
-                                    alt='Cute Penguins!'
-                                    placeholderSrc={lazyGrayImage}
-                                    effect='blur'
-                                />
-                                <p>"Well waddle you know, we're famous!"</p>
-                            </Link>
-                        </Col>
-                    </Col>
+                                <Col className='homepage-card'>
+                                    <Link
+                                        to={`/galoreposts/${concatTitle(articleInfo.title)}`}
+                                        className='link-no-decor-black'
+                                    >
+                                        <h3>{articleInfo.title}</h3>
+                                        <LazyLoadImage
+                                            src={articleInfo.img}
+                                            width='100%'
+                                            alt={articleInfo.title}
+                                            placeholderSrc={'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'}
+                                            effect='blur'
+                                        />
+                                    </Link>
+                                    <p style={{ margin: '0.5rem auto' }}>{articleInfo.subTitle}</p>
+                                </Col>
 
-                    <Col lg='6' className='no-right-padding'>
-                        <Col className='homepage-card ml-5'>
-                            <Link
-                                to={`/galoreposts/${concatTitle(honestReview.title)}`}
-                                style={{ textDecoration: 'none', color: 'black' }}
-                            >
-                                <h3>Honest Review: The Best Game Ever?</h3>
-                                <LazyLoadImage
-                                    src={genericMeeples}
-                                    width='100%'
-                                    alt='Board Game Meeples'
-                                    placeholderSrc={lazyGrayImage}
-                                    effect='blur'
-                                />
-                                <p>Hint: it's not Monopoly.</p>
-                            </Link>
-                        </Col>
-                    </Col>
-                </Row>
-            </Container>
-
-            <Container className='homepage-section-no-border'>
-                <Row>
-                    <Col className='homepage-card'>
-                        <Link
-                            to={`/galoreposts/${concatTitle(aloneGames.title)}`}
-                            className="link-no-decor-black"
-                        >
-                            <h3>Solo Games vs. with Friends?</h3>
-                            <LazyLoadImage
-                                src={alone}
-                                alt='Alone Man'
-                                width='100%'
-                                style={{ height: '330px' }}
-                                placeholderSrc={lazyGrayImage}
-                                effect='blur'
-                            />
-                        </Link>
-                    </Col>
-                </Row>
-            </Container>
+                            </Col>
+                        ))}
+                    </Row>
+                </Container>
+            ))}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import Header from "../components/allpages/Header";
+import NavbarApp from "../components/allpages/NavbarApp";
 import { Container, Row, Col, Label, Input, Button, Table } from "reactstrap";
 import { useState, useEffect } from "react";
 import PagesTracker from "../components/browsepage/PagesTracker";
@@ -7,6 +7,7 @@ import ForumSearch from "../components/forumpage/ForumSearch";
 import { convertDate } from "../utils/dateConvert";
 import LoadingIcon from "../components/allpages/LoadingIcon";
 import { useNavigate } from 'react-router-dom';
+import { NAVBAR_HEADERS } from "../components/allpages/navbarHeaders";
 
 const Forums = () => {
     const clientId = 'f24B6m6kXF';
@@ -167,7 +168,7 @@ const Forums = () => {
 
     return (
         <>
-            <Header />
+            <NavbarApp currentPage={NAVBAR_HEADERS.atlasForums} />
             <ForumSearch
                 inputValue={inputValue}
                 setInputValue={setInputValue}
