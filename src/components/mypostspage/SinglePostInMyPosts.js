@@ -1,5 +1,6 @@
 import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import axios from 'axios';
+import { axiosConfig } from '../allpages/axiosConfig';
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import cardsAndTrinkets from '../../img/makePostImg/cardsAndTrinkets.jpg';
@@ -8,7 +9,21 @@ import foozballGame from '../../img/makePostImg/foozballGame.jpg'
 import LoadingIconPost from './LoadingIconPost';
 import { Tooltip } from 'react-tooltip';
 
-const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts, setUserPosts, img, publicId }) => {
+const SinglePostInMyPosts = ({
+    post,
+    uniqueId,
+    userPosts,
+    setUserPosts,
+}) => {
+
+    const {
+        title,
+        subTitle,
+        author,
+        paragraph,
+        img,
+        publicId,
+    } = post;
 
     const [newTitle, setNewTitle] = useState(title);
     const [newSubTitle, setNewSubTitle] = useState(subTitle);
@@ -21,17 +36,9 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     const [removedCurrentImg, setRemovedCurrentImg] = useState(false);
     const [edit, setEdit] = useState(false);
 
-    // const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app/';
+    const imagesSelection = [cardsAndTrinkets, foozballGame, diceOnMap];
 
-    const imagesSelection = [
-        cardsAndTrinkets,
-        foozballGame,
-        diceOnMap
-    ];
-
-    const togglePost = () => {
-        setEdit(!edit);
-    };
+    const togglePost = () => setEdit(!edit);
 
     const cancelClick = () => {
         togglePost();
@@ -59,10 +66,9 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
 
     const deleteSinglePost = async (uniqueId) => {
         try {
-            // await axios.delete(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
             // Need to delete the image from Cloudinary first to grab the public Id, before deleting it from our database.
-            await axios.delete(`http://localhost:5000/cloudinary/${uniqueId}`);
-            await axios.delete(`http://localhost:5000/api/${uniqueId}`);
+            await axiosConfig.delete(`/cloudinary/${uniqueId}`);
+            await axiosConfig.delete(`/api/${uniqueId}`);
             setUserPosts(userPosts.filter(post => post._id !== uniqueId));
             alert('Single Post Deleted');
         } catch (error) {
@@ -102,7 +108,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                 formDataImg.append('file', imageFile);
                 formDataImg.append("upload_preset", process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
 
-                const imgData = await axios.post('http://localhost:5000/cloudinary')
+                const imgData = await axiosConfig.post('/cloudinary')
                     .then(() => axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg))
                     .then(response => response.data)
                     .then(data => {
@@ -124,7 +130,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
                 deleteCurrentImgCloudinary();
             }
 
-            const response = await axios.put(`http://localhost:5000/api/${uniqueId}`, dataObj);
+            const response = await axiosConfig.put(`/api/${uniqueId}`, dataObj);
             if (response.data.error === 'no changes') {
                 alert("Doesn't seem like anything changed!");
             }
@@ -160,7 +166,7 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
 
     const deleteCurrentImgCloudinary = async () => {
         if (publicId) {
-            await axios.delete(`http://localhost:5000/cloudinary/${uniqueId}`);
+            await axiosConfig.delete(`/cloudinary/${uniqueId}`);
         }
     };
 
@@ -204,9 +210,11 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     }, [imageFile]);
 
     return (
+
         <Container className='homepage-section'>
             {edit ? (
                 <>
+
                     <Row>
                         <Col>
                             <Form onSubmit={updatePost}>
@@ -473,4 +481,4 @@ const MyPostFormat = ({ uniqueId, title, subTitle, author, paragraph, userPosts,
     )
 }
 
-export default MyPostFormat;
+export default SinglePostInMyPosts;

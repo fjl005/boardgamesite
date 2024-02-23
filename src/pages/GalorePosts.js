@@ -33,7 +33,7 @@ const GalorePosts = () => {
                 <Row>
                     <Col>
                         <h1>Posts from Bored Games Galore</h1>
-                        <p>Welcome to the Galore Posts Section! <strong>This part of the site does NOT use the Board Game Atlas API.</strong> Instead, this is all data made by Frank. Trending and popular posts are shown here. If you want to contribute, then feel free to make a post in the "Make a Post" section. Your posts will be shown in the "My Posts" section. After careful review, your post may be eligible to the Trending and/or Popular Section!</p>
+                        <p>Welcome to the Galore Posts Section! <strong>This part of the site does NOT use the Board Game Atlas API.</strong> Trending and popular posts are shown here. If you want to contribute, then feel free to make a post in the "Make a Post" section. Your posts will be shown in the "My Posts" section. After careful review, your post may be eligible to the Trending and/or Popular Section!</p>
                     </Col>
                 </Row>
             </Container>
@@ -45,7 +45,6 @@ const GalorePosts = () => {
                     </Col>
                 </Row>
                 <Row>
-
                     {trendingToday.map((post, idx) => (
                         <Col sm='12' lg='4' key={idx} className='mt-3'>
                             <Link to={`/galoreposts/${concatTitle(post.galoreData.title)}`}>
@@ -55,10 +54,10 @@ const GalorePosts = () => {
                                         src={post.galoreData.img}
                                         alt={post.title}
                                     />
-                                    <div class="galore-posts-img-overlay"></div>
-                                    <div className="image-text">
+                                    <div className="galore-posts-img-overlay"></div>
+                                    <div className="galore-posts-image-text">
                                         <h2>{post.title}</h2>
-                                        <p style={{ fontSize: '1.2rem' }}>{post.pText}</p>
+                                        <p className='font-size-1-2'>{post.pText}</p>
                                     </div>
                                 </div>
                             </Link>
@@ -66,9 +65,9 @@ const GalorePosts = () => {
                     ))}
                 </Row>
 
-                <Row style={{ margin: '3rem auto 0 auto' }}>
+                <Row>
                     <Col>
-                        <h4 className='mb-0'>Popular</h4>
+                        <h4 className='mb-0 mt-5'>Popular</h4>
                     </Col>
                 </Row>
             </Container>

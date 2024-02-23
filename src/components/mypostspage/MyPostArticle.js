@@ -3,17 +3,15 @@ import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import { axiosConfig } from "../allpages/axiosConfig";
 
 const MyPostArticle = () => {
     const { uniqueId } = useParams();
     const [articleData, setArticleData] = useState({});
-    // const netlifyUrl = 'https://649642c1b48fbc0c7d5849ba--inspiring-profiterole-51c43d.netlify.app';
 
     const fetchApiData = async () => {
         try {
-            // const response = await axios.get(`https://boardgames-api-attempt2.onrender.com/api/${uniqueId}`);
-            const response = await axios.get(`http://localhost:5000/api/${uniqueId}`)
+            const response = await axiosConfig.get(`api/${uniqueId}`)
             setArticleData(response.data);
         } catch (error) {
             console.error('Error: ', error);
@@ -73,7 +71,8 @@ const MyPostArticle = () => {
                         Back to Home Page
                     </Link>
                 </div>
-            </Container>        </>
+            </Container>
+        </>
     )
 }
 

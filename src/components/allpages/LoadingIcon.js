@@ -11,7 +11,6 @@ const LoadingIcon = () => {
             <FontAwesomeIcon
                 icon={faSpinner}
                 spin size='2x'
-                marginTop='100px'
                 color='teal'
             />
         </div>

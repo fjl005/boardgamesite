@@ -2,8 +2,8 @@ import { Container, Row, Col } from "reactstrap";
 import { galorePostsData } from "../galorepostspage/galorePostsData";
 import { concatTitle } from "../../utils/concatTitle";
 import { Link } from "react-router-dom";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import LazyLoadImageTemplate from "../allpages/LazyLoadImageTemplate";
+import { LAZY_LOAD_TYPE } from "../allpages/LazyLoadImageTemplate";
 
 
 const Explore = () => {
@@ -19,17 +19,13 @@ const Explore = () => {
                 </Row>
                 <Row>
                     <Col sm='12' md='6'>
-                        <div style={{ position: 'relative', width: '100%' }}>
-                            <LazyLoadImage
-                                style={{ objectFit: 'cover' }}
-                                src='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/boardGames_q9ee5v.jpg'
-                                alt="Frank's Board Game Collection"
-                                width='100%'
-                                height='400px'
-                                placeholderSrc={'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'}
-                                effect='blur'
-                            />
-                        </div>
+                        <LazyLoadImageTemplate
+                            src='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/boardGames_q9ee5v.jpg'
+                            alt="Frank's board game collection"
+                            width='100%'
+                            height='400px'
+                            postType={LAZY_LOAD_TYPE.exploreMain}
+                        />
 
                         <h4>An Amateur's Collection</h4>
                         <p>This is Frank's collection of board games. Not included here is his recent obsession, Ark Nova! But weirdly, included are <i>The Bogleheads Guide to Investing</i> and Korean reading material (if you can see them that is!). It seems like Frank enjoys learning about investments and improving his Korean speaking skills in addition to playing board games with his girlfriend!</p>
@@ -43,13 +39,11 @@ const Explore = () => {
                                         <Link
                                             to={`/galoreposts/${concatTitle(item.title)}`}
                                         >
-                                            <LazyLoadImage
+                                            <LazyLoadImageTemplate
                                                 key={idx}
                                                 src={item.img}
                                                 alt='Image from Galore Posts'
-                                                placeholderSrc='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'
-                                                effect='blur'
-                                                className='explore-items-img'
+                                                postType={LAZY_LOAD_TYPE.exploreItemsList}
                                             />
                                         </Link>
                                         <Link

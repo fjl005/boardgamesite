@@ -1,34 +1,34 @@
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import { concatTitle } from "../../utils/concatTitle";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import 'react-lazy-load-image-component/src/effects/blur.css';
+import LazyLoadImageTemplate from "../allpages/LazyLoadImageTemplate";
+import { LAZY_LOAD_TYPE } from "../allpages/LazyLoadImageTemplate";
 
 const GalorePostPopular = ({ post }) => {
     return (
         <Container className='homepage-section'>
             <Link to={`/galoreposts/${concatTitle(post.title)}`}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-                onClick={() => window.scrollTo(0, 0)}>
+                className='galore-posts-styles-inherit text-center'
+                onClick={() => window.scrollTo(0, 0)}
+            >
                 <Row>
-                    <Col className='text-center'>
+                    <Col>
                         <h1>{post.title}</h1>
-                        <p>Posted by {post.author}</p>
+                        <p className='font-size-1-2'>Posted by {post.author}</p>
                     </Col>
                 </Row>
                 <Row>
                     <Col className='d-flex justify-content-center'>
-                        <LazyLoadImage
+                        <LazyLoadImageTemplate
                             src={post.img}
                             alt={post.title}
-                            placeholderSrc={'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'}
-                            effect='blur'
-                            className='galore-post-img' />
+                            postType={LAZY_LOAD_TYPE.galorePost}
+                        />
                     </Col>
                 </Row>
 
                 <Row>
-                    <Col className='d-flex justify-content-center'>
+                    <Col>
                         <h5>{post.paragraph[0]}</h5>
                     </Col>
                 </Row>

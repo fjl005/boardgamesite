@@ -1,12 +1,12 @@
 import NavbarApp from '../components/allpages/NavbarApp';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import MyPostFormat from '../components/mypostspage/MyPostFormat';
+import { axiosConfig } from '../components/allpages/axiosConfig';
+import SinglePostInMyPosts from '../components/mypostspage/SinglePostInMyPosts';
 import LoadingIcon from "../components/allpages/LoadingIcon";
 import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
 import { NAVBAR_HEADERS } from '../components/allpages/navbarHeaders';
-
+import SinglePostInMyPosts2 from '../components/mypostspage/SinglePostInMyPosts2';
 
 const MyPosts = () => {
 
@@ -17,8 +17,7 @@ const MyPosts = () => {
 
     const fetchApiData = async () => {
         try {
-            // const response = await axios.get('https://boardgames-api-attempt2.onrender.com/api');
-            const response = await axios.get('http://localhost:5000/api');
+            const response = await axiosConfig.get('/api');
             setUserPosts(response.data);
             setServerDown(false);
         } catch (error) {
@@ -36,8 +35,7 @@ const MyPosts = () => {
     const deleteAllPosts = async () => {
         try {
             setIsDeleting(true);
-            // await axios.delete('https://boardgames-api-attempt2.onrender.com/api');
-            await axios.delete('http://localhost:5000/api');
+            await axiosConfig.delete('/api');
             alert('All of your posts have been deleted!')
             fetchApiData();
         } catch (error) {
@@ -66,8 +64,8 @@ const MyPosts = () => {
                     <Container className='homepage-section'>
                         <Row>
                             <Col>
-                                <LoadingIcon style={{ color: 'teal' }} />
-                                <h4>Loading...</h4>
+                                <LoadingIcon />
+                                <h1>Loading...</h1>
                             </Col>
                         </Row>
                     </Container>
@@ -75,16 +73,11 @@ const MyPosts = () => {
             ) : (
                 userPosts.length > 0 ? (
                     userPosts.map(post => (
-                        <MyPostFormat
-                            uniqueId={post._id}
-                            title={post.title}
-                            subTitle={post.subTitle}
-                            author={post.author}
-                            paragraph={post.paragraph}
+                        <SinglePostInMyPosts2
+                            post={post}
+                            postId={post._id}
                             userPosts={userPosts}
                             setUserPosts={setUserPosts}
-                            img={post.img}
-                            publicId={post.publicId}
                         />
                     ))
                 ) : (
@@ -95,7 +88,6 @@ const MyPosts = () => {
                                     <h2>Sorry for the technical difficulties...please refresh and try again. <br />If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank! We promise we are working as quickly as we can to fix it.</h2>
                                 ) : (
                                     <h2>No posts have been made by you. Go make some!</h2>
-
                                 )}
                             </Col>
                         </Row>
@@ -108,14 +100,11 @@ const MyPosts = () => {
                     <Row>
                         <Col>
                             <div className='d-flex'>
-                                <Button
-                                    onClick={deleteAllPosts}
-                                    className='bg-danger'
-                                >Delete All Articles</Button>
+                                <Button onClick={deleteAllPosts} className='bg-danger btn-border-none'>Delete All Articles</Button>
                                 {isDeleting && (
                                     <div>
-                                        <LoadingIconPost color='red' marginLeft='10px' />
-                                        <span style={{ marginLeft: '10px' }}>
+                                        <LoadingIconPost color='red' marginLeft='1rem' />
+                                        <span style={{ marginLeft: '1rem' }}>
                                             Deleting all posts, this may take a few seconds...
                                         </span>
                                     </div>
