@@ -118,21 +118,24 @@ const SinglePostInMyPosts = ({
                 publicId: cloudinaryData ? cloudinaryData.publicId : null,
             };
 
-            const response = editing ? await axiosConfig.put(`/api/${postId}`, { reqBody }) : await axiosConfig.post('/api', { reqBody });
+            editing ? await axiosConfig.put(`/api/${postId}`, { reqBody }) : await axiosConfig.post('/api', { reqBody });
 
-            if (response.data.error === 'title already exists') {
-                alert('Sorry, you must make a post with a different title name. That title name already exists in a previous post you made.');
-            } else if (response.data.error === 'incomplete form') {
-                alert('You must complete all entries on the form.');
-            } else {
-                alert(`${editing ? 'Post updated!' : 'Post submitted!'}`);
-                if (editing) {
-                    togglePost(reqBody.img);
-                }
+            alert(`${editing ? 'Post updated!' : 'Post submitted!'}`);
+            if (editing) {
+                togglePost(reqBody.img);
             }
 
         } catch (error) {
-            alert(`Sorry, there was a problem submitting your form. Please refresh and try again. If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank!`);
+            const errorMessage = error.response.data.error;
+
+            if (errorMessage === 'title already exists') {
+                alert('Sorry, you must make a post with a different title name. That title name already exists in a previous post you made.');
+            } else if (errorMessage === 'incomplete form') {
+                alert('You must complete all entries on the form.');
+            } else {
+                alert(`Sorry, there was a problem submitting your form. Please refresh and try again. If the problem still persists, then it may be due to our server.`);
+            }
+
             console.log('Error: ', error);
             await axiosConfig.delete(`/cloudinary/${formDataState.publicId}`);
         } finally {
@@ -242,7 +245,8 @@ const SinglePostInMyPosts = ({
                                 </div>
                             )}
 
-                            {removePrevImage && (
+                            {/* Only display the following if the previous image was selected to be removed, or if you're posting a new article (which would not have a postId) */}
+                            {(removePrevImage || !postId) && (
                                 <>
                                     <h5>Either select an image below, or upload your own image!</h5>
                                     <div className='d-flex justify-content-between mb-3'>

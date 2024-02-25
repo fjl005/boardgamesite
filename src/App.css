@@ -38,6 +38,11 @@ html body {
     color: white;
 }
 
+.white-text:hover {
+    text-decoration: none;
+    color: white;
+}
+
 .black-text {
     text-decoration: none;
     color: black;
