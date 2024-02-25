@@ -48,7 +48,7 @@ const Explore = () => {
                                         </Link>
                                         <Link
                                             to={`/galoreposts/${concatTitle(item.title)}`}
-                                            className='link-no-decor-black'
+                                            className='black-text'
                                         >
                                             <div className='d-flex flex-column '>
                                                 <h5>{item.title}</h5>

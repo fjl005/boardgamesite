@@ -26,7 +26,7 @@ const MiscellaneousGamesRow = () => {
                                 <Col className='homepage-card'>
                                     <Link
                                         to={`/galoreposts/${concatTitle(articleInfo.title)}`}
-                                        className='link-no-decor-black'
+                                        className='black-text'
                                     >
                                         <h3>{articleInfo.title}</h3>
                                         <LazyLoadImage

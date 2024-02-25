@@ -36,7 +36,8 @@ const SinglePostInMyPosts = ({
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [selectedImageIdx, setSelectedImageIdx] = useState(-1);
-    const [imageFileKey, setImageFileKey] = useState(Date.now())
+    const [removePrevImage, setRemovePrevImage] = useState(false);
+    const [imageFileKey, setImageFileKey] = useState(Date.now());
 
     // TOOL TIPS
     const [imgSelectedTooltip, setImgSelectedTooltip] = useState(false);
@@ -216,111 +217,103 @@ const SinglePostInMyPosts = ({
                         </FormGroup>
 
                         <FormGroup>
-                            <h3>Image</h3>
+                            <h3>Image (Only 1 Image Allowed)</h3>
 
                             {editing && prevImage && (
+                                <div className='text-center'>
+                                    {removePrevImage ? (
+                                        <h4 className='mb-3'>
+                                            Original Image Removed&nbsp;- &nbsp;
+                                            <span className='blue-text-remove-file' onClick={() => setRemovePrevImage(false)}>
+                                                Click to undo
+                                            </span>
+                                        </h4>
+                                    ) : (
+                                        <div className='d-flex flex-column justify-content-center'>
+                                            <h4>Original Image</h4>
+                                            <img
+                                                src={prevImage}
+                                                alt='Previous Upload'
+                                                className='image-upload-preview mx-auto'
+                                            />
+                                            <p className='blue-text-remove-file' onClick={() => setRemovePrevImage(true)}>Remove Current Image</p>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {removePrevImage && (
                                 <>
-                                    <div className='text-center'>
-                                        <h4>Original Image Shown Below</h4>
+                                    <h5>Either select an image below, or upload your own image!</h5>
+                                    <div className='d-flex justify-content-between mb-3'>
+                                        {imagesSelection.map((img, idx) => (
+                                            <div key={idx} className='image-selection-div-outer'>
+                                                <img
+                                                    src={img}
+                                                    alt={`selection at index ${idx}`}
+                                                    className='image-selection-img'
+                                                    style={{ border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none' }}
+                                                    onClick={() => handleImageClick(idx)}
+                                                />
+
+                                                {imageFile && (
+                                                    <>
+                                                        <div
+                                                            className="galore-posts-img-overlay"
+                                                            id={`selected-image-overlay-${idx}`}
+                                                        ></div>
+                                                        <Tooltip
+                                                            isOpen={imgUploadedTooltips[idx]}
+                                                            target={`selected-image-overlay-${idx}`}
+                                                            toggle={() => toggleUploadedImage(idx)}
+                                                            placement='top'
+                                                            trigger='hover'
+                                                        >
+                                                            You already have an image uploaded. Please remove it if you want to select a default image here.
+                                                        </Tooltip>
+                                                    </>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <Input
+                                        name='img'
+                                        key={imageFileKey}
+                                        id='imageUpload'
+                                        type='file'
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        disabled={selectedImageIdx > -1}
+                                    />
+
+                                    {selectedImageIdx > -1 && (
+                                        <Tooltip
+                                            isOpen={imgSelectedTooltip}
+                                            target='imageUpload'
+                                            toggle={toggleImageSelection}
+                                            placement='bottom'
+                                            trigger='hover'
+                                        >
+                                            You already have an image selected. Please unselect it if you want to upload your own image.
+                                        </Tooltip>
+                                    )}
+
+                                    <div className='d-flex flex-column'>
+                                        {imageFile && (
+                                            <span className='blue-text-remove-file' onClick={removeFile}>Remove File</span>
+                                        )}
+
+                                        {imageFile && (
+                                            <img
+                                                src={imagePreview}
+                                                alt='Uploaded File'
+                                                className='image-upload-preview'
+                                            />
+                                        )}
                                     </div>
                                 </>
                             )}
-
-                            {/* {(img !== 'null' && img !== undefined) && (
-                                <div className='text-center'>
-                                    <h2>Original Image Shown Below</h2>
-                                    {removedCurrentImg ? (
-                                        <h4>Current Image Absent or Deleted</h4>
-                                    ) : (
-                                        <>
-                                            <img
-                                                src={img}
-                                                alt='Current Image'
-                                                style={{
-                                                    width: '40%',
-                                                    height: 'auto',
-                                                    objectFit: 'cover'
-                                                }}
-                                            />
-                                            <p className='text-center'
-                                                style={{
-                                                    color: 'blue',
-                                                    textDecoration: 'underline',
-                                                    marginTop: '10px',
-                                                    cursor: 'pointer'
-                                                }}
-                                                onClick={() => setRemovedCurrentImg(true)}
-                                            >Remove Current Image</p>
-                                        </>
-                                    )}
-                                </div>
-                            )} */}
-                            <h5>Either select an image below, or upload your own image!</h5>
-                            <div className='d-flex justify-content-between mb-3'>
-                                {imagesSelection.map((img, idx) => (
-                                    <div key={idx} className='image-selection-div-outer'>
-                                        <img
-                                            src={img}
-                                            alt={`selection image at index ${idx}`}
-                                            className='image-selection-img'
-                                            style={{ border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none' }}
-                                            onClick={() => handleImageClick(idx)}
-                                        />
-
-                                        {imageFile && (
-                                            <>
-                                                <div
-                                                    className="galore-posts-img-overlay"
-                                                    id={`selected-image-overlay-${idx}`}
-                                                ></div>
-                                                <Tooltip
-                                                    isOpen={imgUploadedTooltips[idx]}
-                                                    target={`selected-image-overlay-${idx}`}
-                                                    toggle={() => toggleUploadedImage(idx)}
-                                                    placement='top'
-                                                    trigger='hover'
-                                                >
-                                                    You already have an image uploaded. Please remove it if you want to select a default image here.
-                                                </Tooltip>
-                                            </>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-
-                            <Input
-                                name='img'
-                                key={imageFileKey}
-                                id='imageUpload'
-                                type='file'
-                                accept="image/*"
-                                onChange={handleImageUpload}
-                                disabled={selectedImageIdx > -1}
-                            />
-
-                            {selectedImageIdx > -1 && (
-                                <Tooltip
-                                    isOpen={imgSelectedTooltip}
-                                    target='imageUpload'
-                                    toggle={toggleImageSelection}
-                                    placement='bottom'
-                                    trigger='hover'
-                                >
-                                    You already have an image selected. Please unselect it if you want to upload your own image.
-                                </Tooltip>
-                            )}
-
-                            <div className='d-flex flex-column'>
-                                {imageFile && (
-                                    <span className='blue-text-remove-file' onClick={removeFile}>Remove File</span>
-                                )}
-
-                                {imageFile && <img
-                                    src={imagePreview}
-                                    alt='Uploaded Image'
-                                    className='image-upload-preview'
-                                />}
-                            </div>
                         </FormGroup>
 
                         <div className='d-flex'>

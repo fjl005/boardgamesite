@@ -6,7 +6,6 @@ import SinglePostInMyPosts from '../components/mypostspage/SinglePostInMyPosts';
 import LoadingIcon from "../components/allpages/LoadingIcon";
 import LoadingIconPost from '../components/mypostspage/LoadingIconPost';
 import { NAVBAR_HEADERS } from '../components/allpages/navbarHeaders';
-import SinglePostInMyPosts2 from '../components/mypostspage/SinglePostInMyPosts2';
 
 const MyPosts = () => {
 
@@ -40,7 +39,7 @@ const MyPosts = () => {
             fetchApiData();
         } catch (error) {
             console.log(error)
-            alert('Sorry, there was an error in deleting your files. Please try again. If the problem persists, then please contact Frank!');
+            alert('Sorry, there was an error in deleting your files.');
         } finally {
             setIsDeleting(false);
         }
@@ -60,35 +59,34 @@ const MyPosts = () => {
             </Container>
 
             {isLoading ? (
-                <>
-                    <Container className='homepage-section'>
-                        <Row>
-                            <Col>
-                                <LoadingIcon />
-                                <h1>Loading...</h1>
-                            </Col>
-                        </Row>
-                    </Container>
-                </>
+                <Container className='homepage-section'>
+                    <Row>
+                        <Col>
+                            <LoadingIcon />
+                            <h1>Loading...</h1>
+                        </Col>
+                    </Row>
+                </Container>
             ) : (
                 userPosts.length > 0 ? (
                     userPosts.map(post => (
-                        <SinglePostInMyPosts2
+                        <SinglePostInMyPosts
+                            key={post._id}
                             post={post}
                             postId={post._id}
-                            userPosts={userPosts}
-                            setUserPosts={setUserPosts}
+                            fetchApiData={fetchApiData}
                         />
                     ))
                 ) : (
                     <Container className='homepage-section'>
                         <Row>
                             <Col>
-                                {serverDown ? (
-                                    <h2>Sorry for the technical difficulties...please refresh and try again. <br />If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank! We promise we are working as quickly as we can to fix it.</h2>
-                                ) : (
-                                    <h2>No posts have been made by you. Go make some!</h2>
-                                )}
+                                <h2>
+                                    {serverDown
+                                        ? `Sorry for the technical difficulties...please refresh and try again. If the problem still persists, then it may be due to our server. If that's the case, then please contact Frank! We promise we are working as quickly as we can to fix it.`
+                                        : `No posts have been made by you. Go make some!`
+                                    }
+                                </h2>
                             </Col>
                         </Row>
                     </Container>

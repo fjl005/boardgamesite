@@ -2,6 +2,7 @@ import NavbarApp from "../components/allpages/NavbarApp";
 import { helpData } from "../components/help/helpData";
 import { Container, Row, Col } from "reactstrap";
 import { NAVBAR_HEADERS } from "../components/allpages/navbarHeaders";
+import React from "react";
 
 const Help = () => {
     return (
@@ -10,50 +11,30 @@ const Help = () => {
             <Container className='homepage-section'>
                 <Row>
                     <Col>
-                        <h1>Help!! What am I even doing here?</h1>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <h4 style={{ color: 'black' }}>
-                            You might be a little lost or confused. The FAQs below should answer your questions. If you have any further questions, then please reach out to Frank at j.franklee22@gmail.com.
-                        </h4>
+                        <h1>Help & Frequently Asked Questions</h1>
                     </Col>
                 </Row>
             </Container>
 
-            {helpData.map((qAndA, idx) => (
-                <Container className='homepage-section' key={idx}>
+            {helpData.map((data, index) => (
+                <Container key={index} className='homepage-section'>
                     <Row>
                         <Col>
-                            <h2>{qAndA.question}</h2>
-                            {idx === 3 ? (
-                                <>
-                                    {qAndA.answer.split('here').map((entry, index) => (
-                                        index === 0 ? (
-                                            <>
-                                                <span style={{ whiteSpace: 'pre-wrap' }}>{entry}</span>
-                                                <a
-                                                    href='https://github.com/fjl005/boardgamesite/tree/master'
-                                                    target='_blank'
-                                                    style={{ color: 'teal' }}>here</a>
-                                            </>
-                                        ) : index === 1 ? (
-                                            <>
-                                                <span style={{ whiteSpace: 'pre-wrap' }}>{entry}</span>
-                                                <a
-                                                    href='https://github.com/fjl005/boardgamesite-backend/tree/master'
-                                                    target='_blank'
-                                                    style={{ color: 'teal' }}>here</a>
-                                            </>
-                                        ) : (
-                                            <span style={{ whiteSpace: 'pre-wrap' }}>{entry}</span>
-                                        )
-                                    ))}
-                                </>
-                            ) : (
-                                <p style={{ whiteSpace: 'pre-wrap' }}>{qAndA.answer}</p>
-                            )}
+                            <h2>{data.question}</h2>
+                            {data.links ? data.answer.map((ansObj, idx) => (
+                                <React.Fragment key={idx}>
+                                    {ansObj.link ? (
+                                        <a href={ansObj.link} target="_blank" rel="noreferrer">
+                                            <span>{ansObj.text}</span>
+                                        </a>
+                                    ) : (
+                                        <span>{ansObj.text}</span>
+                                    )}
+                                </React.Fragment>
+                            ))
+                                : data.answer.map((ans, idx) => (
+                                    <p key={idx}>{ans}</p>
+                                ))}
                         </Col>
                     </Row>
                 </Container>

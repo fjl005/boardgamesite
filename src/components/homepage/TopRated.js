@@ -112,7 +112,7 @@ const TopRated = () => {
                                         <div className='d-flex flex-column justify-content-center' style={{ paddingLeft: '20px' }}>
                                             <a href={game.url} target="_blank" style={{ textDecoration: 'none' }}>
                                                 <h5 style={{ textDecoration: 'none' }}>{game.name}</h5>
-                                                <span className='top-rated-text link-no-decor-black'>{game.year_published}, ${game.price}</span>
+                                                <span className='top-rated-text black-text'>{game.year_published}, ${game.price}</span>
                                             </a>
                                         </div>
                                     </div>

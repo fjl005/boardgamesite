@@ -50,7 +50,7 @@ const DiscountedGames = () => {
                             <>
                                 <InfiniteScroll
                                     dataLength={data.length}
-                                    className='infinite-scroll-featured-games'
+                                    className='d-flex'
                                 >
                                     {data && data.map((game, idx) => (
                                         <div key={idx} style={{ padding: '20px' }} className='text-center'>
@@ -67,11 +67,11 @@ const DiscountedGames = () => {
                                                 />
                                                 <h5 className='text-center' style={{ paddingTop: '10px' }}>{game.name}</h5>
                                                 <h5><strong>${game.price}</strong></h5>
-                                                <p className='link-no-decor-black' style={{ textDecoration: 'line-through' }}>
+                                                <p className='black-text' style={{ textDecoration: 'line-through' }}>
                                                     <i>${game.msrp}</i>
                                                 </p>
                                                 <strong>
-                                                    <span className='link-no-decor-black' style={{ fontSize: '20px' }}>~{game.discount * 100}% off!</span>
+                                                    <span className='black-text' style={{ fontSize: '20px' }}>~{game.discount * 100}% off!</span>
                                                 </strong>
                                             </a>
                                         </div>

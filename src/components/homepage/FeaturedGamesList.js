@@ -37,7 +37,7 @@ const FeaturedGamesList = () => {
                     data && (
                         <InfiniteScroll
                             dataLength={data.length}
-                            className='infinite-scroll-featured-games'
+                            className='black-text-games'
                         >
                             {data.map((game, idx) => (
                                 <div key={idx} style={{ padding: '20px' }}>

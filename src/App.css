@@ -21,6 +21,11 @@ html body {
     font-size: 1.5rem;
 }
 
+.pre-inherit-format {
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 1rem;
+}
 
 .galore-purple-bg,
 .homepage-section.galore-purple-bg {
@@ -29,8 +34,13 @@ html body {
 
 .white-text,
 .white-text .h3-white-text {
-    color: white;
     text-decoration: none;
+    color: white;
+}
+
+.black-text {
+    text-decoration: none;
+    color: black;
 }
 
 .homepage-section h1,
@@ -47,8 +57,6 @@ html body {
 .homepage-card h6 {
     color: teal;
 }
-
-
 
 /* Navbar */
 .navbar-brand-img {
@@ -73,14 +81,13 @@ html body {
     background-color: rgb(50, 0, 91);
 }
 
-.galore-purple-bg .nav-link-text:hover {
+/* .galore-purple-bg .nav-link-text:hover {
     color: white;
-}
+} */
 
 .galore-purple-bg .navbar-toggler-background {
     background-color: white;
 }
-
 
 
 /* Home Page */
@@ -101,23 +108,20 @@ html body {
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
     background-color: white;
     padding: 1rem;
-
     word-wrap: break-word;
-    /* break words that are too long to fit */
     overflow-wrap: anywhere;
-    /* allow words to break at any character */
 }
 
 .homepage-section-no-border .homepage-card-pl-0 {
     padding: 0 1rem 0 0;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .homepage-section-no-border .homepage-card-pr-0 {
     padding: 0 0 0 1rem;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .homepage-section-no-border .homepage-card-px-0 {
@@ -133,40 +137,10 @@ html body {
     width: 100%;
 }
 
-@media (min-width: 992px) {
-    .homepage-section-no-border .homepage-card-pl-0 {
-        padding: 0 1rem 0 0;
-        display: flex;
-        justify-content: start;
-    }
-
-    .homepage-section-no-border .homepage-card-pr-0 {
-        padding: 0 0 0 1rem;
-        display: flex;
-        justify-content: end;
-    }
-}
-
-@media (max-width: 992px) {
-
-    .homepage-section-no-border .homepage-card-pl-0 {
-        padding: 0 0 1rem 0;
-    }
-
-    .homepage-section-no-border .homepage-card-pr-0 {
-        padding: 1rem 0 0 0;
-    }
-}
-
 .homepage-card img {
     height: 300px;
     object-fit: cover;
     object-position: center;
-}
-
-.link-no-decor-black {
-    text-decoration: none;
-    color: black;
 }
 
 .explore-main-img {
@@ -184,6 +158,32 @@ html body {
 .homepage-explore-list-items {
     list-style: none;
     border-bottom: 1px solid #ccc;
+}
+
+
+@media (min-width: 992px) {
+    .homepage-section-no-border .homepage-card-pl-0 {
+        padding: 0 1rem 0 0;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .homepage-section-no-border .homepage-card-pr-0 {
+        padding: 0 0 0 1rem;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .homepage-section-no-border .homepage-card-pl-0 {
+        padding: 0 0 1rem 0;
+    }
+
+    .homepage-section-no-border .homepage-card-pr-0 {
+        padding: 1rem 0 0 0;
+    }
 }
 
 
@@ -225,13 +225,13 @@ html body {
     color: inherit;
 }
 
-.galore-post-paragraph {
+/* .galore-post-paragraph {
     font-size: 22px;
-}
+} */
 
 .galore-post-img {
     max-width: 100%;
-    max-height: 35rem;
+    max-height: 30rem;
     object-fit: cover;
     display: block;
     margin: 0 auto 15px auto;
@@ -242,12 +242,9 @@ html body {
     vertical-align: middle;
 }
 
-.search-table thead {
-    font-size: '20px';
-}
-
+.search-table thead,
 .search-table tbody {
-    font-size: '20px';
+    font-size: '1.5rem';
 }
 
 @media (max-width: 992px) {
@@ -260,14 +257,6 @@ td {
     vertical-align: middle;
 }
 
-/* For Infinite Scroll */
-.infinite-scroll-featured-games {
-    display: flex;
-}
-
-/* Viewport Sizes */
-
-
 @media (max-width: 1200px) {
     .top-rated-center-align {
         flex-direction: column;
@@ -275,11 +264,11 @@ td {
     }
 
     .top-rated-text {
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
     }
 
     .top-rated-img {
-        margin: 10px auto !important;
+        margin: 1rem auto !important;
     }
 }
 
@@ -288,12 +277,6 @@ td {
         margin-bottom: 25px;
     }
 }
-
-/* Saving this code for when I do want to use the carousel */
-/* .featured-games-carousel {
-  overflow-x: scroll;
-  white-space: nowrap;
-} */
 
 
 
@@ -334,6 +317,8 @@ td {
     object-fit: cover;
 }
 
-.bg-danger.btn-border-none {
+.bg-danger.btn-border-none,
+.bg-success.btn-border-none,
+.bg-primary.btn-border-none {
     border: none;
 }
