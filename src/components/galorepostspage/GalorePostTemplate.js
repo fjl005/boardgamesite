@@ -1,51 +1,29 @@
 import NavbarApp from "../allpages/NavbarApp";
-import { Container, Row, Col } from "reactstrap";
+import { Container, } from "reactstrap";
 import { Link } from "react-router-dom";
 import { galorePostsData } from "./galorePostsData";
 import { useParams } from "react-router-dom";
 import { NAVBAR_HEADERS } from "../allpages/navbarHeaders";
+import ArticleInfo from "../mypostspage/ArticleInfo";
 
 const GalorePostTemplate = () => {
     const { title } = useParams();
-    const articleJson = galorePostsData.find(data => data.title.replace(/\s/g, "").toLowerCase() === title);
+    const articleData = galorePostsData.find(data => data.title.replace(/\s/g, "").toLowerCase() === title);
 
     return (
         <>
             <NavbarApp currentPage={NAVBAR_HEADERS.galorePosts} />
             <Container className='homepage-section'>
-                <Row>
-                    <Col>
-                        <h1>{articleJson.title}</h1>
-                        <h2 className='font-size-1-5'>{articleJson.subTitle}</h2>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <p className='font-size-1-2 mb-0'>By {articleJson.author}</p>
-                        <p>Posted {articleJson.submissionTime}, {articleJson.date}</p>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        <img
-                            src={articleJson.img}
-                            alt={articleJson.title}
-                            className='galore-post-img' />
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        {articleJson.paragraph && articleJson.paragraph.map((paragraph, idx) => {
-                            return paragraph.length < 50 ? (
-                                <h4 key={idx}>{paragraph}</h4>
-                            ) : (
-                                <p key={idx}>{paragraph}</p>
-                            )
-                        })}
-                    </Col>
-                </Row>
+                <ArticleInfo
+                    title={articleData.title}
+                    subTitle={articleData.subTitle}
+                    author={articleData.author}
+                    submissionTime={articleData.submissionTime}
+                    date={articleData.date}
+                    image={articleData.img}
+                    paragraph={articleData.paragraph}
+                    inGalorePost={true}
+                />
             </Container>
 
             <Container className='homepage-section-no-border'>

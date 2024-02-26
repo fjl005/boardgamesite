@@ -19,12 +19,21 @@ const Explore = () => {
                 </Row>
                 <Row>
                     <Col sm='12' md='6'>
-                        <LazyLoadImageTemplate
+                        {/* <LazyLoadImageTemplate
                             src='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/boardGames_q9ee5v.jpg'
                             alt="Frank's board game collection"
                             width='100%'
                             height='400px'
                             postType={LAZY_LOAD_TYPE.exploreMain}
+                        /> */}
+
+                        <img
+                            src='https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/boardGames_q9ee5v.jpg'
+                            alt="Frank's board game collection"
+                            className='explore-main-img'
+                        // style={{ objectFit: 'cover' }}
+                        // width='100%'
+                        // height='400px'
                         />
 
                         <h4>An Amateur's Collection</h4>
@@ -39,12 +48,21 @@ const Explore = () => {
                                         <Link
                                             to={`/galoreposts/${concatTitle(item.title)}`}
                                         >
-                                            <LazyLoadImageTemplate
+                                            {/* <LazyLoadImageTemplate
                                                 key={idx}
                                                 src={item.img}
                                                 alt='Image from Galore Posts'
                                                 postType={LAZY_LOAD_TYPE.exploreItemsList}
+                                            /> */}
+
+                                            <img
+                                                key={idx}
+                                                src={item.img}
+                                                alt='Image from Galore Posts'
+                                                className='explore-items-img'
                                             />
+
+
                                         </Link>
                                         <Link
                                             to={`/galoreposts/${concatTitle(item.title)}`}

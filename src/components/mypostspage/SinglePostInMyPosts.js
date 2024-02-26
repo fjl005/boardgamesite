@@ -3,6 +3,7 @@ import { axiosConfig } from '../allpages/axiosConfig';
 import { useState, } from 'react';
 import { Link } from "react-router-dom";
 import MakePostForm from '../makepost/MakePostForm';
+import ArticleInfo from './ArticleInfo';
 
 const SinglePostInMyPosts = ({
     post,
@@ -73,39 +74,13 @@ const SinglePostInMyPosts = ({
                 />
             ) : (
                 <Container className='homepage-section'>
-                    <Row>
-                        <Col>
-                            <h1>{prevTitle}</h1>
-                            <h5>{prevSubTitle}</h5>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <p>By {prevAuthor}</p>
-                        </Col>
-                    </Row>
-
-                    {(currImage !== 'null' && currImage !== undefined) && (
-                        <Row>
-                            <Col>
-                                <img
-                                    src={currImage}
-                                    alt={currImage}
-                                    className='galore-post-img'
-                                />
-                            </Col>
-                        </Row>
-                    )}
-
-                    <Row>
-                        <Col>
-                            <div>
-                                <pre className='pre-inherit-format'>
-                                    {prevParagraph}
-                                </pre>
-                            </div>
-                        </Col>
-                    </Row>
+                    <ArticleInfo
+                        title={prevTitle}
+                        subTitle={prevSubTitle}
+                        author={prevAuthor}
+                        image={currImage}
+                        paragraph={prevParagraph}
+                    />
 
                     <Row>
                         <Col>

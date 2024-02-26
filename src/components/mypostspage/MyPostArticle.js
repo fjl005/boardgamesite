@@ -1,9 +1,10 @@
 import NavbarApp from "../allpages/NavbarApp";
-import { Container, Row, Col } from "reactstrap";
+import { Container, } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { axiosConfig } from "../allpages/axiosConfig";
+import ArticleInfo from "./ArticleInfo";
 
 const MyPostArticle = () => {
     const { uniqueId } = useParams();
@@ -27,49 +28,22 @@ const MyPostArticle = () => {
         <>
             <NavbarApp />
             <Container className='homepage-section'>
-                <Row>
-                    <Col>
-                        <h1>{articleData.title}</h1>
-                        <h5>{articleData.subTitle}</h5>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <p>By {articleData.author}</p>
-                        <p>Posted {articleData.submissionTime}, {articleData.date}</p>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        {(articleData.img !== 'null' && articleData.img !== undefined) && (<img
-                            src={articleData.img}
-                            alt={`image for ${articleData.title}`}
-                            className='galore-post-img' />
-                        )}
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col>
-                        <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', fontSize: '16px' }}>
-                            {articleData.paragraph}
-                        </pre>
-                    </Col>
-                </Row>
+                <ArticleInfo
+                    title={articleData.title}
+                    subTitle={articleData.subTitle}
+                    author={articleData.author}
+                    submissionTime={articleData.submissionTime}
+                    date={articleData.date}
+                    image={articleData.img}
+                    paragraph={articleData.paragraph}
+                />
             </Container>
 
             <Container className='homepage-section-no-border'>
                 <div className='d-flex justify-content-between'>
-                    <Link to={`/myposts`}>
-                        Back to My Posts
-                    </Link>
-                    <Link to={`/galoreposts`}>
-                        Back to Galore Posts
-                    </Link>
-                    <Link to={`/`}>
-                        Back to Home Page
-                    </Link>
+                    <Link to={`/myposts`}>Back to My Posts</Link>
+                    <Link to={`/galoreposts`}>Back to Galore Posts</Link>
+                    <Link to={`/`}>Back to Home Page</Link>
                 </div>
             </Container>
         </>
