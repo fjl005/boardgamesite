@@ -19,7 +19,7 @@ import { axiosConfig } from "../allpages/axiosConfig";
 
 const imagesSelection = [cardsAndTrinkets, foozballGame, diceOnMap];
 
-const SinglePostInMyPosts = ({
+const MakePostForm = ({
     formDataState,
     setFormDataState,
     publicId,
@@ -92,31 +92,29 @@ const SinglePostInMyPosts = ({
         const formDataImg = new FormData();
 
         try {
-            let cloudinaryData;
-            let selectedImage;
+            const reqBody = { ...formDataState };
+
+            if (removePrevImage) {
+                await deleteCurrentImgCloudinary();
+                reqBody.img = null;
+                reqBody.publicId = null;
+            }
 
             if (selectedImageIdx !== -1) {
-                await deleteCurrentImgCloudinary();
-                selectedImage = imagesSelection[selectedImageIdx];
+                reqBody.img = imagesSelection[selectedImageIdx];
             } else if (imageFile) {
-                await deleteCurrentImgCloudinary();
                 formDataImg.append('file', imageFile);
                 formDataImg.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET);
                 try {
                     await axiosConfig.get('/cloudinary');
                     const imgData = await axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`, formDataImg);
-                    cloudinaryData = imgData.data;
+                    reqBody.img = imgData.data.url;
+                    reqBody.publicId = imgData.data.public_id;
                 } catch (err) {
                     console.log('Error when posting to Cloudinary: ', err);
                     alert(`Sorry, there was an error posting the image to our server. Please try again. If the error persists, then please contact Frank. Let's see if we can still proceed to post your article though since the image is technically optional.`);
                 }
             }
-
-            const reqBody = {
-                ...formDataState,
-                img: imageFile ? cloudinaryData.url : (selectedImage ? selectedImage : null),
-                publicId: cloudinaryData ? cloudinaryData.publicId : null,
-            };
 
             editing ? await axiosConfig.put(`/api/${postId}`, { reqBody }) : await axiosConfig.post('/api', { reqBody });
 
@@ -126,7 +124,11 @@ const SinglePostInMyPosts = ({
             }
 
         } catch (error) {
-            const errorMessage = error.response.data.error;
+            console.log('Error: ', error);
+            let errorMessage;
+            if (error.response.data) {
+                errorMessage = error.response.data.error;
+            }
 
             if (errorMessage === 'title already exists') {
                 alert('Sorry, you must make a post with a different title name. That title name already exists in a previous post you made.');
@@ -136,7 +138,6 @@ const SinglePostInMyPosts = ({
                 alert(`Sorry, there was a problem submitting your form. Please refresh and try again. If the problem still persists, then it may be due to our server.`);
             }
 
-            console.log('Error: ', error);
             await axiosConfig.delete(`/cloudinary/${formDataState.publicId}`);
         } finally {
             setIsSubmitting(false);
@@ -231,22 +232,24 @@ const SinglePostInMyPosts = ({
                                                 Click to undo
                                             </span>
                                         </h4>
-                                    ) : (
-                                        <div className='d-flex flex-column justify-content-center'>
-                                            <h4>Original Image</h4>
-                                            <img
-                                                src={prevImage}
-                                                alt='Previous Upload'
-                                                className='image-upload-preview mx-auto'
-                                            />
-                                            <p className='blue-text-remove-file' onClick={() => setRemovePrevImage(true)}>Remove Current Image</p>
-                                        </div>
+                                    ) : formDataState.img && (
+                                        <>
+                                            <div className='d-flex flex-column justify-content-center'>
+                                                <h4>Original Image</h4>
+                                                <img
+                                                    src={prevImage}
+                                                    alt='Previous Upload'
+                                                    className='image-upload-preview mx-auto'
+                                                />
+                                                <p className='blue-text-remove-file' onClick={() => setRemovePrevImage(true)}>Remove Current Image</p>
+                                            </div>
+                                        </>
                                     )}
                                 </div>
                             )}
 
                             {/* Only display the following if the previous image was selected to be removed, or if you're posting a new article (which would not have a postId) */}
-                            {(removePrevImage || !postId) && (
+                            {(removePrevImage || !postId || !prevImage) && (
                                 <>
                                     <h5>Either select an image below, or upload your own image!</h5>
                                     <div className='d-flex justify-content-between mb-3'>
@@ -341,4 +344,4 @@ const SinglePostInMyPosts = ({
     )
 }
 
-export default SinglePostInMyPosts;
+export default MakePostForm;

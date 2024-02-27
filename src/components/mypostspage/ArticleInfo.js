@@ -30,11 +30,13 @@ const ArticleInfo = ({
             {(image !== 'null' && image !== undefined) && (
                 <Row>
                     <Col>
-                        <img
-                            src={image}
-                            alt={title}
-                            className='galore-post-img'
-                        />
+                        {image && (
+                            <img
+                                src={image}
+                                alt={title}
+                                className='galore-post-img'
+                            />
+                        )}
                     </Col>
                 </Row>
             )}

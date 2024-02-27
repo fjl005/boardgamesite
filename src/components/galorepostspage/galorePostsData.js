@@ -8,7 +8,7 @@ export const galorePostsData = [
         subTitle: 'Why do people put this as their top game of 2023?',
         submissionTime: '10:30:45 AM',
         date: 'April 22, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/concordia_vwrsom.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053794/karthik-balakrishnan-NrS53eUKgiE-unsplash_1_qghddg.jpg',
         paragraph: paragraphSplit(
             `Concordia is a strategy board game that takes players on a journey through ancient Rome. Designed by Mac Gerdts and first published in 2013, the game has since become a favorite among both casual and serious gamers. In this article, we'll explore the specific features that make Concordia one of the best board games of 2023.
 
@@ -33,7 +33,7 @@ export const galorePostsData = [
         subTitle: 'Finally, the moment we were all been waiting for!',
         submissionTime: '03:25:29 PM',
         date: 'April 23, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451910/samples/penguins_w3iztf.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709052995/derek-oyen-3Xd5j9-drDA-unsplash_czruk9.jpg',
         paragraph: paragraphSplit(
             `Wingspan, the award-winning board game from Stonemaier Games, has captured the hearts and minds of players all over the world with its unique blend of beautiful artwork, engaging gameplay, and fascinating bird facts. And now, with the upcoming release of the Wingspan Antarctica Edition, players will be able to explore a whole new chapter in the game's avian world.
 
@@ -61,7 +61,7 @@ export const galorePostsData = [
         subTitle: `Whether you are constantly beating your friends or if you're on a losing streak, these tips will definitely help you out no matter what!`,
         submissionTime: '05:17:44 PM',
         date: 'April 24, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451910/samples/secret_k3a7vx.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053063/sander-sammy-H0nmXTsrxE0-unsplash_pvm20a.jpg',
         paragraph: paragraphSplit(
             `Board games have been enjoyed for centuries, and while each game has its unique rules and objectives, they all require players to employ strategy to succeed. Whether you're playing chess, Monopoly, or Settlers of Catan, having a solid strategy can make all the difference in winning the game. Here are some secrets to developing a winning strategy for classic board games.
 
@@ -96,7 +96,7 @@ export const galorePostsData = [
         subTitle: '',
         submissionTime: '10:30:45 AM',
         date: 'April 22, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/friendsAndFamGames_gfb0ng.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053142/national-cancer-institute-xDSD3Vmzh70-unsplash_tf2wyx.jpg',
         paragraph: paragraphSplit(
             `There’s nothing quite like gathering around a table with your loved ones and enjoying some quality time together. And what better way to do that than by playing some fun and engaging board games? Whether you're looking for an easy game to play with the family or something a little more challenging to play with friends, we’ve got you covered with our top ten board games to play this season!
 
@@ -140,7 +140,7 @@ export const galorePostsData = [
         subTitle: '',
         submissionTime: '10:30:45 AM',
         date: 'April 22, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/latestGames_zfhsr2.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053175/robert-coelho-laNNTAth9vs-unsplash_i8csu6.jpg',
         paragraph: paragraphSplit(
             `Board gaming has been on the rise in recent years, with more and more people looking for engaging ways to spend their free time. Luckily, there's never been a better time to be a board gamer, as new titles are hitting the shelves all the time. In this article, we'll take a look at some of the latest and greatest board games that have been released recently. Whether you're a fan of strategy, party games, or anything in between, there's sure to be something here that will catch your eye.
 
@@ -169,7 +169,7 @@ export const galorePostsData = [
         subTitle: '',
         submissionTime: '10:30:45 AM',
         date: 'April 22, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451908/samples/dragon_kszrbl.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053260/nik-korba-3WceTBlUoMs-unsplash_kwi0vb.jpg',
         paragraph: paragraphSplit(
             `Have you ever dreamed of creating your own board game? Bringing your ideas to life and sharing them with friends, family, and even the world can be a thrilling experience. But where do you start? How do you turn your vision into a reality?
 
@@ -210,7 +210,7 @@ export const galorePostsData = [
         subTitle: `Hint: It's not Monopoly.`,
         submissionTime: '10:30:45 AM',
         date: 'April 22, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/genericMeeples_b0xwzy.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053446/christopher-paul-high-fwRMK19zavc-unsplash_csi8gu.jpg',
         paragraph: paragraphSplit(
             `When it comes to board games, there are a lot of contenders for the title of "best game ever." But one game that has been generating a lot of buzz recently is Ark Nova. This game, which was released just last year, has quickly become a fan favorite, with many players declaring it to be one of the best games they've ever played. But is it really that good? In this honest review, we'll take a closer look at Ark Nova and what makes it so special.
 
@@ -236,7 +236,7 @@ export const galorePostsData = [
         subTitle: 'Discover the Hidden Charms and Thrills of Solitude or Embrace the Chaotic Joy of Friendship',
         submissionTime: '10:30:45 AM',
         date: 'April 22, 2023',
-        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451907/samples/alone_klfzsj.jpg',
+        img: 'https://res.cloudinary.com/da7edv0cg/image/upload/v1709053795/noah-silliman-gzhyKEo_cbU-unsplash_qorwwn.jpg',
         paragraph: paragraphSplit(
             `In the realm of board games, a heated debate has been raging for years, pitting solo adventurers against social enthusiasts. Should you dive into the immersive world of solo board gaming, or would you rather gather a group of friends and ignite the sparks of camaraderie? Today, we unravel this age-old dilemma and explore the wondrous merits of both solo and multiplayer board gaming experiences.
             

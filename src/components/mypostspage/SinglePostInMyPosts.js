@@ -26,14 +26,15 @@ const SinglePostInMyPosts = ({
         title: post.title,
         subTitle: post.subTitle,
         paragraph: post.paragraph,
+        img: post.img
     });
 
     const [currImage, setCurrImage] = useState(post.img);
     const [editing, setEditing] = useState(false);
 
-    const togglePost = (imageURL) => {
+    const togglePost = () => {
         fetchApiData();
-        setCurrImage(imageURL);
+        setCurrImage(post.img);
         setEditing(prev => !prev);
     };
 
@@ -78,7 +79,7 @@ const SinglePostInMyPosts = ({
                         title={prevTitle}
                         subTitle={prevSubTitle}
                         author={prevAuthor}
-                        image={currImage}
+                        image={prevImage}
                         paragraph={prevParagraph}
                     />
 

@@ -29,12 +29,17 @@ const MiscellaneousGamesRow = () => {
                                         className='black-text'
                                     >
                                         <h3>{articleInfo.title}</h3>
-                                        <LazyLoadImage
+                                        {/* <LazyLoadImage
                                             src={articleInfo.img}
                                             width='100%'
                                             alt={articleInfo.title}
                                             placeholderSrc={'https://res.cloudinary.com/da7edv0cg/image/upload/v1708451909/samples/lazyGrayImage_slfgga.png'}
                                             effect='blur'
+                                        /> */}
+                                        <img
+                                            src={articleInfo.img}
+                                            className='w-100'
+                                            alt={articleInfo.title}
                                         />
                                     </Link>
                                     <p style={{ margin: '0.5rem auto' }}>{articleInfo.subTitle}</p>
