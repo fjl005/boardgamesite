@@ -57,7 +57,7 @@ const GalorePosts = () => {
                                     <div className="galore-posts-img-overlay"></div>
                                     <div className="galore-posts-image-text">
                                         <h2>{post.title}</h2>
-                                        <p className='font-size-1-2'>{post.pText}</p>
+                                        <p className='p-post-info'>{post.pText}</p>
                                     </div>
                                 </div>
                             </Link>

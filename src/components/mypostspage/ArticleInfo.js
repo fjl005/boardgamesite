@@ -15,12 +15,12 @@ const ArticleInfo = ({
             <Row>
                 <Col>
                     <h1>{title}</h1>
-                    <h2 className='font-size-1-5'>{subTitle}</h2>
+                    <h2 className='article-subtitle'>{subTitle}</h2>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <p className='font-size-1-2 mb-0'>By {author}</p>
+                    <p className='p-post-info mb-0'>By {author}</p>
                     {(submissionTime && date) && (
                         <p>Posted {submissionTime}, {date}</p>
                     )}

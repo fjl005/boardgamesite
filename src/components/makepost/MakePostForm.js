@@ -252,37 +252,39 @@ const MakePostForm = ({
                             {(removePrevImage || !postId || !prevImage) && (
                                 <>
                                     <h5>Either select an image below, or upload your own image!</h5>
-                                    <div className='d-flex justify-content-between mb-3'>
+                                    <Row className='d-flex justify-content-center mb-3'>
                                         {imagesSelection.map((img, idx) => (
-                                            <div key={idx} className='image-selection-div-outer'>
-                                                <img
-                                                    src={img}
-                                                    alt={`selection at index ${idx}`}
-                                                    className='image-selection-img'
-                                                    style={{ border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none' }}
-                                                    onClick={() => handleImageClick(idx)}
-                                                />
+                                            <Col key={idx} sm='7' md='4'>
+                                                <div className='image-selection-div-outer'>
+                                                    <img
+                                                        src={img}
+                                                        alt={`selection at index ${idx}`}
+                                                        className='image-selection-img'
+                                                        style={{ border: (selectedImageIdx === idx && !imageFile) ? '5px solid red' : 'none' }}
+                                                        onClick={() => handleImageClick(idx)} />
 
-                                                {imageFile && (
-                                                    <>
-                                                        <div
-                                                            className="galore-posts-img-overlay"
-                                                            id={`selected-image-overlay-${idx}`}
-                                                        ></div>
-                                                        <Tooltip
-                                                            isOpen={imgUploadedTooltips[idx]}
-                                                            target={`selected-image-overlay-${idx}`}
-                                                            toggle={() => toggleUploadedImage(idx)}
-                                                            placement='top'
-                                                            trigger='hover'
-                                                        >
-                                                            You already have an image uploaded. Please remove it if you want to select a default image here.
-                                                        </Tooltip>
-                                                    </>
-                                                )}
-                                            </div>
+                                                    {imageFile && (
+                                                        <>
+                                                            <div
+                                                                className="galore-posts-img-overlay"
+                                                                id={`selected-image-overlay-${idx}`}
+                                                            ></div>
+                                                            <Tooltip
+                                                                isOpen={imgUploadedTooltips[idx]}
+                                                                target={`selected-image-overlay-${idx}`}
+                                                                toggle={() => toggleUploadedImage(idx)}
+                                                                placement='top'
+                                                                trigger='hover'
+                                                            >
+                                                                You already have an image uploaded. Please remove it if you want to select a default image here.
+                                                            </Tooltip>
+                                                        </>
+                                                    )}
+                                                </div>
+
+                                            </Col>
                                         ))}
-                                    </div>
+                                    </Row>
 
                                     <Input
                                         name='img'

@@ -14,7 +14,7 @@ const GalorePostPopular = ({ post }) => {
                 <Row>
                     <Col>
                         <h1>{post.title}</h1>
-                        <p className='font-size-1-2'>Posted by {post.author}</p>
+                        <p className='p-post-info black-text'>Posted by {post.author}</p>
                     </Col>
                 </Row>
                 <Row>
