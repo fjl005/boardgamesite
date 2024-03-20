@@ -59,7 +59,7 @@ Infinite Scroll is implemented in the "Featured Games" and "Discounted Games" se
 
 
 ## Browse Games
-Abort Controller
+### Abort Controller
 The idea of the abort controller came to mind when considering the possibility of someone interrupting a fetch call midway.
 
 Before explaining the abort controller further, I want to preface the rationale and situation first. I created an asynchronous function called "findTotalDataLength" that determines the total length of the search term. Its main purpose is to determine the number of pages to display based on the search results. If there are 26 results (when you search 'Azul' for example), only one page is needed as a page can hold a maximum of 50 games. But if there are 232 results (when you search 'Catan'), five pages are required. Because the BGA API restricts the maximum number of searches to 100 at a time, I may need to perform multiple fetch calls to find the total length. So, for a game like Catan with 232 results, I would need to make three fetch calls to retrieve all 232 games. This process takes some time but is not excessively long, for now at least...
