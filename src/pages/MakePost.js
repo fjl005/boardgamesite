@@ -24,7 +24,6 @@ const MakePost = () => {
             }
             catch (error) {
                 console.error('error: ', error);
-                console.log('error code: ', error.code);
                 if (error.code = 'ERR_NETWORK') {
                     console.log('not connected to server')
                 }
