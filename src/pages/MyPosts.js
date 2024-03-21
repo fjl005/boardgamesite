@@ -67,6 +67,14 @@ const MyPosts = () => {
                         </Col>
                     </Row>
                 </Container>
+            ) : serverDown ? (
+                <Container className='homepage-section'>
+                    <Row>
+                        <Col>
+                            <h2>Sorry, the server has not connected yet. Please wait a minute or so while it loads.</h2>
+                        </Col>
+                    </Row>
+                </Container>
             ) : (
                 userPosts.length > 0 ? (
                     userPosts.map(post => (

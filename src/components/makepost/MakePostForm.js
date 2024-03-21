@@ -28,6 +28,7 @@ const MakePostForm = ({
     postId,
     cancelClick,
     togglePost,
+    serverLive
 }) => {
     // FORM
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -254,7 +255,7 @@ const MakePostForm = ({
                                     <h5>Either select an image below, or upload your own image!</h5>
                                     <Row className='d-flex justify-content-center mb-3'>
                                         {imagesSelection.map((img, idx) => (
-                                            <Col key={idx} sm='7' md='4'>
+                                            <Col key={idx} xs='7' md='4'>
                                                 <div className='image-selection-div-outer'>
                                                     <img
                                                         src={img}
@@ -325,11 +326,16 @@ const MakePostForm = ({
                             )}
                         </FormGroup>
 
-                        <div className='d-flex'>
+                        <div className='d-flex align-items-center'>
                             {editing && (
                                 <Button style={{ marginRight: '1rem' }} onClick={cancelClick}>Cancel</Button>
                             )}
-                            <Button type='submit' color='primary'>Submit</Button>
+                            <Button className='mr-3' type='submit' color='primary' disabled={serverLive !== true}>
+                                Submit
+                            </Button>
+                            {!serverLive && (
+                                <p style={{ margin: '0 1rem' }}>Please wait for the server to get connected. This may take a minute.</p>
+                            )}
                             {isSubmitting && (
                                 <div>
                                     <LoadingIconPost color='teal' marginLeft='1rem' />

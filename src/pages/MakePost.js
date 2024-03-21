@@ -1,17 +1,39 @@
 import NavbarApp from '../components/allpages/NavbarApp';
 import { NAVBAR_HEADERS } from '../components/allpages/navbarHeaders';
 import { Container, Row, Col } from 'reactstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AutofillList from '../components/makepost/AutofillList';
 import MakePostForm from '../components/makepost/MakePostForm';
+import { axiosConfig } from '../components/allpages/axiosConfig';
 
 const MakePost = () => {
+    const [serverLive, setServerLive] = useState(false);
+
     const [formDataState, setFormDataState] = useState({
         author: '',
         title: '',
         subTitle: '',
         paragraph: '',
     });
+
+    useEffect(() => {
+        const serverCheck = async () => {
+            try {
+                await axiosConfig.get('/');
+                setServerLive(true);
+            }
+            catch (error) {
+                console.error('error: ', error);
+                console.log('error code: ', error.code);
+                if (error.code = 'ERR_NETWORK') {
+                    console.log('not connected to server')
+                }
+                setServerLive(false);
+            }
+        };
+
+        serverCheck();
+    }, []);
 
     return (
         <>
@@ -29,6 +51,7 @@ const MakePost = () => {
             <MakePostForm
                 formDataState={formDataState}
                 setFormDataState={setFormDataState}
+                serverLive={serverLive}
             />
         </>
     )
