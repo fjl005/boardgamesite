@@ -10,7 +10,6 @@ import { NAVBAR_HEADERS } from '../components/allpages/navbarHeaders';
 const MyPosts = () => {
 
     const [userPosts, setUserPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [isDeleting, setIsDeleting] = useState(false);
     const [serverDown, setServerDown] = useState(false);
 
@@ -22,8 +21,6 @@ const MyPosts = () => {
         } catch (error) {
             console.error('Error: ', error);
             setServerDown(true);
-        } finally {
-            setIsLoading(false);
         }
     }
 
@@ -58,20 +55,14 @@ const MyPosts = () => {
                 </Row>
             </Container>
 
-            {isLoading ? (
+            {serverDown ? (
                 <Container className='homepage-section'>
                     <Row>
                         <Col>
                             <LoadingIcon />
-                            <h1>Loading...</h1>
-                        </Col>
-                    </Row>
-                </Container>
-            ) : serverDown ? (
-                <Container className='homepage-section'>
-                    <Row>
-                        <Col>
-                            <h2>Sorry, the server has not connected yet. Please wait a minute or so while it loads.</h2>
+                            <h2 className='mt-3'>Waiting server connection: this may take 30-60 seconds, apologies for the delay.</h2>
+                            <p>Feel free to check out other parts of the site while you wait!</p>
+                            <p>If it takes longer to load, then it's possible our server is down.</p>
                         </Col>
                     </Row>
                 </Container>
@@ -101,25 +92,27 @@ const MyPosts = () => {
                 )
             )}
 
-            {userPosts.length > 0 && (
-                <Container className='homepage-section'>
-                    <Row>
-                        <Col>
-                            <div className='d-flex'>
-                                <Button onClick={deleteAllPosts} className='bg-danger btn-border-none'>Delete All Articles</Button>
-                                {isDeleting && (
-                                    <div>
-                                        <LoadingIconPost color='red' marginLeft='1rem' />
-                                        <span style={{ marginLeft: '1rem' }}>
-                                            Deleting all posts, this may take a few seconds...
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
-            )}
+            {
+                userPosts.length > 0 && (
+                    <Container className='homepage-section'>
+                        <Row>
+                            <Col>
+                                <div className='d-flex'>
+                                    <Button onClick={deleteAllPosts} className='bg-danger btn-border-none'>Delete All Articles</Button>
+                                    {isDeleting && (
+                                        <div>
+                                            <LoadingIconPost color='red' marginLeft='1rem' />
+                                            <span style={{ marginLeft: '1rem' }}>
+                                                Deleting all posts, this may take a few seconds...
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </Col>
+                        </Row>
+                    </Container>
+                )
+            }
         </>
     )
 }
